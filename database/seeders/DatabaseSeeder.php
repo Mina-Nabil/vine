@@ -19,5 +19,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        $this->call(UserSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(PaymentOptionsSeeder::class);
+
+        $this->call(AreasSeeder::class);
+        if (env("APP_ENV") != "production") {
+            $this->call(SizesSeeder::class);
+        }
     }
 }
