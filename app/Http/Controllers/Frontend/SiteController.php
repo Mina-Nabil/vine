@@ -34,7 +34,6 @@ class SiteController extends Controller
             default:
                 break;
         }
-        return 1;
         return view('frontend.home', $data);
     }
 
@@ -195,9 +194,9 @@ class SiteController extends Controller
         return view('frontend.catalog.search', $data);
     }
 
-    public function notfound_404()
-    {
-        $data = WSBaseDataManager::getSiteData();
-        return view('frontend.errors.404', $data);
-    }
+    // public function notfound_404()
+    // {
+    //     $data = WSBaseDataManager::getSiteData();
+    //     return view('frontend.errors.404', $data);
+    // }
 }

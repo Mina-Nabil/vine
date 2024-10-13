@@ -77,9 +77,9 @@ Route::get('/contact', [SiteController::class, 'contactus'])->name("contact");
 Route::post('/contactus/sendemail', [SiteController::class, 'sendContactUsEmail']);
 Route::get('/',  [SiteController::class, 'home']);
 
-Route::get('404', [SiteController::class, 'notfound_404']);
+// Route::get('404', [SiteController::class, 'notfound_404']);
 
-Route::fallback(fn() => redirect('404'));
+// Route::fallback(fn() => redirect('404'));
 
 //////////////////////////////////////ADMIN ROUTES////////
 Route::prefix('admin')->group(function () {
