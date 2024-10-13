@@ -39,13 +39,9 @@ class WSBaseDataManager
     }
 
     public static function getCollectionPageData(
-        string $page = self::COLLECTION_PAGES[0],
         bool $applyNewFilters,
+        string $page = self::COLLECTION_PAGES[0],
         Builder|Relation $productsQuery,
-        $available_color_filters = null,
-        array $applied_color_filters = null,
-        $available_size_filters = null,
-        array $applied_size_filters = null,
         array $applied_price_filters = null,
         string $applied_sort_option = null,
         SubCategory $subCategory = null,
@@ -106,8 +102,6 @@ class WSBaseDataManager
 
 
         //available filters
-        $data['available_colors'] = $available_color_filters;
-        $data['available_sizes'] = $available_size_filters;
         $data['price_filters']  = $available_price_filters;
 
         //apply price range
@@ -125,18 +119,6 @@ class WSBaseDataManager
                     }
                 }
             });
-        }
-
-        //apply size
-        if ($applied_size_filters != null) {
-            $productsQuery->withSizes(array_values($applied_size_filters));
-            $data['applied_size_filters'] = $applied_size_filters;
-        }
-
-        //apply color
-        if ($applied_color_filters != null) {
-            $productsQuery->withColors(array_values($applied_color_filters));
-            $data['applied_color_filters'] = $applied_color_filters;
         }
 
         //apply sort

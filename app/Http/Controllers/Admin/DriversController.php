@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 class DriversController extends Controller
 {
     protected $data;
-    protected $homeURL = 'drivers/show';
+    protected $homeURL = 'admin/drivers/show';
 
     private function initDataArr()
     {
@@ -19,11 +19,11 @@ class DriversController extends Controller
         $this->data['subTitle'] = "Manage all Covered Drivers and their delivery rate";
         $this->data['cols'] = ['Driver', 'Mobile#', 'National ID', 'Active', 'Edit'];
         $this->data['atts'] = [
-            'name', 'mobn', 'DRVR_SRID',
+            'name', 'mobn', 'nationalID',
             [
                 'toggle' => [
                     "att"   =>  "is_active",
-                    "url"   =>  "drivers/toggle/",
+                    "url"   =>  "admin/drivers/toggle/",
                     "states" => [
                         "1" => "Active",
                         "0" => "Disabled",
@@ -38,7 +38,7 @@ class DriversController extends Controller
                     ],
                 ]
             ],
-            ['edit' => ['url' => 'drivers/edit/', 'att' => 'id']],
+            ['edit' => ['url' => 'admin/drivers/edit/', 'att' => 'id']],
         ];
         $this->data['homeURL'] = $this->homeURL;
     }
@@ -47,7 +47,7 @@ class DriversController extends Controller
     {
         $this->initDataArr();
         $this->data['formTitle'] = "Add Driver";
-        $this->data['formURL'] = "drivers/insert";
+        $this->data['formURL'] = "admin/drivers/insert";
         $this->data['isCancel'] = false;
         return view('settings.drivers', $this->data);
     }
@@ -57,7 +57,7 @@ class DriversController extends Controller
         $this->initDataArr();
         $this->data['driver'] = Driver::findOrFail($id);
         $this->data['formTitle'] = "Edit Driver ( " . $this->data['driver']->name . " )";
-        $this->data['formURL'] = "drivers/update";
+        $this->data['formURL'] = "admin/drivers/update";
         $this->data['isCancel'] = false;
         return view('settings.drivers', $this->data);
     }
@@ -79,15 +79,15 @@ class DriversController extends Controller
     {
 
         $request->validate([
-            "name"  => "required|unique:drivers,name",
-            "mob"   =>   "required|unique:drivers,mobn",
-            "nationalID"  => "required|numeric|unique:drivers,mobn",
+            "name"  => "required",
+            "mob"   =>   "nullable",
+            "nationalID"  => "nullable",
         ]);
 
         $driver = new Driver();
         $driver->name = $request->name;
         $driver->mobn = $request->mob;
-        $driver->DRVR_SRID = $request->nationalID;
+        $driver->nationalID = $request->nationalID;
         $driver->save();
         return redirect($this->homeURL);
     }
@@ -100,15 +100,15 @@ class DriversController extends Controller
         $driver = Driver::findOrFail($request->id);
 
         $request->validate([
-            "name" => ["required",  Rule::unique('drivers', "name")->ignore($driver->name, "name"),],
-            "mob" => ["required",  Rule::unique('drivers', "mobn")->ignore($driver->mobn, "mobn"),],
-            "nationalID"  => ["required", "numeric", Rule::unique('drivers', "DRVR_SRID")->ignore($driver->DRVR_SRID, "DRVR_SRID"),],
+            "name" => "required",
+            "mob" => "nullable",
+            "nationalID"  => "nullable",
             "id" => "required",
         ]);
 
         $driver->name = $request->name;
         $driver->mobn = $request->mob;
-        $driver->DRVR_SRID = $request->nationalID;
+        $driver->nationalID = $request->nationalID;
         $driver->save();
 
         return redirect($this->homeURL);

@@ -109,7 +109,7 @@ class Inventory extends Model
     static public function getGroupedTransactions()
     {
         return DB::table("inventory_transactions")->join("dash_users", "inventory_transactions.dash_user_id", "=", "dash_users.id")
-            ->selectRaw("code, created_at as trans_date, inventory_transactions.dash_user_id, SUM(in) as totalIn, SUM(out) as totalOut, dash_users.name as username")
+            ->selectRaw("code, inventory_transactions.created_at as trans_date, inventory_transactions.dash_user_id, SUM(`in`) as totalIn, SUM(`out`) as totalOut, dash_users.name as username")
             ->groupByRaw("code, trans_date, dash_user_id, username")
             ->orderByDesc("trans_date")
             ->limit(500)

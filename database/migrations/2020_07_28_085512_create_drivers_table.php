@@ -16,8 +16,9 @@ class CreateDriversTable extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
-            $table->string("mobn")->unique();
+            $table->string("name")->nullable();
+            $table->string("mobn")->nullable();
+            $table->string("nationalID")->nullable();
             $table->tinyInteger("is_active")->default(1);
         });
 

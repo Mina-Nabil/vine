@@ -14,8 +14,8 @@ class AreasSeeder extends Seeder
      */
     public function run()
     {
-        Area::create("El Rehab", "الرحاب", 40);
-        Area::create("5th District", "التجمع الخامس", 40);
-        Area::create("Masr El Gdeeda", "مصر الجديده", 40);
+        Area::createArea("El Rehab", "الرحاب", 40);
+        Area::createArea("5th District", "التجمع الخامس", 40);
+        Area::createArea("Masr El Gdeeda", "مصر الجديده", 40);
     }
 }

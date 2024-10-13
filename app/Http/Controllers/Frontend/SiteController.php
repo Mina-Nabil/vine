@@ -34,6 +34,7 @@ class SiteController extends Controller
             default:
                 break;
         }
+        return 1;
         return view('frontend.home', $data);
     }
 
@@ -48,7 +49,7 @@ class SiteController extends Controller
     public function productPage($id)
     {
         $data = WSBaseDataManager::getSiteData();
-        $data['product'] = Product::with("images", "stock", "tags", "subcategory", "sizechart")->findOrFail($id)->append("available_sizes", "available_colors");
+        $data['product'] = Product::with("images", "stock", "tags", "subcategory")->findOrFail($id);
         return view('frontend.catalog.product', $data);
     }
 
@@ -58,7 +59,7 @@ class SiteController extends Controller
             "id"    => "required|exists:products"
         ]);
         $product = Product::with("images", "stock", "tags")->find($request->id);
-        return response($product->append("available_sizes", "available_colors")->toJson())->withHeaders([
+        return response($product->toJson())->withHeaders([
             'Content-Type: application/json'
         ]);
     }
@@ -82,13 +83,9 @@ class SiteController extends Controller
         }
 
         $data = WSBaseDataManager::getCollectionPageData(
-            WSBaseDataManager::COLLECTION_PAGES[2] /*subcategory page*/,
             $applyNewFilters,
+            WSBaseDataManager::COLLECTION_PAGES[2] /*subcategory page*/,
             Product::ofSubcategory($id) /*base products query*/,
-            $subcategory->available_colors,
-            $colorFilters,
-            $subcategory->available_sizes,
-            $sizeFilters,
             $priceFilters,
             $sortOption,
             $subcategory,
@@ -117,13 +114,9 @@ class SiteController extends Controller
         $loggedInUser = User::with('wishlist')->findOrFail(Auth::id());
         $productsQuery = $loggedInUser->wishlistQuery();
         $data = WSBaseDataManager::getCollectionPageData(
-            WSBaseDataManager::COLLECTION_PAGES[0],
             $applyNewFilters,
+            WSBaseDataManager::COLLECTION_PAGES[0],
             $productsQuery,
-            Color::getAvailableColors($loggedInUser->wishlist),
-            $colorFilters,
-            Size::getAvailableSizes($loggedInUser->wishlist),
-            $sizeFilters,
             $priceFilters,
             $sortOption,
             null,
@@ -155,13 +148,9 @@ class SiteController extends Controller
         $productsQuery = Product::searchQuery($request->q);
         $availableProducts = $productsQuery->get();
         $data = WSBaseDataManager::getCollectionPageData(
-            WSBaseDataManager::COLLECTION_PAGES[0],
             $applyNewFilters,
+            WSBaseDataManager::COLLECTION_PAGES[0],
             $productsQuery,
-            Color::getAvailableColors($availableProducts),
-            $colorFilters,
-            Size::getAvailableSizes($availableProducts),
-            $sizeFilters,
             $priceFilters,
             $sortOption,
             null,

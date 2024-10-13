@@ -27,6 +27,7 @@ class CreateWebsiteInfoTable extends Migration
             
             $table->text("WBST_OFFC_NAME")->nullable();
             $table->text("WBST_OFFC_ADRS")->nullable();
+            $table->text("WBST_OFFC_LOC")->nullable();
 
 
             $table->string("WBST_FOOT_IMG")->nullable();
@@ -34,6 +35,9 @@ class CreateWebsiteInfoTable extends Migration
             $table->string("WBST_FOOT_TTL")->nullable();
 
             $table->string("WBST_FOOT_SUB")->nullable();
+
+            $table->text("WBST_DPOL")->nullable();
+            $table->text("WBST_PPOL")->nullable();
     
         });
     }

@@ -25,11 +25,6 @@ class CreateOrdersTable extends Migration
         //     $table->tinyInteger("PYOP_ACTV")->default(1);
         // });
 
-        Schema::create('order_status', function (Blueprint $table) {
-            $table->id();
-            $table->string("STTS_NAME")->unique();
-        });
-
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->constrained("users");

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class WebsiteInfoController extends Controller
 {
-    private $homeURL = "website/info";
+    private $homeURL = "admin/website/info";
 
     ///Slides functions
     public function slides()
@@ -28,14 +28,14 @@ class WebsiteInfoController extends Controller
 
         Slide::create($request->photo, $request->title, $request->subtitle, $request->buttonText, $request->buttonUrl);
 
-        return redirect("website/slides");
+        return redirect("admin/website/slides");
     }
 
     public function deleteSlide($id)
     {
         $slide = Slide::findOrFail($id);
         $slide->delete();
-        return redirect("website/slides");
+        return redirect("admin/website/slides");
     }
 
     ///logo functions
@@ -43,7 +43,7 @@ class WebsiteInfoController extends Controller
     public function loadWebsiteLogo()
     {
         $data['info'] = SiteInfo::getSiteInfo()->WBST_LOGO;
-        $data['formUrl'] = url('website/logo/set');
+        $data['formUrl'] = url('admin/website/logo/set');
         return view("settings.logo", $data);
     }
 
@@ -57,7 +57,7 @@ class WebsiteInfoController extends Controller
     public function loadWebsiteInfo()
     {
         $data['info'] = SiteInfo::getSiteInfo();
-        $data['formUrl'] = url('website/info/set');
+        $data['formUrl'] = url('admin/website/info/set');
         return view("settings.siteinfo", $data);
     }
 
@@ -81,7 +81,7 @@ class WebsiteInfoController extends Controller
         ]);
         $siteInfo = SiteInfo::getSiteInfo();
         $siteInfo->setAboutus($request->aboutus);
-        return redirect("website/aboutus");
+        return redirect("admin/website/aboutus");
     }
 
     ///////////////////delivery policy functions//////////////
@@ -97,7 +97,7 @@ class WebsiteInfoController extends Controller
         ]);
         $siteInfo = SiteInfo::getSiteInfo();
         $siteInfo->setDeliverPolicy($request->delivery_policy);
-        return redirect("website/delivery_policy");
+        return redirect("admin/website/delivery_policy");
     }
 
     ///////////////////payment policy functions//////////////
@@ -113,7 +113,7 @@ class WebsiteInfoController extends Controller
         ]);
         $siteInfo = SiteInfo::getSiteInfo();
         $siteInfo->setPaymentPolicy($request->payment_policy);
-        return redirect("website/payment_policy");
+        return redirect("admin/website/payment_policy");
     }
 
     private function getHtmlEditorDataArr($formTitle, $inputName,  $inputValue,)

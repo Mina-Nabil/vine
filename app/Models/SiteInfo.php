@@ -24,16 +24,18 @@ class SiteInfo extends Model
         }
     }
 
-    public function setSiteInfo($logo = null, $mail, $offerSmallImg = null, $offerLargeImg = null, $phone, $instagram, $fb, $footerImage1 = null, $footerImage2 = null, $footerTitle1, $footerTitle2, $footerSubtitle1, $footerSubtitle2)
+    public function setSiteInfo($logo, $mail, $offerSmallImg, $offerLargeImg , $phone, $instagram, $fb, $footerImage1,  $footerTitle1, $footerSubtitle1, $officeName, $officeAddress, $officeLoc)
     {
         $this->WBST_MAIL = $mail;
         $this->WBST_PHON = $phone;
         $this->WBST_INST = $instagram;
         $this->WBST_FB = $fb;
-        $this->WBST_FOOT_TTL1 = $footerTitle1;
-        $this->WBST_FOOT_TTL2 = $footerTitle2;
-        $this->WBST_FOOT_SUB1 = $footerSubtitle1;
-        $this->WBST_FOOT_SUB2 = $footerSubtitle2;
+        $this->WBST_FOOT_TTL = $footerTitle1;
+        $this->WBST_FOOT_SUB = $footerSubtitle1;
+
+        $this->WBST_OFFC_NAME = $officeName;
+        $this->WBST_OFFC_ADRS = $officeAddress;
+        $this->WBST_OFFC_LOC = $officeLoc;
 
         if ($logo != null) {
             $oldLogo = $this->WBST_LOGO;
@@ -55,11 +57,6 @@ class SiteInfo extends Model
             $this->WBST_FOOT_IMG1 = FileManager::save($footerImage1, "footers");
         }
 
-        if ($footerImage2 != null) {
-            $oldFooterImage2 = $this->WBST_FOOT_IMG2;
-            $this->WBST_FOOT_IMG2 = FileManager::save($footerImage2, "footers");
-        }
-
 
         try {
             $this->save();
@@ -67,13 +64,11 @@ class SiteInfo extends Model
             if (isset($oldOfferSmallImg)) FileManager::delete($oldOfferSmallImg);
             if (isset($oldOfferLargeImg)) FileManager::delete($oldOfferLargeImg);
             if (isset($oldFooterImage1)) FileManager::delete($oldFooterImage1);
-            if (isset($oldFooterImage2)) FileManager::delete($oldFooterImage2);
         } catch (Exception $e) {
             if ($logo != null) FileManager::delete($logo);
             if ($offerLargeImg != null) FileManager::delete($offerLargeImg);
             if ($offerSmallImg != null) FileManager::delete($offerSmallImg);
             if ($footerImage1 != null) FileManager::delete($footerImage1);
-            if ($footerImage2 != null) FileManager::delete($footerImage2);
         }
     }
 

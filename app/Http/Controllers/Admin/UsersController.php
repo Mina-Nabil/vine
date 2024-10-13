@@ -14,7 +14,7 @@ use Illuminate\Validation\Rule;
 class UsersController extends Controller
 {
     protected $data;
-    protected $homeURL = "users/show/all";
+    protected $homeURL = "admin/users/show/all";
 
 
     private function initHomeArr($type = -1) // 0 all - 1 latest - 2 top
@@ -25,20 +25,19 @@ class UsersController extends Controller
         if ($type == 1)
             $this->data['items'] = User::latest()->limit(100)->get();
         else
-            $this->data['items'] = User::all()->sortByDesc('id');
+            $this->data['items'] = User::latest()->get();
 
         $this->data['subTitle'] = "Manage Clients";
-        $this->data['cols'] = ['id', 'Full Name', 'Email', 'Mob#', 'Gender', 'Area', 'Since', 'Edit'];
+        $this->data['cols'] = ['id', 'Full Name', 'Mob#', 'Gender', 'Area', 'Since', 'Edit'];
         $this->data['atts'] = [
             'id',
-            ['attUrl' => ["url" => 'users/profile', "urlAtt" => 'id', "shownAtt" =>  "USER_NAME"]],
-            ['verified' => ['att' => 'USER_MAIL', 'isVerified' => 'USER_MAIL_VRFD']],
-            ['verified' => ['att' => 'USER_MOBN', 'isVerified' => 'USER_MOBN_VRFD']],
-            ['foreign' => ['gender', 'GNDR_NAME']],
-            ['foreign' => ['area', 'AREA_NAME']],
-            // ['sumForeign' => ['rel' => 'orders', 'att' => 'ORDR_TOTL']],
+            ['attUrl' => ["url" => 'admin/users/profile', "urlAtt" => 'id', "shownAtt" =>  "name"]],
+            'mobile',
+            ['foreign' => ['gender', 'name']],
+            ['foreign' => ['area', 'name']],
+            // ['sumForeign' => ['rel' => 'orders', 'att' => 'total']],
             ['date' => ['att' => 'created_at', 'format' => 'Y-M-d']],
-            ['edit' => ['url' => 'users/edit/', 'att' => 'id']]
+            ['edit' => ['url' => 'admin/users/edit/', 'att' => 'id']]
         ];
         $this->data['homeURL'] = $this->homeURL;
     }
@@ -47,9 +46,9 @@ class UsersController extends Controller
     {
         if ($userID != -1) {
             $this->data['user'] = User::findOrFail($userID);
-            $this->data['formURL'] = "users/update";
+            $this->data['formURL'] = "admin/users/update";
         } else {
-            $this->data['formURL'] = "users/insert/";
+            $this->data['formURL'] = "admin/users/insert/";
         }
         $this->data['genders'] = Gender::all();
         $this->data['areas']  = Area::active()->get();
@@ -62,7 +61,7 @@ class UsersController extends Controller
     {
         $this->data['user'] = User::with("wishlist")->findOrFail($id);
         $this->data['userMoney'] = $this->data['user']->moneyPaid();
-        $this->data['formURL'] = "users/update";
+        $this->data['formURL'] = "admin/users/update";
         $this->data['genders'] = Gender::all();
         $this->data['areas']  = Area::active()->get();
 
@@ -71,7 +70,7 @@ class UsersController extends Controller
         $this->data['cardTitle'] = false;
         $this->data['ordersCols'] = ['id', 'Status', 'Payment',  'Items', 'Ordered On', 'Total'];
         $this->data['orderAtts'] = [
-            ['attUrl' => ['url' => "orders/details", "shownAtt" => 'id', "urlAtt" => 'id']],
+            ['attUrl' => ['url' => "admin/orders/details", "shownAtt" => 'id', "urlAtt" => 'id']],
             [
                 'stateQuery' => [
                     "classes" => [
@@ -81,16 +80,15 @@ class UsersController extends Controller
                         "4" =>  "label-success",
                         "5" =>  "label-danger",
                     ],
-                    "att"           =>  "ORDR_STTS_ID",
+                    "att"           =>  "status",
                     'foreignAtt'    => "STTS_NAME",
                     'url'           => "orders/details/",
                     'urlAtt'        =>  'id'
                 ]
             ],
-            'PYOP_NAME',
             'itemsCount',
-            'ORDR_OPEN_DATE',
-            'ORDR_TOTL'
+            'created_at',
+            'total'
         ];
 
         //Wishlist Array
@@ -98,19 +96,17 @@ class UsersController extends Controller
         $this->data['wishlistCols'] = ['Barcode', 'Model Title', 'Arabic Title', "in Stock", 'Price', 'Offer'];
         $this->data['wishlistAtts'] = [
             'PROD_BRCD',
-            ['attUrl' => ['url' => 'products/details', 'urlAtt' => "id", "shownAtt" => "PROD_NAME"]],
-            ['attUrl' => ['url' => 'products/details', 'urlAtt' => "id", "shownAtt" => "PROD_ARBC_NAME"]],
+            ['attUrl' => ['url' => 'admin/products/details', 'urlAtt' => "id", "shownAtt" => "name"]],
+            ['attUrl' => ['url' => 'admin/products/details', 'urlAtt' => "id", "shownAtt" => "arabic_name"]],
             ['sumForeign' => ['rel'=>"stock", "att"=>"INVT_CUNT"]] ,
             'PROD_PRCE',
             'PROD_OFFR',
         ];
         //Items Bought
         $this->data['boughtList'] = $this->data['user']->itemsBought();
-        $this->data['boughtCols'] = ['Model', 'Color', 'Size', 'Count'];
+        $this->data['boughtCols'] = ['Model', 'Count'];
         $this->data['boughtAtts'] = [
-            'PROD_NAME',
-             'COLR_NAME',
-            'SIZE_NAME',
+            'name',
             'itemCount'
         ];
     }
@@ -155,26 +151,25 @@ class UsersController extends Controller
     {
         $request->validate([
             "name"              => "required",
-            "pass"              => "required|between:4,24",
-            "mob"               => "required|numeric",
-            "mail"              => "required|email|unique:users,USER_MAIL",
+            "pass"              => "nullable|between:4,24",
+            "mob"               => "nullable|numeric",
+            "mail"              => "nullable|email|unique:users,email",
             "gender"        => "required|exists:genders,id",
             "area"          => "required|exists:areas,id"
         ]);
 
         $user = new User();
-        $user->USER_NAME = $request->name;
-        $user->USER_PASS = $request->pass;
-        $user->USER_MOBN = $request->mob;
-        $user->USER_MOBN_VRFD = $request->isMobVerified ? 1 : 0;
-        $user->USER_MAIL = $request->mail;
-        $user->USER_MAIL_VRFD = $request->isMailVerified ? 1 : 0;
-        $user->USER_GNDR_ID = $request->gender;
-        $user->USER_AREA_ID = $request->area;
+        $user->name = $request->name;
+        $user->password = $request->pass;
+        $user->mobile = $request->mob;
+        $user->email = $request->mail;
+        $user->gender_id = $request->gender;
+        $user->area_id = $request->area;
+        $user->address = $request->address;
 
         $user->save();
 
-        return redirect("users/profile/" . $user->id);
+        return redirect("admin/users/profile/" . $user->id);
     }
 
     public function update(Request $request)
@@ -186,25 +181,24 @@ class UsersController extends Controller
         $request->validate([
             "name"          => "required",
             "pass"          => "nullable|between:4,24",
-            "mob"           => "required|numeric",
-            "mail"          => ["required", "email",  Rule::unique('users', "USER_MAIL")->ignore($user->USER_MAIL, "USER_MAIL"),],
+            "mob"           => "nullable|numeric",
+            "mail"          => "nullable",
             "gender"        => "required|exists:genders,id",
             "area"          => "required|exists:areas,id"
         ]);
 
-        $user->USER_NAME = $request->name;
+        $user->name = $request->name;
         if (isset($request->pass))
-            $user->USER_PASS = $request->pass;
-        $user->USER_MOBN = $request->mob;
-        $user->USER_MOBN_VRFD = $request->isMobVerified ? 1 : 0;
-        $user->USER_MAIL = $request->mail;
-        $user->USER_MAIL_VRFD = $request->isMailVerified ? 1 : 0;
-        $user->USER_GNDR_ID = $request->gender;
-        $user->USER_AREA_ID = $request->area;
+            $user->password = $request->pass;
+        $user->mobile = $request->mob;
+        $user->email = $request->mail;
+        $user->gender_id = $request->gender;
+        $user->area_id = $request->area;
+        $user->address = $request->address;
 
         $user->save();
 
 
-        return redirect("users/profile/" . $user->id);
+        return redirect("admin/users/profile/" . $user->id);
     }
 }

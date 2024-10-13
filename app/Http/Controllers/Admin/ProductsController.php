@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Inventory;
 use App\Models\Product;
-use App\Models\ProductImages;
+use App\Models\ProductImage;
 use App\Models\SizeChart;
 use App\Models\SubCategory;
 use App\Models\Tag;
@@ -20,8 +20,8 @@ class ProductsController extends Controller
 {
 
     protected $data;
-    protected $homeURL = "products/show/all";
-    protected $detailsURL = "products/details/";
+    protected $homeURL = "admin/products/show/all";
+    protected $detailsURL = "admin/products/details/";
 
     ///////////////////Models Pages
 
@@ -79,8 +79,8 @@ class ProductsController extends Controller
         $this->data['categories'] = Category::all();
         $this->data['subcategories'] = SubCategory::all();
 
-        $this->data['categoryURL'] = 'products/category';
-        $this->data['subcategoryURL'] = 'products/subcategory';
+        $this->data['categoryURL'] = 'admin/products/category';
+        $this->data['subcategoryURL'] = 'admin/products/subcategory';
 
         return view('products.filters.categories', $this->data);
     }
@@ -93,11 +93,11 @@ class ProductsController extends Controller
         //dd($product->sizes());
 
         $this->data['categories'] = SubCategory::with('category')->get();
-        $this->data['formURL'] = "products/update";
+        $this->data['formURL'] = "admin/products/update";
         $this->data['formTitle'] = "Edit Model Info";
         $this->data['isCancel'] = true;
         $this->data['homeURL'] = $this->homeURL;
-        $this->data['deleteUrl'] = url('products/delete/image/');
+        $this->data['deleteUrl'] = url('admin/products/delete/image/');
 
 
         $this->data['items'] = Inventory::with(["product", "color", "size"])->where("INVT_PROD_ID", "=", $prodID)->get();
@@ -106,19 +106,13 @@ class ProductsController extends Controller
         $this->data['subTitle'] = "View Current Stock for (" . $product->PROD_NAME . ")";
         $this->data['cols'] = ['Color', 'Size', 'Count'];
         $this->data['atts'] = [
-            // ['foreignUrl' => ['products/profile', 'INVT_PROD_ID', 'product', 'PROD_NAME']],
+            // ['foreignUrl' => ['admin/roducts/profile', 'INVT_PROD_ID', 'product', 'PROD_NAME']],
             ['foreign' => ['color', 'COLR_NAME']],
             ['foreign' => ['size', 'SIZE_NAME']],
             'INVT_CUNT'
         ];
 
         $this->data['imageFormURL'] =   "producs/add/image/" . $product->id;
-        $this->data['colors']       =   Color::all();
-
-        $this->data['chartFormURL'] =   "products/setchart/" . $product->id;
-        $this->data['removeChartURL'] =   "products/unsetchart/" . $product->id;
-        $this->data['charts']       =   SizeChart::all();
-
         $this->data['tagsFormURL'] =   "products/linktags/" . $product->id;
         $this->data['prodTagIDs'] = $product->tags->pluck('id')->all();
 
@@ -132,7 +126,6 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($prodId);
         $request->validate([
-            "color" => "required|exists:colors,id",
             "photo" => "required|image|max:15048"
         ]);
         $product->addImage($request->photo, $request->color);
@@ -141,7 +134,7 @@ class ProductsController extends Controller
     }
 
     public function deleteImage($id){
-        $prodImage = ProductImages::with('product')->findOrFail($id);
+        $prodImage = ProductImage::with('product')->findOrFail($id);
         $prodId = $prodImage->product->id;
         $prodImage->delete(); 
         return redirect('products/details/' . $prodId);
@@ -249,14 +242,14 @@ class ProductsController extends Controller
         }
         $this->data['cols'] = ['Category', 'Model Title', 'Arabic Title', "in Stock", 'Price', 'Cost', 'Offer', 'Edit'];
         $this->data['atts'] = [
-            ['foreignUrl' => ['products/show/catg/sub', 'PROD_SBCT_ID', 'subcategory', 'name']],
-            ['attUrl' => ['url' => 'products/details', 'urlAtt' => "id", "shownAtt" => "PROD_NAME"]],
-            ['attUrl' => ['url' => 'products/details', 'urlAtt' => "id", "shownAtt" => "PROD_ARBC_NAME"]],
+            ['foreignUrl' => ['admin/roducts/show/catg/sub', 'PROD_SBCT_ID', 'subcategory', 'name']],
+            ['attUrl' => ['url' => 'admin/products/details', 'urlAtt' => "id", "shownAtt" => "PROD_NAME"]],
+            ['attUrl' => ['url' => 'admin/products/details', 'urlAtt' => "id", "shownAtt" => "PROD_ARBC_NAME"]],
             (($newArrivals == -1) ? ['sumForeign' => ['rel' => "stock", "att" => "INVT_CUNT"]] : "stock"),
             'PROD_PRCE',
             'PROD_COST',
             'PROD_OFFR',
-            ['edit' => ['url' => 'products/edit/', 'att' => 'id']],
+            ['edit' => ['url' => 'admin/products/edit/', 'att' => 'id']],
         ];
         // dd($this->data['items'][0]->stock_count);
         $this->data['homeURL'] = $this->homeURL;
@@ -266,9 +259,9 @@ class ProductsController extends Controller
     {
         if ($prodID != -1) {
             $this->data['product'] = Product::findOrFail($prodID);
-            $this->data['formURL'] = "products/update";
+            $this->data['formURL'] = "admin/products/update";
         } else {
-            $this->data['formURL'] = "products/insert/";
+            $this->data['formURL'] = "admin/products/insert/";
         }
         $this->data['categories'] = SubCategory::with('category')->get();
         $this->data['formTitle'] = "Add New Model";

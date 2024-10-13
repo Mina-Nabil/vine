@@ -13,20 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
-        $this->call(UserSeeder::class);
-        $this->call(CategorySeeder::class);
-        $this->call(PaymentOptionsSeeder::class);
-
+        $this->call(UsersSeeder::class);
         $this->call(AreasSeeder::class);
-        if (env("APP_ENV") != "production") {
-            $this->call(SizesSeeder::class);
-        }
+        
     }
 }

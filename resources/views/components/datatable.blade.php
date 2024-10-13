@@ -122,7 +122,7 @@
                     buttons: [
                         {
                             extend: 'excel',
-                            title: 'Whale Dashboard',
+                            title: 'Vine Dashboard',
                             footer: true,
                         }
                     ]

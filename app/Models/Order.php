@@ -133,8 +133,8 @@ class Order extends Model
             ->Leftjoin("drivers", "driver_id", "=", "drivers.id")
             ->Leftjoin("order_items", "order_items.order_id", "=", "orders.id")
             // ->join("payment_options", "ORDR_PYOP_ID", "=", "payment_options.id")
-            ->select("orders.*", 'drivers.name', "orders.guest_name", "order_status.STTS_NAME", "areas.name as area_name", "rate", "users.name", "users.mobile", "dash_users.name")->selectRaw("SUM(amount) as itemsCount")
-            ->groupBy("orders.id", "order_status.status", "areas.name", "users.name", "users.mobile")
+            ->select("orders.*", 'drivers.name', "orders.guest_name", "areas.name as name", "rate", "users.name", "users.mobile", "dash_users.name")->selectRaw("SUM(amount) as itemsCount")
+            ->groupBy("orders.id", "areas.name", "users.name", "users.mobile")
             ->where('orders.id', $id)->get()->first();
 
         $ret['items'] = DB::table('order_items')
@@ -145,7 +145,7 @@ class Order extends Model
 
         $ret['timeline'] = DB::table('timeline')
             ->join('dash_users', 'TMLN_DASH_ID', '=', 'dash_users.id')
-            ->select('DASH_USNM', 'timeline.*')
+            ->select('name', 'timeline.*')
             ->orderByDesc('timeline.id')
             ->where('TMLN_ORDR_ID', $id)->get();
 
@@ -166,14 +166,35 @@ class Order extends Model
     private static function tableQuery()
     {
         return DB::table("orders")
-            ->join("order_status", "ORDR_STTS_ID", "=", "order_status.id")
-            ->join("areas", "ORDR_AREA_ID", "=", "areas.id")
-            ->Leftjoin("users", "ORDR_USER_ID", "=", "users.id")
-            ->Leftjoin("dash_users", "ORDR_DASH_ID", "=", "dash_users.id")
-            ->Leftjoin("order_items", "ORIT_ORDR_ID", "=", "orders.id")
+            ->join("areas", "area_id", "=", "areas.id")
+            ->Leftjoin("users", "user_id", "=", "users.id")
+            ->Leftjoin("dash_users", "dash_user_id", "=", "dash_users.id")
+            ->Leftjoin("order_items", "order_id", "=", "orders.id")
             // ->join("payment_options", "ORDR_PYOP_ID", "=", "payment_options.id")
-            ->select("orders.*", "order_status.STTS_NAME", "dash_users.DASH_USNM", "areas.AREA_NAME", "users.USER_NAME", "users.USER_MOBN")->selectRaw("SUM(ORIT_CUNT) as itemsCount")
-            ->groupBy("orders.id", "orders.ORDR_STTS_ID", "orders.ORDR_USER_ID", "orders.ORDR_OPEN_DATE", "order_status.STTS_NAME", "areas.AREA_NAME", "users.USER_NAME", "users.USER_MOBN", "payment_options.PYOP_NAME");
+            ->select("orders.*", "dash_users.name", "areas.name", "users.name", "users.mobile")->selectRaw("SUM(amount) as itemsCount")
+            ->groupBy("orders.id", "orders.user_id", "orders.created_at", "areas.name", "users.name", "users.mobile");
+    }
+
+    //attribute
+    public function getIsNewAttribute()
+    {
+        return $this->status == 'New';
+    }
+    public function getIsReadyAttribute()
+    {
+        return $this->status == 'Ready';
+    }
+    public function getIsDeliveredAttribute()
+    {
+        return $this->status == 'Delivered';
+    }
+    public function getIsCancelledAttribute()
+    {
+        return $this->status == 'Cancelled';
+    }
+    public function getIsReturnedAttribute()
+    {
+        return $this->status == 'Returned';
     }
 
     //relations
@@ -189,12 +210,12 @@ class Order extends Model
 
     public function client()
     {
-        return $this->belongsTo("App\Models\User", "ORDR_USER_ID", "id");
+        return $this->belongsTo("App\Models\User", "user_id", "id");
     }
 
     public function area()
     {
-        return $this->belongsTo("App\Models\Area", "ORDR_AREA_ID", "id");
+        return $this->belongsTo("App\Models\Area", "area_id", "id");
     }
 
     public function driver()
@@ -204,7 +225,7 @@ class Order extends Model
 
     // public function paymentOption()
     // {
-    //     return $this->belongsTo("payment_options", "ORDR_AREA_ID", "id");
+    //     return $this->belongsTo("payment_options", "area_id", "id");
     // }
 
 

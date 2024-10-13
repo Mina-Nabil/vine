@@ -36,7 +36,7 @@ class CartController extends Controller
             $request->session()->forget('cart');
             $msgClientName = '';
             if (isset($request->user)) {
-                $msgClientName = (User::findOrFail($request->user))->USER_NAME;
+                $msgClientName = (User::findOrFail($request->user))->name;
             } else {
                 $msgClientName = $request->guestName;
             }
@@ -84,8 +84,6 @@ class CartController extends Controller
     {
         $request->validate([
             "id"            =>  "required|exists:products",
-            "color_id"      =>  "required|exists:colors,id",
-            "size_id"       =>  "required|exists:sizes,id",
             "quantity"      =>  "required|numeric"
         ]);
 
@@ -136,8 +134,6 @@ class CartController extends Controller
     {
         $request->validate([
             "id"        =>  "required|exists:products",
-            "color_id"  =>  "required|exists:colors,id",
-            "size_id"  =>  "required|exists:sizes,id",
         ]);
         $cartArray = session("cart");
 
@@ -174,7 +170,7 @@ class CartController extends Controller
         foreach ($itemsArray as $item) {
             $inventoryID = Inventory::getInventoryID($item->id, $item->color->id, $item->size->id);
             array_push($retArr, new OrderItem(
-                ["ORIT_INVT_ID" => $inventoryID, "ORIT_CUNT" => $item->quantity]
+                ["inventory_id" => $inventoryID, "amount" => $item->quantity]
             ));
         }
         return $retArr;

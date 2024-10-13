@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\DashUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -30,7 +28,7 @@ class HomeController extends Controller
 
         $data['first'] = true;
 
-        if (Auth::guard('admin')->attempt(array('DASH_USNM' => $request->userName, 'password' => $request->passWord), true)) {
+        if (Auth::guard('admin')->attempt(array('name' => $request->userName, 'password' => $request->passWord), true)) {
             return redirect()->route('adminHome');
         } else {
             $data['first'] = false;
@@ -68,12 +66,12 @@ class HomeController extends Controller
 
             //Total Sales
             return view('home', $data);
-        } else return redirect("login");
+        } else return redirect("admin/login");
     }
 
     public function logout()
     {
         Auth::guard("admin")->logout();
-        return redirect("login");
+        return redirect("admin/login");
     }
 }

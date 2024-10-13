@@ -42,12 +42,12 @@ class BuyerController extends Controller
         ])->validate();
 
         if (Auth::guard("web")->attempt([
-            "USER_MAIL" => $request->email,
+            "email" => $request->email,
             "password"  =>  $request->password
         ])) {
             return back();
         } else {
-            return redirect("login")->withErrors(["password" => "invalid credentials please try again"]);
+            return redirect("admin/login")->withErrors(["password" => "invalid credentials please try again"]);
         }
     }
 
@@ -72,7 +72,7 @@ class BuyerController extends Controller
     {
         Validator::make($request->all(), [
             "name"      =>  "required",
-            "email"     =>  "required|unique:users,USER_MAIL",
+            "email"     =>  "required|unique:users,email",
             "area"      =>  "required|exists:areas,id",
             "gender"    =>  "required|exists:genders,id",
             "mobile"  =>  "required|min:11",
@@ -85,7 +85,7 @@ class BuyerController extends Controller
 
         if ($newUser != null) {
             Auth::guard("web")->attempt([
-                "USER_MAIL" => $newUser->USER_MAIL,
+                "email" => $newUser->email,
                 "password"  => $request->password,
             ], true);
             return redirect()->route("home");
@@ -159,13 +159,9 @@ class BuyerController extends Controller
         $productsQuery = $loggedInUser->previouslyBoughtQuery();
         $allBoughtProducts = $productsQuery->get();
         $data = WSBaseDataManager::getCollectionPageData(
-            WSBaseDataManager::COLLECTION_PAGES[1],
             $applyNewFilters,
+            WSBaseDataManager::COLLECTION_PAGES[1],
             $productsQuery,
-            Color::getAvailableColors($allBoughtProducts),
-            $colorFilters,
-            Size::getAvailableSizes($allBoughtProducts),
-            $sizeFilters,
             $priceFilters,
             $sortOption,
             null,

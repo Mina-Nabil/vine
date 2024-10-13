@@ -17,8 +17,7 @@ class CreateTimelineTable extends Migration
         Schema::create('timeline', function (Blueprint $table) {
             $table->id();
             $table->foreignId('TMLN_ORDR_ID')->constrained('orders');
-            $table->unsignedInteger("TMLN_DASH_ID")->nullable();
-            $table->foreign("TMLN_DASH_ID")->references("id")->on("dash_users");
+            $table->foreignIdFor(DashUser::class ,"TMLN_DASH_ID")->constrained('dash_users')->nullable();
             $table->string('TMLN_TEXT');
             $table->timestamps();
         });

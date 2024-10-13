@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 class AreasController extends Controller
 {
     protected $data;
-    protected $homeURL = 'areas/show';
+    protected $homeURL = 'admin/areas/show';
 
     private function initDataArr()
     {
@@ -23,7 +23,7 @@ class AreasController extends Controller
             [
                 'toggle' => [
                     "att"   =>  "is_active",
-                    "url"   =>  "areas/toggle/",
+                    "url"   =>  "admin/areas/toggle/",
                     "states" => [
                         "1" => "Active",
                         "0" => "Disabled",
@@ -38,7 +38,7 @@ class AreasController extends Controller
                     ],
                 ]
             ],
-            ['edit' => ['url' => 'areas/edit/', 'att' => 'id']],
+            ['edit' => ['url' => 'admin/areas/edit/', 'att' => 'id']],
         ];
         $this->data['homeURL'] = $this->homeURL;
     }
@@ -47,7 +47,7 @@ class AreasController extends Controller
     {
         $this->initDataArr();
         $this->data['formTitle'] = "Add Area";
-        $this->data['formURL'] = "areas/insert";
+        $this->data['formURL'] = "admin/areas/insert";
         $this->data['isCancel'] = false;
         return view('settings.area', $this->data);
     }
@@ -57,7 +57,7 @@ class AreasController extends Controller
         $this->initDataArr();
         $this->data['area'] = Area::findOrFail($id);
         $this->data['formTitle'] = "Edit Area ( " . $this->data['area']->name . " )";
-        $this->data['formURL'] = "areas/update";
+        $this->data['formURL'] = "admin/areas/update";
         $this->data['isCancel'] = false;
         return view('settings.area', $this->data);
     }

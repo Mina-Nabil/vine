@@ -2,7 +2,6 @@
 
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Models\ProductImages;
 use App\Models\SubCategory;
 use App\Models\Tag;
 use Illuminate\Database\Migrations\Migration;

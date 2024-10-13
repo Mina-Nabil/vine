@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 class CategoriesController extends Controller
 {
     protected $data;
-    protected $homeURL = 'categories/show';
+    protected $homeURL = 'admin/categories/show';
 
     private function initDataArr()
     {
@@ -21,9 +21,9 @@ class CategoriesController extends Controller
         $this->data['subTitle'] = "Manage Categories and Sub-Categories";
         $this->data['cols'] = ['Category', 'Sub Category', 'Edit'];
         $this->data['atts'] = [
-            ['foreignUrl' => ['categories/edit', 'SBCT_CATG_ID', 'category', 'name']],
-            ['dynamicUrl' => ['products/show/catg/sub/', 'val' => 'id', 'att' => 'name']],
-            ['edit' => ['url' => 'subcategories/edit/', 'att' => 'id']]
+            ['foreignUrl' => ['admin/categories/edit', 'SBCT_CATG_ID', 'category', 'name']],
+            ['dynamicUrl' => ['admin/roducts/show/catg/sub/', 'val' => 'id', 'att' => 'name']],
+            ['edit' => ['url' => 'admin/subcategories/edit/', 'att' => 'id']]
         ];
         $this->data['homeURL'] = $this->homeURL;
     }
@@ -32,10 +32,10 @@ class CategoriesController extends Controller
     {
         $this->initDataArr();
         $this->data['formTitle'] = "Add Sub Category";
-        $this->data['formURL'] = "subcategories/insert";
+        $this->data['formURL'] = "admin/subcategories/insert";
         $this->data['isCancel'] = false;
         $this->data['form2Title'] = "Add Main Category";
-        $this->data['form2URL'] = "categories/insert";
+        $this->data['form2URL'] = "admin/categories/insert";
         $this->data['isCancel2'] = false;
         return view('products.categories', $this->data);
     }
@@ -45,10 +45,10 @@ class CategoriesController extends Controller
         $this->initDataArr();
         $this->data['subcategory'] = SubCategory::findOrFail($id);
         $this->data['formTitle'] = "Manage SubCategory (" . $this->data['subcategory']->name . ")";
-        $this->data['formURL'] = "subcategories/update";
+        $this->data['formURL'] = "admin/subcategories/update";
         $this->data['isCancel'] = true;
         $this->data['form2Title'] = "Add Main Categories";
-        $this->data['form2URL'] = "categories/insert";
+        $this->data['form2URL'] = "admin/categories/insert";
         $this->data['isCancel2'] = false;
         return view('products.categories', $this->data);
     }
@@ -58,10 +58,10 @@ class CategoriesController extends Controller
         $this->initDataArr();
         $this->data['category'] = Category::findOrFail($id);
         $this->data['formTitle'] = "Add Sub-Categories";
-        $this->data['formURL'] = "subcategories/insert";
+        $this->data['formURL'] = "admin/subcategories/insert";
         $this->data['isCancel'] = false;
         $this->data['form2Title'] = "Manage Category (" . $this->data['category']->name . ")";
-        $this->data['form2URL'] = "categories/update";
+        $this->data['form2URL'] = "admin/categories/update";
         $this->data['isCancel2'] = true;
         return view('products.categories', $this->data);
     }
