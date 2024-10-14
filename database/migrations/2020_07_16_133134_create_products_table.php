@@ -39,7 +39,7 @@ class CreateProductsTable extends Migration
             $table->double("price");
             $table->double("cost")->nullable();
             $table->double("offer")->default(0); //percentage
-            $table->foreignId(ProductImage::class)->nullable()->constrained("prod_images"); // main image
+            $table->foreignIdFor(ProductImage::class)->nullable()->constrained("prod_images"); // main image
             $table->timestamps();
         });
 

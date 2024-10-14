@@ -9,22 +9,22 @@
     <div class="col-lg-12 col-xlg-3 col-md-5">
         <div class="card">
             @switch($order->status)
-            @case(App/Models/Order::STATUSES[1])
+            @case('New')
             <div class="card-header bg-info text-light">New Order</div>
             @break
-            @case(App/Models/Order::STATUSES[2])
+            @case('Ready')
             <div class="card-header bg-warning text-light">Order is Ready!</div>
             @break
-            @case(App/Models/Order::STATUSES[3])
+            @case('In Delivery')
             <div class="card-header bg-dark text-light">Order in Delivery!</div>
             @break
-            @case(App/Models/Order::STATUSES[4])
+            @case('Delivered')
             <div class="card-header bg-success text-light">Order Delivered</div>
             @break
-            @case(App/Models/Order::STATUSES[5])
+            @case('Cancelled')
             <div class="card-header bg-danger text-light">Order Cancelled :(</div>
             @break
-            @case(App/Models/Order::STATUSES[6])
+            @case('Returned')
             <div class="card-header bg-primary text-light">Return Order :(</div>
             @break
             @default
@@ -50,11 +50,11 @@
                             Client Name
                         </div>
                         <p>
-                            @if(!$order->ORDR_GEST_NAME)
+                            @if(!$order->guest_name)
                             <a href="{{url('users/profile/' . $order->user_id )}}">
                                 @endif
-                                {{($order->ORDR_GEST_NAME) ? $order->ORDR_GEST_NAME . " (Guest)": $order->name . " (User)"}}
-                                @if(!$order->ORDR_GEST_NAME)
+                                {{($order->guest_name) ? $order->guest_name . " (Guest)": $order->name . " (User)"}}
+                                @if(!$order->guest_name)
                             </a>
                             @endif
                         </p>
@@ -63,26 +63,26 @@
                         <div class="font-bold">
                             Client Phone
                         </div>
-                        <p>{{($order->ORDR_MOBN) ? $order->ORDR_MOBN : $order->mobile}}</p>
+                        <p>{{($order->guest_mobn) ? $order->guest_mobn : $order->mobile}}</p>
                     </div>
                 
                     <div class="col-md-2">
                         <div class="font-bold">
-                            Total {{($order->ORDR_DISC > 0) ? "(Discount)" : ""}}
+                            Total {{($order->discount > 0) ? "(Discount)" : ""}}
                         </div>
-                        <p>{{$order->total ." EGP"}} {{($order->ORDR_DISC > 0) ? "(" .$order->ORDR_DISC. "EGP)" : ""}}</p>
+                        <p>{{$order->total ." EGP"}} {{($order->discount > 0) ? "(" .$order->discount. "EGP)" : ""}}</p>
                     </div>
                     <div class="col-md-6">
                         <div class="font-bold">
                             Delivery Address
                         </div>
-                        <p>{{$order->ORDR_ADRS}}</p>
+                        <p>{{$order->address}}</p>
                     </div>
                     <div class="col-md-6">
                         <div class="font-bold">
                             Note
                         </div>
-                        <p>{{$order->ORDR_NOTE}}</p>
+                        <p>{{$order->note}}</p>
                     </div>
                 </div>
             </div>
@@ -140,9 +140,9 @@
                                 </p>
                             </li>
                             @endif
-                            @isset($order->ORDR_DRVR_ID)
+                            @isset($order->driver_id)
                             <li>
-                                <p class="text-muted">{{$order->DRVR_NAME}} is currently assigned to this order
+                                <p class="text-muted">{{$order->name}} is currently assigned to this order
                                     <i class="fas fa-check-circle" style="color:lightgreen"></i>
                                 </p>
                             </li>
@@ -174,24 +174,24 @@
                             Ready For Shipment</button>
                         <button class="btn btn-danger mr-2" onclick="confirmAndGoTo('{{url($setOrderCancelledUrl)}}', 'Cancel the Order')">Cancel Order</button>
                         @break
-                        @case(2)
+                        @case('Ready')
                         <button class="btn btn-info mr-2" onclick="confirmAndGoTo('{{url($setOrderNewUrl)}}', 'Set Order as New')">Set Order as New</button>
                         <button class="btn btn-dark mr-2" id=inDeliveryButton onclick="confirmAndGoTo('{{url($setOrderInDeliveryUrl)}}', 'Set Order as In Delivery')"
-                            {{(isset($order->ORDR_DRVR_ID)) ? '' : "disabled"}}>Ship Order For Delivery</button>
+                            {{(isset($order->driver_id)) ? '' : "disabled"}}>Ship Order For Delivery</button>
                         <button class="btn btn-danger mr-2" onclick="confirmAndGoTo('{{url($setOrderCancelledUrl)}}', 'Cancel the Order')">Cancel Order</button>
                         @break
-                        @case(3)
+                        @case('In Delivery')
                         @if(!$isPartiallyReturned)
                         <button class="btn btn-info mr-2" onclick="confirmAndGoTo('{{url($linkNewReturnUrl)}}', 'Link new Return Order')">Link New Return</button>
                         @else
-                        <button class="btn btn-info mr-2" onclick="confirmAndGoTo('{{url('orders/details/' . $order->ORDR_RTRN_ID)}}', 'Go to the Return Order')">
+                        <button class="btn btn-info mr-2" onclick="confirmAndGoTo('{{url('admin/orders/details/' . $order->return_id)}}', 'Go to the Return Order')">
                             Check Return Order</button>
                         @endif
                         <button class="btn btn-success mr-2" onclick="confirmAndGoTo('{{url($setOrderDeliveredUrl)}}', 'Set Order as Delivered')" 
                         @if($remainingMoney !=0) disabled @endif>Set Order as Delivered</button>
                         <button class="btn btn-danger mr-2" onclick="confirmAndGoTo('{{url($setOrderCancelledUrl)}}', 'Cancel the Order')">Cancel Order</button>
                         @break
-                        @case(4)
+                        @case('Delivered')
                         <button class="btn btn-danger mr-2" onclick="confirmAndGoTo('{{url($returnUrl)}}', 'Return the Order')">Return Order</button>
                         @break
                         @default
@@ -203,7 +203,7 @@
 
                 {{-- Hidden Values carrying each item state --}}
                 @foreach($items as $item)
-                <input type="hidden" id="isReady{{$item->id}}" value={{$item->ORIT_VRFD}}>
+                <input type="hidden" id="isReady{{$item->id}}" value={{$item->is_verified}}>
                 @endforeach
 
                 {{-- Order Details --}}
@@ -214,8 +214,6 @@
                                 <thead>
                                     <th>Ready?</th>
                                     <th>Model</th>
-                                    <th>Color</th>
-                                    <th>Size</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Total</th>
@@ -228,18 +226,16 @@
 
                                     <tr id="item{{$item->id}}">
                                         <td id="ready{{$item->id}}">
-                                            @if($item->ORIT_VRFD)
+                                            @if($item->is_verified)
                                             <i class="fas fa-check-circle" style="color:lightgreen">
                                                 @else
                                                 <i class=" fas fa-exclamation-triangle" style="color:#fec107">
                                                     @endif
                                         </td>
-                                        <td>{{$item->PROD_NAME}}</td>
-                                        <td>{{$item->COLR_NAME}}</td>
-                                        <td>{{$item->SIZE_NAME}}</td>
+                                        <td>{{$item->product_name}}</td>
                                         <td>{{$item->amount}}</td>
-                                        <td>{{$item->PROD_PRCE - $item->PROD_OFFR}}</td>
-                                        <td>{{$item->amount * ($item->PROD_PRCE - $item->PROD_OFFR)}}</td>
+                                        <td>{{$item->price - $item->offer}}</td>
+                                        <td>{{$item->amount * ($item->price - $item->offer)}}</td>
                                         @if($order->status=='New' || $isPartiallyReturned)
                                         <td>
                                             <div class="btn-group">
@@ -253,7 +249,7 @@
                                                 </div>
                                                 @else
                                                 <div class="dropdown-menu">
-                                                    @if(!$item->ORIT_VRFD)
+                                                    @if(!$item->is_verified)
                                                     <button class="dropdown-item" onclick="toggleReady({{$item->id}}, this)">Set as Ready!</button>
                                                     @else
                                                     <button class="dropdown-item" onclick="toggleReady({{$item->id}}, this)">Remove Ready Flag!</button>
@@ -274,7 +270,7 @@
                                                     <h4 class="modal-title">Change Model Quantity</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                 </div>
-                                                <form action="{{ url('orders/change/quantity') }}" method=post>
+                                                <form action="{{ url('admin/orders/change/quantity') }}" method=post>
                                                     @csrf
                                                     <div class="modal-body">
                                                         <input type=hidden name=itemID value="{{$item->id}}">
@@ -319,7 +315,7 @@
                                                 <option disabled hidden selected value="">Model</option>
                                                 @foreach($inventory as $item)
                                                 <option value="{{ $item->id }}">
-                                                    {{$item->product->PROD_NAME}} - {{$item->color->COLR_NAME}} - {{$item->size->SIZE_NAME}} - Available:{{$item->INVT_CUNT}}</option>
+                                                    {{$item->product->name}} Available:{{$item->amount}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -351,8 +347,8 @@
                         <h4 class="card-title">Assign Driver</h4>
                         <h6 class="card-subtitle">Assign a Driver to deliver the order</h6>
                         @if($order->is_new || $order->is_ready) <!-- New and Ready orders -->
-                            @isset($order->ORDR_DRVR_ID)
-                            <p class="text-muted">{{$order->DRVR_NAME}} is currently assigned to this order</p>
+                            @isset($order->driver_id)
+                            <p class="text-muted">{{$order->name}} is currently assigned to this order</p>
                             @endisset
                             <form class="form pt-3" method="post" action="{{ url($assignDriverFormURL) }}" enctype="multipart/form-data">
                                 @csrf
@@ -364,10 +360,10 @@
                                                 <select name=driver class="form-control select2 custom-select" style="width: 100%" required>
                                                     <option disabled hidden selected value="">Pick a Driver</option>
                                                     @foreach($drivers as $driver)
-                                                    <option value="{{ $driver->id }}" @if($order->ORDR_DRVR_ID == $driver->id)
+                                                    <option value="{{ $driver->id }}" @if($order->driver_id == $driver->id)
                                                         selected
                                                         @endif
-                                                        >{{$driver->DRVR_NAME}}</option>
+                                                        >{{$driver->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -380,7 +376,7 @@
                                 <button type="submit" class="btn btn-success mr-2">Submit</button>
                             </form>
                             @elseif(!$order->is_cancelled && !$order->is_returned)<!-- In delivery or Delivered Orders -->
-                                <p class="text-muted">Order already shipped by {{$order->DRVR_NAME}}</p>
+                                <p class="text-muted">Order already shipped by {{$order->name}}</p>
                                 @else
                                 <p class="text-muted">Order Cancelled :(</p>
                                 @endif
@@ -393,8 +389,8 @@
                 <div class="tab-pane" id="payment" role="tabpanel">
                     <div class="card-body">
                         <h4 class="card-title">Order Payments</h4>
-                        <h6 class="card-subtitle">Total: {{$order->total}} - Paid: {{$order->ORDR_PAID}} - Discount: {{$order->ORDR_DISC}} - Remaining: {{$remainingMoney}} - Delivery
-                            {{$order->ORDR_DLFE}} </h6>
+                        <h6 class="card-subtitle">Total: {{$order->total}} - Paid: {{$order->paid}} - Discount: {{$order->discount}} - Remaining: {{$remainingMoney}} - Delivery
+                            {{$order->delivery_paid}} </h6>
                         @if(!$order->is_cancelled && !$order->is_returned && !$order->is_delivered) <form class="form pt-3" method="post" action="{{ url($paymentURL) }}" enctype="multipart/form-data">
                             <input type="hidden" name=id value={{$order->id}}>
                             @csrf
@@ -413,7 +409,7 @@
                                 <div class="form-group">
                                     <label>Discount</label>
                                     <div class="input-group mb-3">
-                                        <input type="number" step=.01 class="form-control amount" placeholder="Items Count" min=0 max={{$remainingMoney}} name=discount value="{{$order->ORDR_DISC}}"
+                                        <input type="number" step=.01 class="form-control amount" placeholder="Items Count" min=0 max={{$remainingMoney}} name=discount value="{{$order->discount}}"
                                             required>
                                     </div>
                                 </div>
@@ -431,7 +427,7 @@
                                     <label>Delivery Paid</label>
                                     <small class="text-italic">Delivery Area Rate: {{$order->rate}}</small>
                                     <div class="input-group mb-3">
-                                        <input type="number" step=.01 class="form-control amount" placeholder="Items Count" min=0 name=deliveryPaid value="{{$order->ORDR_DLFE}}" required>
+                                        <input type="number" step=.01 class="form-control amount" placeholder="Items Count" min=0 name=deliveryPaid value="{{$order->delivery_paid}}" required>
                                     </div>
                                 </div>
 
@@ -466,14 +462,14 @@
                                 <div class="form-group">
                                     <label>Delivery Address</label>
                                     <div class="input-group mb-3">
-                                        <textarea class="form-control" name="address" id=userAdrs rows="3" required>{{$order->ORDR_ADRS}}</textarea>
+                                        <textarea class="form-control" name="address" id=userAdrs rows="3" required>{{$order->address}}</textarea>
                                     </div>
                                     <small class="text-danger">{{$errors->first('address')}}</small>
                                 </div>
                                 <div class="form-group">
                                     <label>Additional Notes</label>
                                     <div class="input-group mb-3">
-                                        <textarea class="form-control" name="note" rows="3">{{$order->ORDR_NOTE}}</textarea>
+                                        <textarea class="form-control" name="note" rows="3">{{$order->note}}</textarea>
                                     </div>
                                     <small class="text-danger">{{$errors->first('note')}}</small>
                                 </div>
@@ -498,7 +494,7 @@
                                     <h5 class="mb-1 text-dark">{{$event->name}}</h5>
                                     <small>{{$event->created_at}}</small>
                                 </div>
-                                <p class="mb-1">{{$event->TMLN_TEXT}}</p>
+                                <p class="mb-1">{{$event->text}}</p>
                             </a>
                             @endforeach
                         </ul>
@@ -560,7 +556,7 @@
                     }
                 }
                 };
-                http.open('GET', '{{url("orders/toggle/item")}}'+ '/'+ itemId)
+                http.open('GET', '{{url("admin/orders/toggle/item")}}'+ '/'+ itemId)
                 http.send();
             }
         });
@@ -573,7 +569,7 @@
                 showCancelButton: true,
             }).then((isConfirm) => {
                 if(isConfirm.value){
-                window.location.href = '{{url("orders/delete/item")}}'+ '/'+ id;
+                window.location.href = '{{url("admin/orders/delete/item")}}'+ '/'+ id;
                 }
             });
         }
@@ -652,7 +648,7 @@
                                         <option disabled hidden selected value="">Model</option>\
                                         @foreach($inventory as $item)\
                                         <option value="{{ $item->id }}">\
-                                            {{$item->product->PROD_NAME}} - {{$item->color->COLR_NAME}} - {{$item->size->SIZE_NAME}} - Available:{{$item->INVT_CUNT}}</option>\
+                                            {{$item->product->name}} Available:{{$item->amount}}</option>\
                                         @endforeach\
                                     </select>\
                                 </div>\

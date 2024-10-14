@@ -20,10 +20,10 @@
                                 <option value="" disabled selected >Pick From Categories</option>
                                 @foreach($categories as $categry)
                                 <option value="{{ $categry->id }}"
-                                @if(isset($product) && $categry->id == $product->PROD_SBCT_ID)
+                                @if(isset($product) && $categry->id == $product->sub_category_id)
                                     selected
                                 @endif
-                                >{{$categry->category->CATG_NAME}} : {{$categry->SBCT_NAME}}</option>
+                                >{{$categry->category->name}} : {{$categry->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -33,64 +33,44 @@
                     <div class="form-group">
                         <label>Model Title</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Full Model Title" name=name value="{{ (isset($product)) ? $product->PROD_NAME : old('name')}}" required>
+                            <input type="text" class="form-control" placeholder="Full Model Title" name=name value="{{ (isset($product)) ? $product->name : old('name')}}" required>
                         </div>
                         <small class="text-danger">{{$errors->first('name')}}</small>
                     </div>
                     <div class="form-group">
                         <label>Arabic Title</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name=arbcName placeholder="اسم الموديل بالعربيه" value="{{ (isset($product)) ? $product->PROD_ARBC_NAME : old('mail')}}" required>
+                            <input type="text" class="form-control" name=arbcName placeholder="اسم الموديل بالعربيه" value="{{ (isset($product)) ? $product->arabic_name : old('mail')}}" required>
                         </div>
                         <small class="text-danger">{{$errors->first('arbcName')}}</small>
                     </div>
 
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" rows="3" required name=desc>{{(isset($product)) ? $product->PROD_DESC : old('desc')}}</textarea>
+                        <textarea class="form-control" rows="3" required name=desc>{{(isset($product)) ? $product->desc : old('desc')}}</textarea>
                     </div>
 
                     <div class="form-group">
                         <label>Arabic Description</label>
-                        <textarea class="form-control" rows="3" required name=arbcDesc>{{(isset($product)) ? $product->PROD_ARBC_DESC : old('desc')}}</textarea>
+                        <textarea class="form-control" rows="3" required name=arbcDesc>{{(isset($product)) ? $product->arabic_desc : old('desc')}}</textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label>Barcode</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Model Barcode" name=barCode value="{{ (isset($product)) ? $product->PROD_BRCD : old('barCode') }}">
-                        </div>
-                        @if($errors->first('barCode') !=null)
-                        <small class="text-danger">{{$errors->first('barCode')}}</small>
-                        @else
-                        <small>Not Required</small>
-                        @endif
-                    </div>
+         
 
                     <div class="form-group">
                         <label>Price</label>
                         <div class="input-group mb-3">
-                            <input type="number" class="form-control" placeholder="Model Price" name=price value="{{ (isset($product)) ? $product->PROD_PRCE : old('price')}}" required>
+                            <input type="number" class="form-control" placeholder="Model Price" name=price value="{{ (isset($product)) ? $product->price : old('price')}}" required>
                         </div>
                         <small class="text-danger">{{$errors->first('price')}}</small>
                     </div>
 
-                    <div class="form-group">
-                        <label>Cost</label>
-                        <div class="input-group mb-3">
-                            <input type="number" class="form-control" placeholder="Model Cost" name=cost value="{{ (isset($product)) ? $product->PROD_COST : old('cost') }}">
-                        </div>
-                        @if($errors->first('cost') !=null)
-                        <small class="text-danger">{{$errors->first('cost')}}</small>
-                        @else
-                        <small>Not Required</small>
-                        @endif
-                    </div>
+             
 
                     <div class="form-group">
                         <label>Discount</label>
                         <div class="input-group mb-3">
-                            <input type="number" class="form-control" placeholder="Model Discount Amount" name=offer value="{{ (isset($product)) ? $product->PROD_OFFR : old('offer') }}">
+                            <input type="number" class="form-control" placeholder="Model Discount Amount" name=offer value="{{ (isset($product)) ? $product->offer : old('offer') }}">
                         </div>
                         @if($errors->first('offer') != null)
                         <small class="text-danger">{{$errors->first('offer')}}</small>

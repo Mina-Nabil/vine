@@ -21,8 +21,8 @@ class CategoriesController extends Controller
         $this->data['subTitle'] = "Manage Categories and Sub-Categories";
         $this->data['cols'] = ['Category', 'Sub Category', 'Edit'];
         $this->data['atts'] = [
-            ['foreignUrl' => ['admin/categories/edit', 'SBCT_CATG_ID', 'category', 'name']],
-            ['dynamicUrl' => ['admin/roducts/show/catg/sub/', 'val' => 'id', 'att' => 'name']],
+            ['foreignUrl' => ['admin/categories/edit', 'category_id', 'category', 'name']],
+            ['dynamicUrl' => ['admin/products/show/catg/sub/', 'val' => 'id', 'att' => 'name']],
             ['edit' => ['url' => 'admin/subcategories/edit/', 'att' => 'id']]
         ];
         $this->data['homeURL'] = $this->homeURL;
@@ -70,7 +70,7 @@ class CategoriesController extends Controller
     {
 
         $request->validate([
-            "catgName"      => "required|unique:categories,CATG_NAME",
+            "catgName"      => "required|unique:categories,name",
             "arbcName"  => "required",
         ]);
 

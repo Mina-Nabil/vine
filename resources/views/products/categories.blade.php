@@ -17,14 +17,14 @@
                     <div class="form-group">
                         <label>Sub Category Name*</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Sub Category Name" name=name value="{{ (isset($subcategory)) ? $subcategory->SBCT_NAME : old('name')}}" required>
+                            <input type="text" class="form-control" placeholder="Sub Category Name" name=name value="{{ (isset($subcategory)) ? $subcategory->name : old('name')}}" required>
                         </div>
                         <small class="text-danger">{{$errors->first('name')}}</small>
                     </div>
                     <div class="form-group">
                         <label>Arabic Name*</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Arabic Name" name=arbcName value="{{ (isset($subcategory)) ? $subcategory->SBCT_ARBC_NAME : old('arbcName')}}" required>
+                            <input type="text" class="form-control" placeholder="Arabic Name" name=arbcName value="{{ (isset($subcategory)) ? $subcategory->arabic_name : old('arbcName')}}" required>
                         </div>
                         <small class="text-danger">{{$errors->first('arbcName')}}</small>
                     </div>
@@ -35,11 +35,11 @@
                             <select name=category class="select2 form-control custom-select" style="width: 100%; height:36px;" required>
                                 <option value="" disabled selected>Pick From Categories</option>
                                 @foreach($categories as $categry)
-                                <option value="{{ $categry->id }}" @if((isset($subcategory) && $categry->id == $subcategory->SBCT_CATG_ID) || old('category') == $categry->id)
+                                <option value="{{ $categry->id }}" @if((isset($subcategory) && $categry->id == $subcategory->category_id) || old('category') == $categry->id)
                                     selected
 
                                     @endif
-                                    >{{$categry->CATG_NAME}} - {{$categry->CATG_ARBC_NAME}}</option>
+                                    >{{$categry->name}} - {{$categry->arabic_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -73,14 +73,14 @@
                     <div class="form-group">
                         <label>Category Name*</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Category Name" name=catgName value="{{ (isset($category)) ? $category->CATG_NAME : old('catgName')}}" required>
+                            <input type="text" class="form-control" placeholder="Category Name" name=catgName value="{{ (isset($category)) ? $category->name : old('catgName')}}" required>
                         </div>
                         <small class="text-danger">{{$errors->first('catgName')}}</small>
                     </div>
                     <div class="form-group">
                         <label>Arabic Name*</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Arabic Category Name" name=arbcName value="{{ (isset($category)) ? $category->CATG_ARBC_NAME : old('arbcName')}}" required>
+                            <input type="text" class="form-control" placeholder="Arabic Category Name" name=arbcName value="{{ (isset($category)) ? $category->arabic_name : old('arbcName')}}" required>
                         </div>
                         <small class="text-danger">{{$errors->first('arbcName')}}</small>
                     </div>

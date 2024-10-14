@@ -1,8 +1,8 @@
 @extends('layouts.site')
 
 @section('after_pixel')
-<meta property="og:title" content="{{$product->PROD_NAME}}">
-<meta property="og:description" content="{{$product->PROD_DESC}}">
+<meta property="og:title" content="{{$product->name}}">
+<meta property="og:description" content="{{$product->desc}}">
 <meta property="og:url" content="{{url('product/' . $product->id)}}">
 <meta property="og:image" content="{{$product->main_image_url}}">
 <meta property="product:brand" content="GetWhale">
@@ -16,12 +16,12 @@
 
 @section('content')
 <section id="content" class="clearfix">
-    <div id="product" class="{{$product->PROD_NAME}} content clearfix">
+    <div id="product" class="{{$product->name}} content clearfix">
         <div class="title-breadcrumb">
             <div class="container">
                 <div class="col-md-12">
                     <div class="collection-listing-title">
-                        <h2 class="collection-title">{{$product->PROD_NAME}}</h2>
+                        <h2 class="collection-title">{{$product->name}}</h2>
                     </div>
                     <!-- Begin breadcrumb -->
                     <div class="col-md-12">
@@ -32,7 +32,7 @@
                                 <a href="{{url('all')}}" title="All Products">Products</a>
                             </span>
                             <span class="arrow-space"><i class="fa fa-angle-right"></i></span>
-                            <strong>{{$product->PROD_NAME}}</strong>
+                            <strong>{{$product->name}}</strong>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                                 @foreach($product->images as $image)
                                 <div class="image @if($i==0) active @elseif($i==3) last-in-row @endif">
                                     <a href="{{$image->image_url}}" class="cloud-zoom-gallery">
-                                        <img src="{{$image->image_url}}" alt="{{$product->PROD_NAME}}" />
+                                        <img src="{{$image->image_url}}" alt="{{$product->name}}" />
                                     </a>
                                 </div>
                                 <?php $i++; ?>
@@ -58,7 +58,7 @@
                         </div>
 
                         <div id="featuted-image" class="image featured">
-                            <img src="{{$product->main_image_url}}" alt="{{$product->PROD_NAME}}" />
+                            <img src="{{$product->main_image_url}}" alt="{{$product->name}}" />
                         </div>
 
                         <div id="gallery-images-mobile" class="thumbs clearfix visible-xs">
@@ -67,7 +67,7 @@
                                 @foreach($product->images as $image)
                                 <div class="image @if($i==0) active @elseif($i==3) last-in-row @endif">
                                     <a href="{{$image->image_url}}" class="cloud-zoom-gallery">
-                                        <img src="{{$image->image_url}}" alt="{{$product->PROD_NAME}}" />
+                                        <img src="{{$image->image_url}}" alt="{{$product->name}}" />
                                     </a>
                                 </div>
                                 <?php $i++; ?>
@@ -79,7 +79,7 @@
                     <div class="col-md-6" id="product-information">
                         <h3 class="quick-overview">Quick Overview</h3>
                         <div class="description">
-                            {{$product->PROD_DESC}}
+                            {{$product->desc}}
                         </div>
                         <form id="product-form">
                             <div class="product-options ">
@@ -115,21 +115,7 @@
                                     @endforeach
                                 </div>
 
-                                <div class="swatch clearfix" data-option-index="1">
-                                    <div class="header">Size</div>
-                                    @foreach($product->available_sizes as $size)
-                                    <div data-value="{{$size->id}}" class="swatch-element {{$size->code}} available ">
-                                        <input id="swatch-1-{{$size->code}}" type="radio" name="sizeRadio" value="{{$size->id}}" onchange="checkStock()" />
-                                        <label for="swatch-1-{{$size->code}}">
-                                            {{$size->code}}
-                                            <img class="crossed-out" />
-                                        </label>
-                                    </div>
-                                    <script>
-                                        jQuery('.swatch[data-option-index="1"] .{{$size->code}}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
-                                    </script>
-                                    @endforeach
-                                </div>
+               
 
                                 <script>
                                     $(function() {
@@ -223,9 +209,9 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="desc">
                                     <aside>
-                                        {{$product->PROD_DESC}}
+                                        {{$product->desc}}
                                         <br><br>
-                                        {{$product->PROD_ARBC_DESC}}
+                                        {{$product->arabic_desc}}
                                     </aside>
                                 </div>
 

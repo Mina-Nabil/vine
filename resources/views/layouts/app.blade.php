@@ -175,13 +175,6 @@
                                         <li><a href="{{url('admin/products/add')}}">Add a Product</a></li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)"> Special Products</a>
-                                    <ul aria-expanded="false" class="collapse">
-                                        <li><a href="{{url('admin/products/new')}}">New Arrivals</a></li>
-                                        <li><a href="{{url('admin/products/sale')}}">For Sale</a></li>
-                                    </ul>
-                                </li>
                                 <li><a href="{{url('admin/categories/show')}}">Categories</a></li>
                             </ul>
                         </li>

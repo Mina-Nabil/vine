@@ -212,7 +212,7 @@
 
                                 <li class=" dropdown li-sub-mega">
                                     <a href="{{url('all/' . $catg->id)}}">
-                                        <span>{{$catg->CATG_NAME}}</span>
+                                        <span>{{$catg->name}}</span>
                                         <i class="fa fa-angle-right"></i>
                                         <i class="sub-dropdown1  visible-sm visible-md visible-lg"></i>
                                         <i class="sub-dropdown visible-sm visible-md visible-lg"></i>
@@ -220,7 +220,7 @@
                                     <ul class="dropdown-menu">
                                         @foreach ($catg->subCategory as $subcategory)
                                         <li class="li-sub-mega">
-                                            <a tabindex="-1" href="{{url('categories/' . $subcategory->id)}}">{{$subcategory->SBCT_NAME}}</a>
+                                            <a tabindex="-1" href="{{url('categories/' . $subcategory->id)}}">{{$subcategory->name}}</a>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -245,7 +245,7 @@
                                             <li class="list-title">Collections</li>
                                             @foreach ($subcategories as $sub)
                                             <li class="list-unstyled li-sub-mega">
-                                                <a href="{{url('categories/' . $sub->id)}}">{{$sub->SBCT_NAME}}</a>
+                                                <a href="{{url('categories/' . $sub->id)}}">{{$sub->name}}</a>
                                             </li>
                                             <?php if($loop->index == 6) break; ?>
                                             @endforeach
@@ -350,9 +350,9 @@
                     @foreach($subcategories as $sub)
                     <li class="shopby-collection-link ">
                         <span class='shopby-icon'>
-                            <img src="{{$sub->icon->image_url}}" alt='{{$sub->SBCT_NAME}}' />
+                            <img src="{{$sub->icon->image_url}}" alt='{{$sub->name}}' />
                         </span>
-                        <a href="{{url('categories/' . $sub->id)}}" class=""><span>{{$sub->SBCT_NAME}}</span></a>
+                        <a href="{{url('categories/' . $sub->id)}}" class=""><span>{{$sub->name}}</span></a>
                     </li>
                     <?php if($loop->index == 7) break; ?>
                     @endforeach
@@ -627,7 +627,7 @@
                     <ul>
                         @foreach ($subcategories as $sub)
                         <li>
-                            <a href="{{url('categories/' . $sub->id)}}" class=" current"><span>{{$sub->SBCT_NAME}}</span></a>
+                            <a href="{{url('categories/' . $sub->id)}}" class=" current"><span>{{$sub->name}}</span></a>
                         </li>
                         <?php if($loop->index == 6) break; ?>
                         @endforeach
@@ -793,9 +793,9 @@
 
         function showAddedProductModal(product, cart) {
             console.log(product);
-            $("#cart-prod-title").html(product.details.PROD_NAME);
+            $("#cart-prod-title").html(product.details.name);
             $("#cart-prod-img").attr("src", product.details.main_image_url);
-            $("#cart-prod-img").attr("alt", product.details.PROD_NAME);
+            $("#cart-prod-img").attr("alt", product.details.name);
             $("#cart-prod-price").html(product.details.final_price + "EGP");
             $("#cart-prod-variant").html("Variant: " + product.variant);
             $("#cart-prod-qty").html("Quantity x " + product.quantity);

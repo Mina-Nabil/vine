@@ -24,10 +24,10 @@
             <ul class="nav nav-tabs profile-tab" role="tablist">
                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">Model Info</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#stock" role="tab">Stock</a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#sales" role="tab">Sales</a> </li>
+                {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#sales" role="tab">Sales</a> </li> --}}
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#images" role="tab">Images</a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#chart" role="tab">Size Chart</a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tags" role="tab">Tags</a> </li>
+
+                {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tags" role="tab">Tags</a> </li> --}}
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a> </li>
             </ul>
             <!-- Tab panes -->
@@ -38,31 +38,24 @@
                         <div class="row">
                             <div class="col-md-3 col-xs-6 b-r"> <strong>Model Name</strong>
                                 <br>
-                                <p class="text-muted">{{$product->PROD_NAME}}</p>
+                                <p class="text-muted">{{$product->name}}</p>
                             </div>
                             <div class="col-md-3 col-xs-6 b-r"> <strong>Arabic Name</strong>
                                 <br>
-                                <p class="text-muted">{{$product->PROD_ARBC_NAME}}</p>
+                                <p class="text-muted">{{$product->arabic_name}}</p>
                             </div>
-                            <div class="col-md-3 col-xs-6 b-r"> <strong>Available Sizes</strong>
-                                <br>
-                                <p class="text-muted">
-                                    @foreach($product->available_sizes as $size)
-                                    {{$size->SIZE_NAME . ' '}}
-                                    @endforeach
-                                </p>
-                            </div>
+                       
                             <div class="col-md-3 col-xs-6"> <strong>Offer</strong>
                                 <br>
-                                <p class="text-muted">{{$product->PROD_OFFR}}</p>
+                                <p class="text-muted">{{$product->offer}}</p>
                             </div>
                         </div>
                         <hr>
                         <strong>Description</strong>
-                        <p class="m-t-30">{{$product->PROD_DESC}}</p>
+                        <p class="m-t-30">{{$product->desc}}</p>
                         <hr>
                         <strong>Arabic Description</strong>
-                        <p class="m-t-30">{{$product->PROD_ARBC_DESC}}</p>
+                        <p class="m-t-30">{{$product->arabic_desc}}</p>
                     </div>
                 </div>
 
@@ -78,24 +71,13 @@
                         <form class="form pt-3" method="post" action="{{ url($imageFormURL) }}" enctype="multipart/form-data">
                             @csrf
 
-                            <div class="form-group">
-                                <label>Related Color</label>
-                                <div class="input-group mb-3">
-                                    <select name=color class="select2 form-control custom-select" style="width: 100%; height:36px;" required>
-                                        <option value="" disabled selected>Pick From Colors</option>
-                                        @foreach($colors as $color)
-                                        <option value="{{ $color->id }}">{{$color->COLR_NAME}} - {{$color->COLR_ARBC_NAME}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <small class="text-danger">{{$errors->first('name')}}</small>
-                            </div>
 
                             <div class="form-group">
                                 <label for="input-file-now-custom-1">New Image</label>
                                 <div class="input-group mb-3">
                                     <input type="file" id="input-file-now-custom-1" name=photo class="dropify" />
                                 </div>
+                                <small>900*900</small>
                             </div>
 
                             <button type="submit" class="btn btn-success mr-2">Submit</button>
@@ -118,7 +100,7 @@
                             <?php $i=0; ?>
                             @foreach($product->images as $image)
                             <div class="carousel-item {{($i==0) ? 'active' : ''}} align-items-center">
-                                <img class="img-fluid" src="{{$image->image_url}}" style=" margin-left: 20%; margin-right: 20%;">
+                                <img class="img-fluid" src="{{$image->full_image_url}}" style=" margin-left: 20%; margin-right: 20%;">
                             </div>
                             <?php $i++; ?>
                             @endforeach
@@ -138,21 +120,19 @@
                             <table class="table color-bordered-table table-striped full-color-table full-info-table hover-table" data-display-length='-1' data-order="[]">
                                 <thead>
                                     <th>Url</th>
-                                    <th>Color</th>
                                     <th>Actions</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($product->images as $image)
                                     <tr>
-                                        <td><a target="_blank" href="{{$image->image_url}}">
-                                                {{(strlen($image->image_url) < 25) ? $image->image_url : substr($image->image_url, 0, 25).'..' }}
+                                        <td><a target="_blank" href="{{$image->full_image_url}}">
+                                                {{(strlen($image->full_image_url) < 25) ? $image->full_image_url : substr($image->full_image_url, 0, 25).'..' }}
                                             </a></td>
-                                        <td>{{$image->color->COLR_NAME}}</td>
                                         <td>
                                             <div class="row justify-content-center">
-                                                @if($image->id != $product->PROD_PIMG_ID)
+                                                @if($image->id != $product->product_image_id)
                                                 <a href="javascript:void(0);">
-                                                    <div class="label label-info" onclick="confirmAndGoTo('{{url('products/setimage/'.$product->id.'/'.$image->id)}}', 'set this as the main Model Image')">
+                                                    <div class="label label-info" onclick="confirmAndGoTo('{{url('admin/products/setimage/'.$product->id.'/'.$image->id)}}', 'set this as the main Model Image')">
                                                         Set As Main </div>
                                                 </a>
                                                 @else
@@ -172,57 +152,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="chart" role="tabpanel">
-                    <div class="card-body">
-                        <h4 class="card-title">Set Size Chart</h4>
-                        <form class="form pt-3" method="post" action="{{ url($chartFormURL) }}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label>Size Chart</label>
-                                <div class="input-group mb-3">
-                                    <select name=chart class="select2 form-control custom-select" style="width: 100%; height:36px;" required>
-                                        <option value="" disabled selected>Pick From Charts</option>
-                                        @foreach($charts as $chart)
-                                        <option value="{{ $chart->id }}" @isset($product->sizechart->id)
-                                            {{($product->sizechart->id== $chart->id) ? 'selected' : ''}}
-                                            @endisset
-                                            >{{$chart->SZCT_NAME}} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <small class="text-danger">{{$errors->first('name')}}</small>
-                            </div>
-                            <button type="submit" class="btn btn-success mr-2">Submit</button>
-                        </form>
-                        <hr>
-                        @isset($product->sizechart->id)
-                        <img class="card-img" src="{{$product->sizechart->image_url}}" style="max-height:456; width:auto; height:auto;" alt="Card image">
-                        <button type="button" onclick="confirmAndGoTo('{{url($removeChartURL)}}', 'unlink the Size Chart')" class="btn btn-danger mr-2">Unlink Size Chart</button>
-                        @endisset
-                    </div>
-                </div>
+    
 
-                <div class="tab-pane" id="tags" role="tabpanel">
-                    <div class="card-body">
-                        <h4 class="card-title">Set Size Chart</h4>
-                        <form class="form pt-3" method="post" action="{{ url($tagsFormURL) }}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label>Select Model Tags</label>
-                                <div class="input-group mb-3">
-                                    <select class="select2 m-b-10 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Choose From The Following Tags" name=tags[]>
-                                        @foreach($tags as $tag)
-                                        <option value="{{$tag->id}}" {{(in_array( $tag->id, $prodTagIDs)) ? 'selected' : ''}}
-                                            >{{$tag->TAGS_NAME}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <small class="text-danger">{{$errors->first('tags')}}</small>
-                            </div>
-                            <button type="submit" class="btn btn-success mr-2">Submit</button>
-                        </form>
-                    </div>
-                </div>
+   
 
                 <div class="tab-pane" id="settings" role="tabpanel">
                     <div class="card-body">
@@ -237,10 +169,10 @@
                                     <select name=category class="select2 form-control custom-select" style="width: 100%; height:36px;" required>
                                         <option value="" disabled selected>Pick From Categories</option>
                                         @foreach($categories as $categry)
-                                        <option value="{{ $categry->id }}" @if(isset($product) && $categry->id == $product->PROD_SBCT_ID)
+                                        <option value="{{ $categry->id }}" @if(isset($product) && $categry->id == $product->sub_category_id)
                                             selected
                                             @endif
-                                            >{{$categry->category->CATG_NAME}} : {{$categry->SBCT_NAME}}</option>
+                                            >{{$categry->category->name}} : {{$categry->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -250,64 +182,40 @@
                             <div class="form-group">
                                 <label>Model Title</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Full Model Title" name=name value="{{ (isset($product)) ? $product->PROD_NAME : old('name')}}" required>
+                                    <input type="text" class="form-control" placeholder="Full Model Title" name=name value="{{ (isset($product)) ? $product->name : old('name')}}" required>
                                 </div>
                                 <small class="text-danger">{{$errors->first('name')}}</small>
                             </div>
                             <div class="form-group">
                                 <label>Arabic Title</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" name=arbcName placeholder="اسم الموديل بالعربيه" value="{{ (isset($product)) ? $product->PROD_ARBC_NAME : old('mail')}}" required>
+                                    <input type="text" class="form-control" name=arbcName placeholder="اسم الموديل بالعربيه" value="{{ (isset($product)) ? $product->arabic_name : old('mail')}}" required>
                                 </div>
                                 <small class="text-danger">{{$errors->first('arbcName')}}</small>
                             </div>
 
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" rows="3" required name=desc>{{(isset($product)) ? $product->PROD_DESC : old('desc')}}</textarea>
+                                <textarea class="form-control" rows="3" required name=desc>{{(isset($product)) ? $product->desc : old('desc')}}</textarea>
                             </div>
 
                             <div class="form-group">
                                 <label>Arabic Description</label>
-                                <textarea class="form-control" rows="3" required name=arbcDesc>{{(isset($product)) ? $product->PROD_ARBC_DESC : old('desc')}}</textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Barcode</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Model Barcode" name=barCode value="{{ (isset($product)) ? $product->PROD_BRCD : old('barCode') }}">
-                                </div>
-                                @if($errors->first('barCode') !=null)
-                                <small class="text-danger">{{$errors->first('barCode')}}</small>
-                                @else
-                                <small>Not Required</small>
-                                @endif
-                            </div>
+                                <textarea class="form-control" rows="3" required name=arbcDesc>{{(isset($product)) ? $product->arabic_desc : old('desc')}}</textarea>
+                            </div>         
 
                             <div class="form-group">
                                 <label>Price</label>
                                 <div class="input-group mb-3">
-                                    <input type="number" class="form-control" placeholder="Model Price" name=price value="{{ (isset($product)) ? $product->PROD_PRCE : old('price')}}" required>
+                                    <input type="number" class="form-control" placeholder="Model Price" name=price value="{{ (isset($product)) ? $product->price : old('price')}}" required>
                                 </div>
                                 <small class="text-danger">{{$errors->first('price')}}</small>
                             </div>
 
                             <div class="form-group">
-                                <label>Cost</label>
-                                <div class="input-group mb-3">
-                                    <input type="number" class="form-control" placeholder="Model Cost" name=cost value="{{ (isset($product)) ? $product->PROD_COST : old('cost') }}">
-                                </div>
-                                @if($errors->first('cost') !=null)
-                                <small class="text-danger">{{$errors->first('cost')}}</small>
-                                @else
-                                <small>Not Required</small>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
                                 <label>Discount</label>
                                 <div class="input-group mb-3">
-                                    <input type="number" class="form-control" placeholder="Model Discount" name=offer value="{{ (isset($product)) ? $product->PROD_OFFR : old('offer') }}">
+                                    <input type="number" class="form-control" placeholder="Model Discount" name=offer value="{{ (isset($product)) ? $product->offer : old('offer') }}">
                                 </div>
                                 @if($errors->first('offer') != null)
                                 <small class="text-danger">{{$errors->first('offer')}}</small>

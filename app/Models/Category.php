@@ -19,7 +19,7 @@ class Category extends Model
     {
         $category = new self();
         $category->name = $name;
-        $category->CATG_ARBC_NAME = $arabic_name;
+        $category->arabic_name = $arabic_name;
         try{
             $category->save();
         } catch (Exception $e){
@@ -32,7 +32,7 @@ class Category extends Model
     public function editInfo($name, $arabic_name)
     {
         $this->name = $name;
-        $this->CATG_ARBC_NAME = $arabic_name;
+        $this->arabic_name = $arabic_name;
         try{
             $this->save();
         } catch (Exception $e){

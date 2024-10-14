@@ -30,12 +30,12 @@
                         @foreach($subcategories as $sub)
                         <li class="link-element first">
                             <a href="{{url('categories/' . $sub->id)}}" class="link-img">
-                                <img src="{{$sub->image_url}}" alt="{{$sub->SBCT_NAME}}">
+                                <img src="{{$sub->image_url}}" alt="{{$sub->name}}">
                             </a>
                             <div class="group_element">
                                 <div class="link-mask-content">
                                     <div class="inner-mask">
-                                        <h2 class="link-title"><a href="{{url('categories/' . $sub->id)}}">{{$sub->SBCT_NAME}}</a></h2>
+                                        <h2 class="link-title"><a href="{{url('categories/' . $sub->id)}}">{{$sub->name}}</a></h2>
                                         <div class="link-url"><a href="{{url('categories/' . $sub->id)}}">View All <i class="fa fa-caret-right"></i></a></div>
                                     </div>
                                     <!--/inner mask-->

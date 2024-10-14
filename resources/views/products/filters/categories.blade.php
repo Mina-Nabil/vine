@@ -19,7 +19,7 @@
                             <select name=category class="select2 form-control custom-select" style="width: 100%; height:36px;" required>
                                 <option value="" disabled selected >Pick From Categories</option>
                                 @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{$category->CATG_NAME}}</option>
+                                <option value="{{ $category->id }}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -41,7 +41,7 @@
                                 <option value="" disabled selected >Pick From Categories</option>
                                 @foreach($subcategories as $categry)
                                 <option value="{{ $categry->id }}"
-                                >{{$categry->category->CATG_NAME}} : {{$categry->SBCT_NAME}}</option>
+                                >{{$categry->category->name}} : {{$categry->name}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -10,7 +10,7 @@ class OrderItem extends Model
     public $timestamps = false;
 
     public $fillable = [
-        "inventory_id", "amount" 
+        "product_id", "amount" 
     ];
     public $attributes = [
         "amount" => 0
@@ -18,11 +18,11 @@ class OrderItem extends Model
 
     public function order()
     {
-        return $this->belongsTo("App\Models\Order", "order_id", "id");
+        return $this->belongsTo(Order::class);
     }
 
     public function inventory()
     {
-        return $this->belongsTo("App\Models\Inventory", "inventory_id", "id");
+        return $this->belongsTo(Product::class);
     }
 }

@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Color;
 use App\Models\Inventory;
 use App\Models\Product;
-use App\Models\Size;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -36,16 +34,14 @@ class InventoryController extends Controller
     public function stock()
     {
 
-        $data['items'] = Inventory::with(["product", "color", "size"])->get();
+        $data['items'] = Inventory::with(["product"])->get();
 
         $data['title'] = "Stock List";
         $data['subTitle'] = "View Current Stock";
-        $data['cols'] = ['Model', 'Color', 'Size', 'Count'];
+        $data['cols'] = ['Model',  'Count'];
         $data['atts'] = [ 
-            ['foreignUrl' => ['admin/roducts/details', 'INVT_PROD_ID', 'product', 'PROD_NAME']],
-            ['foreign' => ['color','COLR_NAME']], 
-            ['foreign' => ['size','SIZE_NAME']], 
-            'INVT_CUNT'
+            ['foreignUrl' => ['admin/roducts/details', 'product_id', 'product', 'name']],
+            'amount'
         ];
         $data['deleteAllStock'] = url('admin/inventory/refresh');
 
@@ -58,15 +54,14 @@ class InventoryController extends Controller
         abort_if(!isset($data['items'][0]), 404);
         $data['title'] = "Entry " .( (isset($data['items'][0]->INTR_CODE)) ? $data['items'][0]->INTR_CODE : "") .  " details";
         $data['subTitle'] = "Inventory Entry Details" . ((isset($data['items'][0]->name)) ? " done by '" . $data['items'][0]->name . "'": "") . 
-        ((isset($data['items'][0]->INTR_DATE)) ? " on " . $data['items'][0]->INTR_DATE : "");
-        $data['cols'] = ['Code', 'Product', 'Color', 'Size', 'In', 'Out'];
+        ((isset($data['items'][0]->created_at)) ? " on " . $data['items'][0]->created_at : "");
+        $data['cols'] = ['Code', 'Product', 'In', 'Out'];
         $data['atts'] = [ 
-            "INTR_CODE",
-            ['attUrl' => ["url" => "products/profile", 'urlAtt'=>'INVT_PROD_ID', 'shownAtt'=>'PROD_NAME']], 
-            'COLR_NAME', 
-            'SIZE_NAME', 
-            'INTR_IN',
-            'INTR_OUT',
+            "code",
+            ['attUrl' => ["url" => "products/profile", 'urlAtt'=>'product_id', 'shownAtt'=>'name']], 
+
+            'in',
+            'out',
         ];
         $data['deleteAllStock'] = url('admin/inventory/refresh');
 
@@ -80,9 +75,9 @@ class InventoryController extends Controller
         $data['subTitle'] = "View the latest 500 inventory entries - Each Entry can be shown by the entry code";
         $data['cols'] = ['Code', 'Date', 'Done by', 'Total In', 'Total Out'];
         $data['atts'] = [ 
-            ['attUrl' => ['url' =>'admin/inventory/transaction', 'shownAtt' => 'INTR_CODE', 'urlAtt' => 'INTR_CODE']],
-            "INTR_DATE", 
-            'name', 
+            ['attUrl' => ['url' =>'admin/inventory/transaction', 'shownAtt' => 'code', 'urlAtt' => 'code']],
+            "trans_date", 
+            'username', 
             'totalIn',
             'totalOut',
         ];

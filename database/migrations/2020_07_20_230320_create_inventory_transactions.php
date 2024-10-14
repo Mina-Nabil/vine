@@ -20,8 +20,8 @@ class CreateInventoryTransactions extends Migration
             $table->bigInteger("code");
             $table->foreignIdFor(Inventory::class)->constrained("inventory");
             $table->foreignIdFor(DashUser::class)->constrained('dash_users');
-            $table->tinyInteger("in")->default(0);
-            $table->tinyInteger("out")->default(0);
+            $table->integer("in")->default(0);
+            $table->integer("out")->default(0);
             $table->integer("balance");
             $table->timestamps();
         });

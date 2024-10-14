@@ -19,7 +19,7 @@ class SubCategory extends Model
     //Accessors
     public function getImageUrlAttribute()
     {
-        return FileManager::get($this->SBCT_IMGE);
+        return FileManager::get($this->image);
     }
 
     public function getFullNameAttribute()
@@ -37,9 +37,11 @@ class SubCategory extends Model
         $subcategory->arabic_name = $arbcName;
         $subcategory->desc = $desc;
         $subcategory->category_id = $category_id;
+        if($photo){
 
-        $path = FileManager::save($photo, "subcategories");
-        $subcategory->image = $path;
+            $path = FileManager::save($photo, "subcategories");
+            $subcategory->image = $path;
+        }
 
         try {
             $subcategory->save();

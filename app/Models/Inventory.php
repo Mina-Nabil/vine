@@ -10,7 +10,7 @@ class Inventory extends Model
 {
     protected $table = "inventory";
     protected $fillable = ['product_id', 'amount'];
-    protected $hidden = ['INVT_PROD_ID'];
+    protected $hidden = ['product_id'];
     protected $appends = ["available_units"];
 
     //accessors
@@ -76,15 +76,13 @@ class Inventory extends Model
             $inventoryRow->amount += $count;
             // dd($inventoryRow);
             $inventoryRow->save();
-            // if (isset($inventoryRow->INVT_CUNT)) {
-            //     $inventoryRow->INVT_CUNT += $count;
+            // if (isset($inventoryRow->amount)) {
+            //     $inventoryRow->amount += $count;
             //     $inventoryRow->save();
             // } else {
             //     $inventoryRow = new Inventory();
-            //     $inventoryRow->INVT_PROD_ID = $modelID;
-            //     $inventoryRow->INVT_COLR_ID = $colorID;
-            //     $inventoryRow->INVT_SIZE_ID = $sizeID;
-            //     $inventoryRow->INVT_CUNT = $count;
+            //     $inventoryRow->product_id = $modelID;
+            //     $inventoryRow->amount = $count;
             //     $inventoryRow->save();
             // }
             if ($count > 0)
@@ -118,7 +116,7 @@ class Inventory extends Model
 
     static public function getTransactionByCode($code)
     {
-        return DB::table("inventory_transactions")->join("dash_users", "INTR_DASH_ID", "=", "dash_users.id")
+        return DB::table("inventory_transactions")->join("dash_users", "dash_user_id", "=", "dash_users.id")
             ->join("inventory", "inventory_transactions.inventory_id", "=", "inventory.id")
             ->join("products", "inventory.product_id", "=", "products.id")
             ->select("inventory_transactions.*", "dash_users.name as username", "products.name", "inventory.product_id")
@@ -132,7 +130,7 @@ class Inventory extends Model
             "created_at"     => ($date) ?? date_format(now(), "Y-m-d H:i:s"),
             "code"     =>  $transactionCode,
             "inventory_id"  =>  $inventoryID,
-            "dash_user_id"  =>  Auth::id(),
+            "dash_user_id"  =>  Auth::id() ?? 1,
             'in'       =>  $in,
             'out'      =>  $out,
             'balance'     =>  $balance,

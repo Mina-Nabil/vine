@@ -23,7 +23,7 @@ class Product extends Model
     ];
 
     //CRUD queries
-    public static function create(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, ?float $cost, $offer): Product
+    public static function create(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, float $offer=null): Product
     {
         $product = new Product();
         $product->name = $name;
@@ -32,13 +32,12 @@ class Product extends Model
         $product->arabic_desc = $arbcDesc;
         $product->sub_category_id = $category;
         $product->price = $price;
-        $product->cost = $cost;
         $product->offer = $offer ?? 0;
         $product->save();
         return $product;
     }
 
-    public function modify(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, ?float $cost, $offer): bool
+    public function modify(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, float $offer=null): bool
     {
 
         $this->name = $name;
@@ -47,7 +46,6 @@ class Product extends Model
         $this->arabic_desc = $arbcDesc;
         $this->sub_category_id = $category;
         $this->price = $price;
-        $this->cost = $cost;
         $this->offer = $offer ?? 0;
         return $this->save();
     }
@@ -85,9 +83,9 @@ class Product extends Model
     {
         $this->loadMissing('mainImage', 'images');
         if (is_null($this->mainImage)) {
-            return ($this->images->isNotEmpty()) ? $this->images->random()->image_url : 1;
+            return ($this->images->isNotEmpty()) ? $this->images->random()->full_image_url : 1;
         } else {
-            return $this->mainImage->image_url ?? 2;
+            return $this->mainImage->full_image_url ?? 2;
         }
         return 3;
     }
@@ -111,7 +109,7 @@ class Product extends Model
     //relations
     public function subcategory()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
     public function mainImage()
@@ -130,7 +128,7 @@ class Product extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, "prod_tag", "PDTG_PROD_ID", "PDTG_TAGS_ID");
+        return $this->belongsToMany(Tag::class, "prod_tag");
     }
 
 
@@ -138,8 +136,8 @@ class Product extends Model
     // public static function newArrivals($dateInterval)
     // {
     //     return self::with('subcategory')
-    //         ->join("inventory", "INVT_PROD_ID", "=", "products.id")
-    //         ->select("products.*")->selectRaw("SUM(INVT_CUNT) as stock")
+    //         ->join("inventory", "product_id", "=", "products.id")
+    //         ->select("products.*")->selectRaw("SUM(amount) as stock")
     //         ->groupBy("products.id")
     //         ->where("products.created_at", ">", (new DateTime())->sub(new DateInterval($dateInterval)))
     //         ->get();

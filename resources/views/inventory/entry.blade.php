@@ -21,8 +21,8 @@
                                         <option disabled hidden selected value="">Models</option>
                                         @foreach($products as $model)
                                         <option value="{{ $model->id }}">
-                                            {{$model->subcategory->category->CATG_NAME}}: {{$model->subcategory->SBCT_NAME}} -
-                                            {{$model->PROD_NAME}}</option>
+                                            {{$model->subcategory->category->name}}: {{$model->subcategory->name}} -
+                                            {{$model->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -64,7 +64,7 @@
                                        <option disabled hidden selected value=''>Models</option>\
                                        @foreach($products as $model)\
                                        <option value='{{ $model->id }}'>\
-                                           {{$model->PROD_NAME}} - {{$model->PROD_ARBC_NAME}} </option>\
+                                           {{$model->name}} - {{$model->arabic_name}} </option>\
                                        @endforeach\
                                    </select>\
                                </div>\

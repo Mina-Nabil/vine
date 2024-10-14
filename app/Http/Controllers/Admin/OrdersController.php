@@ -80,7 +80,7 @@ class OrdersController extends Controller
 
     public function addNew()
     {
-        $this->data['inventory']    =   Inventory::with("color", "size", "product")->where("INVT_CUNT", ">", 0)->get();
+        $this->data['inventory']    =   Inventory::with("product")->where("amount", ">", 0)->get();
         $this->data['areas']        =   Area::active()->get();
         $this->data['users']        =   User::all();
         $this->data['formTitle'] = "Add New Order";
@@ -102,9 +102,9 @@ class OrdersController extends Controller
                 $data['isOrderReady'] = false;
                 break;
             }
-        $data['isPartiallyReturned']    =   (($data['order']->status == Order::STATUSES[4] || $data['order']->status == Order::STATUSES[3]) && isset($data['order']->return_id) && is_numeric($data['order']->return_id));
-        $data['isFullyReturned']        =   ($data['order']->status == Order::STATUSES[6]);
-        $data['isCancelled']        =   ($data['order']->status == Order::STATUSES[5]);
+        $data['isPartiallyReturned']    =   (($data['order']->status == Order::STATUSES[3] || $data['order']->status == Order::STATUSES[2]) && isset($data['order']->return_id) && is_numeric($data['order']->return_id));
+        $data['isFullyReturned']        =   ($data['order']->status == Order::STATUSES[5]);
+        $data['isCancelled']        =   ($data['order']->status == Order::STATUSES[4]);
 
         $data['setOrderNewUrl']             =   url('admin/orders/set/new/' . $data['order']->id);
         $data['setOrderReadyUrl']           =   url('admin/orders/set/ready/' . $data['order']->id);
@@ -115,7 +115,7 @@ class OrdersController extends Controller
         $data['returnUrl']                  =   url('admin/orders/return/' . $data['order']->id);
 
         //Add Items Panel
-        $data['inventory']      =   Inventory::with("color", "size", "product")->where("INVT_CUNT", ">", 0)->get();
+        $data['inventory']      =   Inventory::with("product")->where("amount", ">", 0)->get();
         $data['isCancel']       =   false;
         $data['addFormURL']     =   url('admin/orders/add/items/' . $id);
 
@@ -132,7 +132,7 @@ class OrdersController extends Controller
         $data['areas']                  = Area::active()->get();
         $data['editInfoURL']             =   url('admin/orders/edit/details');
 
-        $data['remainingMoney']         =   $data['order']->total - $data['order']->ORDR_PAID - $data['order']->discount;
+        $data['remainingMoney']         =   $data['order']->total - $data['order']->paid - $data['order']->discount;
 
         return view("orders.details", $data);
     }
@@ -142,17 +142,20 @@ class OrdersController extends Controller
         $order = Order::findOrFail($orderID);
         DB::transaction(function () use ($order, $request) {
             $orderItemArray = $this->getOrderItemsArray($request);
+            $invtArr = [];
             foreach ($orderItemArray as $item) {
                 $orderItem = $order->order_items()->firstOrNew(
-                    ['inventory_id' => $item['inventory_id']]
+                    ['product_id' => $item['product_id']]
                 );
                 $orderItem->amount += $item['amount'];
                 $orderItem->is_verified = 0;
-                $inventory = Inventory::findOrFail($item['inventory_id']);
-                $inventory->INVT_CUNT -= $item['amount'];
                 $orderItem->save();
-                $inventory->save();
+                array_push($invtArr, [
+                    'modelID'   =>  $item['product_id'],
+                    'count'    =>  $item['amount']
+                ]);
             }
+            Inventory::insertEntry($invtArr, $order->id);
             $order->recalculateTotal();
             $order->addTimeline("New Items added to Order");
         });
@@ -172,7 +175,7 @@ class OrdersController extends Controller
                 }
             }
             if ($isReady) {
-                $order->status = Order::STATUSES[2];
+                $order->status = Order::STATUSES[1];
                 $order->save();
                 $order->addTimeline("Order set as Ready");
             }
@@ -188,15 +191,15 @@ class OrdersController extends Controller
             $isReturned = true;
             foreach ($order->order_items as $item) {
                 $inventory = Inventory::findOrfail($item->inventory_id);
-                $inventory->INVT_CUNT += $item->amount;
+                $inventory->amount += $item->amount;
                 if (!$inventory->save()) {
                     $isReturned = false;
                     break;
                 }
             }
             if ($isReturned) {
-                $order->status = Order::STATUSES[5];
-                $order->ORDR_PAID = 0;
+                $order->status = Order::STATUSES[4];
+                $order->paid = 0;
                 $order->delivery_date = date('Y-m-d H:i:s');
                 $order->driver_id = null;
                 $order->save();
@@ -210,7 +213,7 @@ class OrdersController extends Controller
     {
 
         $order = Order::findOrFail($id);
-        $order->status = Order::STATUSES[1];
+        $order->status = Order::STATUSES[0];
         $order->save();
         return redirect("admin/orders/details/" . $order->id);
     }
@@ -219,8 +222,8 @@ class OrdersController extends Controller
     {
         $order = Order::findOrFail($id);
         DB::transaction(function () use ($order) {
-            if ($order->status == Order::STATUSES[2] && isset($order->driver) && $order->driver->is_active) {
-                $order->status = Order::STATUSES[3];
+            if ($order->status == Order::STATUSES[1] && isset($order->driver) && $order->driver->is_active) {
+                $order->status = Order::STATUSES[2];
                 $order->save();
             }
             $order->addTimeline("Order set as in delivery");
@@ -232,8 +235,8 @@ class OrdersController extends Controller
     {
         $order = Order::findOrFail($id);
         DB::transaction(function () use ($order) {
-            $remainingMoney = $order->total - $order->discount - $order->ORDR_PAID;
-            if ($order->status == Order::STATUSES[4] && $remainingMoney == 0) {
+            $remainingMoney = $order->total - $order->discount - $order->paid;
+            if ($order->status == Order::STATUSES[2] && $remainingMoney == 0) {
                 $order->status = 4;
                 $order->delivery_date = date('Y-m-d H:i:s');
                 $order->save();
@@ -250,15 +253,15 @@ class OrdersController extends Controller
             $isReturned = true;
             foreach ($order->order_items as $item) {
                 $inventory = Inventory::findOrfail($item->inventory_id);
-                $inventory->INVT_CUNT += $item->amount;
+                $inventory->amount += $item->amount;
                 if (!$inventory->save()) {
                     $isReturned = false;
                     break;
                 }
             }
             if ($isReturned) {
-                $order->status = Order::STATUSES[6];
-                $order->ORDR_PAID = 0;
+                $order->status = Order::STATUSES[5];
+                $order->paid = 0;
                 $order->delivery_date = date('Y-m-d H:i:s');
                 $order->save();
                 $order->addTimeline("Order fully returned :(");
@@ -275,15 +278,15 @@ class OrdersController extends Controller
             if (isset($order->user_id))
                 $retOrder->user_id = $order->user_id;
             else {
-                $retOrder->ORDR_GEST_NAME = $order->ORDR_GEST_NAME;
-                $retOrder->ORDR_MOBN = $order->ORDR_MOBN;
+                $retOrder->guest_name = $order->guest_name;
+                $retOrder->guest_mobn = $order->guest_mobn;
             }
             $retOrder->created_at = date('Y-m-d H:i:s');
             $retOrder->delivery_date =  $retOrder->created_at;
-            $retOrder->ORDR_ADRS = $order->ORDR_ADRS;
-            $retOrder->ORDR_NOTE = "New Return Order for order number " . $order->id;
+            $retOrder->address = $order->address;
+            $retOrder->note = "New Return Order for order number " . $order->id;
             $retOrder->area_id = $order->area_id;
-            $retOrder->status = Order::STATUSES[6]; // new returned order
+            $retOrder->status = Order::STATUSES[5]; // new returned order
             $retOrder->total = 0;
             $retOrder->save();
             $order->return_id = $retOrder->id; // new returned order
@@ -302,7 +305,7 @@ class OrdersController extends Controller
 
         $order = Order::findOrFail($request->id);
         DB::transaction(function () use ($request, $order) {
-            if ($order->status < Order::STATUSES[3]) { // New or ready
+            if ($order->status == Order::STATUSES[1] || $order->status == Order::STATUSES[0]) { // New or ready
                 $order->driver_id = $request->driver;
                 $order->save();
             }
@@ -320,8 +323,12 @@ class OrdersController extends Controller
             'payment' => "required|min:0|max:" . $order->total
         ]);
         DB::transaction(function () use ($request, $order) {
-            if ($order->status < Order::STATUSES[3]) {
-                $order->ORDR_PAID += $request->payment;
+            if (
+                $order->status == Order::STATUSES[0] ||
+                $order->status == Order::STATUSES[1] ||
+                $order->status == Order::STATUSES[2]
+            ) {
+                $order->paid += $request->payment;
                 $order->save();
             }
             $order->addTimeline($request->payment . "EGP collected as Normal Order payment");
@@ -353,7 +360,11 @@ class OrdersController extends Controller
             'discount' => "required|min:0|max:" . $order->total
         ]);
         DB::transaction(function () use ($request, $order) {
-            if ($order->status < Order::STATUSES[4]) {
+            if (
+                $order->status == Order::STATUSES[0] ||
+                $order->status == Order::STATUSES[1] ||
+                $order->status == Order::STATUSES[2]
+            ) {
                 $order->discount = $request->discount;
                 $order->save();
             }
@@ -368,7 +379,7 @@ class OrdersController extends Controller
 
         $item = OrderItem::findOrfail($id);
         $order = Order::findOrfail($item->order_id);
-        if ($order->status != Order::STATUSES[1]) { //still new
+        if ($order->status != Order::STATUSES[0]) { //still new
             return 'failed';
         }
         if ($item->is_verified) {
@@ -386,13 +397,16 @@ class OrdersController extends Controller
         $item = OrderItem::findOrfail($id);
         $order = Order::findOrfail($item->order_id);
         DB::transaction(function () use ($order, $item) {
-            if ($order->status != Order::STATUSES[1]) { //still new
+            if ($order->status != Order::STATUSES[0]) { //still new
                 return 'failed';
             }
-            $inventory = Inventory::findOrFail($item->inventory_id);
-            $inventory->INVT_CUNT += $item->amount;
+            Inventory::insertEntry([[
+                'modelID'   =>  $item->product_id,
+                'count'  =>  -1 * $item->amount
+            ]], $order->id);
+
             $item->delete();
-            $inventory->save();
+
             $order->recalculateTotal();
             $order->addTimeline("Item deleted by dashboard user");
         });
@@ -408,13 +422,13 @@ class OrdersController extends Controller
         $orderItem = OrderItem::findOrFail($request->itemID);
         $order = Order::findOrfail($orderItem->order_id);
         DB::transaction(function () use ($order, $orderItem, $request) {
-            if (($order->status == Order::STATUSES[4] || $order->status == Order::STATUSES[3]) && isset($order->return_id) && is_numeric($order->return_id)) {
+            if (($order->status == Order::STATUSES[3] || $order->status == Order::STATUSES[2]) && isset($order->return_id) && is_numeric($order->return_id)) {
                 //if and in delivery or delivered and has a returned order
 
                 //create new return item and add count to return item
                 $returnOrder = Order::findOrFail($order->return_id);
                 $returnedItem = $returnOrder->order_items()->firstOrNew([
-                    'inventory_id' => $orderItem->inventory_id
+                    'product_id' => $orderItem->product_id
                 ]);
                 $returnedItem->amount += $request->count;
                 $returnedItem->is_verified = 1;
@@ -422,9 +436,10 @@ class OrdersController extends Controller
                 $returnOrder->recalculateTotal();
 
                 //Adjust inventory
-                $inventory = Inventory::findOrFail($orderItem->inventory_id);
-                $inventory->INVT_CUNT += $request->count;
-                $inventory->save();
+                Inventory::insertEntry([[
+                    'modelID'   =>  $returnedItem->product_id,
+                    'count'  =>  -1 * $returnedItem->amount
+                ]], $order->id);
 
                 //Adjust old order
                 $orderItem->amount -= $request->count;
@@ -434,14 +449,20 @@ class OrdersController extends Controller
                     $orderItem->save();
                 $order->recalculateTotal();
                 $order->addTimeline("Item added to Return Order");
-            } elseif ($order->status != Order::STATUSES[1]) { //if it is not still new
+            } elseif ($order->status != Order::STATUSES[0]) { //if it is not still new
                 return redirect("admin/orders/details/" . $orderItem->order_id);
             } else {
+                $oldAmount = $orderItem->amount;
                 $orderItem->amount = $request->count;
                 $orderItem->is_verified = 0;
-                $orderItem->save();
-                $order->recalculateTotal();
-                $order->addTimeline("Item quantity changed by dashboard user");
+                DB::transaction(function () use ($oldAmount, $orderItem, $order, $request) {
+                    $orderItem->save();
+                    $order->recalculateTotal();
+                    $order->addTimeline("Item quantity changed by dashboard user");
+                    Inventory::insertEntry([
+                        ["modelID"  =>  $orderItem->product_id, 'count' => $request->count - $oldAmount]
+                    ], $order->id);
+                });
             }
         });
         return redirect("admin/orders/details/" . $orderItem->order_id);
@@ -455,8 +476,8 @@ class OrdersController extends Controller
         ]);
         $order = Order::findOrfail($request->id);
         DB::transaction(function () use ($request, $order) {
-            $order->ORDR_ADRS = $request->address;
-            $order->ORDR_NOTE = $request->note;
+            $order->address = $request->address;
+            $order->note = $request->note;
             $order->area_id = $request->area;
             $order->save();
             $order->addTimeline("Order edited by dashboard user");
@@ -472,15 +493,14 @@ class OrdersController extends Controller
         $request->validate([
             "user"          =>  "required_if:guest,2|nullable|exists:users,id",
             "guestName"     =>  "required_if:guest,1",
+            "guestMob"     =>  "required_if:guest,1",
             "area"          =>  "required",
-            "option"        =>  "required",
             "address"      =>  "required",
-            "phone"      =>  "required",
         ]);
 
-        $order = Order::addNew($request->user, $request->mobN, $request->address, $request->area, $request->option, $request->note, $this->getOrderItemsObjectArray($request), $this->getOrderTotal($request), $request->guestName );
+        $order = Order::addNew($request->user, $request->mobN, $request->address, $request->area, $request->note, $this->getOrderItemsObjectArray($request), $this->getOrderTotal($request), $request->guestName);
         $order->addTimeline("Order Opened by dashboard user " .  $request->user()->name ?? '');
-       
+
 
         return redirect("admin/orders/details/" . $order->id);
     }
@@ -506,28 +526,28 @@ class OrdersController extends Controller
             $this->data['items']    = Order::getOrdersByDate(false, $month, $year, $state);
         }
         $this->data['cardTitle'] = true;
-        $this->data['cols'] = ['id', 'Client', 'Status', 'Area', 'Payment',  'Items', 'Ordered On', 'Closed On', 'Total'];
+        $this->data['cols'] = ['id', 'Client', 'Status', 'Area', 'Items', 'Ordered On', 'Closed On', 'Total'];
         $this->data['atts'] = [
             ['attUrl' => ['url' => "admin/orders/details", "shownAtt" => 'id', "urlAtt" => 'id']],
-            ['urlOrStatic' => ['url' => "admin/users/profile", "shownAtt" => 'name', "urlAtt" => 'user_id', 'static' => 'ORDR_GEST_NAME']],
+            ['urlOrStatic' => ['url' => "admin/users/profile", "shownAtt" => 'client_name', "urlAtt" => 'user_id', 'static' => 'guest_name']],
             [
                 'stateQuery' => [
                     "classes" => [
-                        Order::STATUSES[1] => "label-info",
-                        Order::STATUSES[2] => "label-warning",
-                        Order::STATUSES[3] =>  "label-dark bg-dark",
-                        Order::STATUSES[4] =>  "label-success",
-                        Order::STATUSES[5] =>  "label-danger",
-                        Order::STATUSES[6] =>  "label-primary",
+                        Order::STATUSES[0] => "label-info",
+                        Order::STATUSES[1] => "label-warning",
+                        Order::STATUSES[2] =>  "label-dark bg-dark",
+                        Order::STATUSES[3] =>  "label-success",
+                        Order::STATUSES[4] =>  "label-danger",
+                        Order::STATUSES[5] =>  "label-primary",
                     ],
                     "att"           =>  "status",
-                    'url'           => "orders/details/",
+                    'url'           => "admin/orders/details/",
                     'urlAtt'        =>  'id'
                 ]
             ],
-            'name',
+            'area_name',
             'itemsCount',
-            'created_at',
+            'open_date',
             'delivery_date',
             'total'
         ];
@@ -539,7 +559,7 @@ class OrdersController extends Controller
         foreach ($request->item as $index => $item) {
             array_push(
                 $retArr,
-                ["inventory_id" => $item, "amount" => $request->count[$index]]
+                ["product_id" => $item, "amount" => $request->count[$index]]
             );
         }
         return $retArr;
@@ -550,7 +570,7 @@ class OrdersController extends Controller
         $retArr = array();
         foreach ($request->item as $index => $item) {
             array_push($retArr, new OrderItem(
-                ["inventory_id" => $item, "amount" => $request->count[$index]]
+                ["product_id" => $item, "amount" => $request->count[$index]]
             ));
         }
         return $retArr;
@@ -561,7 +581,7 @@ class OrdersController extends Controller
         $total = 0;
         foreach ($request->item as $index => $item) {
             $product = Inventory::with("product")->findOrFail($item)->product;
-            $price = $product->PROD_PRCE - $product->PROD_OFFR;
+            $price = $product->price - $product->offer;
             $total += $request->count[$index] * $price;
         }
         return $total;

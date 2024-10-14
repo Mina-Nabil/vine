@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\DashUser;
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,9 +17,9 @@ class CreateTimelineTable extends Migration
     {
         Schema::create('timeline', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('TMLN_ORDR_ID')->constrained('orders');
-            $table->foreignIdFor(DashUser::class ,"TMLN_DASH_ID")->constrained('dash_users')->nullable();
-            $table->string('TMLN_TEXT');
+            $table->foreignIdFor(Order::class)->constrained('orders');
+            $table->foreignIdFor(DashUser::class)->constrained('dash_users')->nullable();
+            $table->string('text');
             $table->timestamps();
         });
 

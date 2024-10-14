@@ -4,6 +4,7 @@ use App\Models\Area;
 use App\Models\DashUser;
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -37,7 +38,7 @@ class CreateOrdersTable extends Migration
             $table->double("total");
             $table->string("note")->nullable();
             $table->double("paid")->default(0);
-            $table->foreignIdFor(DashUser::class, 'collected_by_id')->constrained('dash_users');
+            $table->foreignIdFor(DashUser::class, 'collected_by_id')->nullable()->constrained('dash_users');
             $table->enum('status', Order::STATUSES)->default('new');
             $table->timestamps();
         });
@@ -45,8 +46,9 @@ class CreateOrdersTable extends Migration
         Schema::create('order_items', function(Blueprint $table){
             $table->id();
             $table->foreignIdFor(Order::class)->constrained("orders");
-            $table->foreignIdFor(Inventory::class)->constrained("inventory");
-            $table->tinyInteger("amount")->default(1);
+            $table->foreignIdFor(Product::class)->constrained("products");
+            $table->tinyInteger("is_verified")->default(0);
+            $table->unsignedInteger("amount")->default(1);
         });
 
         Schema::table('inventory_transactions', function(Blueprint $table){

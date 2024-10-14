@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <div class="row">
 
     <div class="col-lg-12">
@@ -69,6 +67,7 @@
                             <small class="text-danger">{{$errors->first('guestMob')}}</small>
                         </div>
                     </div>
+                    
 
                     <div class="form-group">
                         <label>Area</label>
@@ -120,8 +119,8 @@
                                     <select name=item[] class="form-control select2  custom-select" id=inventory1 onchange="changeMax(inventory1)" required>
                                         <option disabled hidden selected value="">Model</option>
                                         @foreach($inventory as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{$item->product->PROD_NAME}} - {{$item->color->COLR_NAME}} - {{$item->size->SIZE_NAME}} - Available:{{$item->INVT_CUNT}}</option>
+                                        <option value="{{ $item->product->id }}">
+                                            {{$item->product->name}} Available:{{$item->amount}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -170,7 +169,7 @@ var room = 1;
                                         <option disabled hidden selected value="">Model</option>\
                                         @foreach($inventory as $item)\
                                         <option value="{{ $item->id }}">\
-                                            {{$item->product->PROD_NAME}} - {{$item->color->COLR_NAME}} - {{$item->size->SIZE_NAME}} - Available:{{$item->INVT_CUNT}}</option>\
+                                            {{$item->product->name}} Available:{{$item->amount}}</option>\
                                         @endforeach\
                                     </select>\
                                 </div>\
@@ -199,6 +198,7 @@ var room = 1;
     }
    
    function changeMax(callerID) {
+        return;
        itemIndex = callerID.id.substring(9, callerID.id.length)
         count = document.getElementById('count' + itemIndex) 
         optionString = callerID.options[callerID.selectedIndex].innerHTML
@@ -207,22 +207,24 @@ var room = 1;
 
 
     function toggleGuest(){
-    var selectaya = document.getElementById("guest");
-        var userDiv = document.getElementById("isuser");
-        var guestDiv = document.getElementById("isguest");
-        if(selectaya.value == "1") // Guest
-        {
-            userDiv.style.display = "none";
-            guestDiv.style.display = "block";
-            $('#areaSel').val(null); // Select the option with a value of '1'
-            $('#areaSel').trigger('change');
-        } else { // User
-     
-            userDiv.style.display = "block";
-            guestDiv.style.display = "none";
-            loadUser();
+        var selectaya = document.getElementById("guest");
+            var userDiv = document.getElementById("isuser");
+            var guestDiv = document.getElementById("isguest");
+            if(selectaya.value == "1") // Guest
+            {
+                userDiv.style.display = "none";
+                guestDiv.style.display = "block";
+                $('#areaSel').val(null); // Select the option with a value of '1'
+                $('#areaSel').trigger('change');
+            } else { // User
+        
+                userDiv.style.display = "block";
+                guestDiv.style.display = "none";
+                loadUser();
+            }
         }
-}
+
+toggleGuest()
 
         function loadUser(){
             var selectaya = document.getElementById("userSel");

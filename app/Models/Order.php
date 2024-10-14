@@ -7,6 +7,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Order extends Model
 {
@@ -36,10 +37,10 @@ class Order extends Model
     }
 
     //static queries
-    public static function addNew($user, $mobN, $address, $area, $option, $note, $ItemsArray, $total, $guestName): Order
+    public static function addNew($user, $mobN, $address, $area, $note, $ItemsArray, $total, $guestName): Order
     {
         $order = new Order();
-        DB::transaction(function () use ($order, $user, $guestName, $mobN, $address, $option, $note, $area, $ItemsArray, $total) {
+        DB::transaction(function () use ($order, $user, $guestName, $mobN, $address, $note, $area, $ItemsArray, $total) {
             if (isset($user))
                 $order->user_id = $user;
             else {
@@ -59,11 +60,15 @@ class Order extends Model
 
             $order->save();
             $order->order_items()->saveMany($orderItemArray);
+            $invtArr = [];
             foreach ($orderItemArray as $item) {
-                $inventory = Inventory::findOrFail($item->product_id);
-                $inventory->amount -= $item->amount;
-                $inventory->save();
+                array_push($invtArr, [
+                    'modelID'   =>  $item->product_id,
+                    'count'     =>  $item->amount
+                ]);
             }
+            Log::info($invtArr);
+            Inventory::insertEntry($invtArr, $order->id);
         });
         return $order;
     }
@@ -126,8 +131,7 @@ class Order extends Model
 
     public static function getOrderDetails($id)
     {
-        $ret['order'] = DB::table("orders")
-            ->join("areas", "orders.area_id", "=", "areas.id")
+        $ret['order'] = self::join("areas", "orders.area_id", "=", "areas.id")
             ->Leftjoin("users", "orders.user_id", "=", "users.id")
             ->Leftjoin("dash_users", "orders.dash_user_id", "=", "dash_users.id")
             ->Leftjoin("drivers", "driver_id", "=", "drivers.id")
@@ -138,16 +142,16 @@ class Order extends Model
             ->where('orders.id', $id)->get()->first();
 
         $ret['items'] = DB::table('order_items')
-            ->join("products", "inventory.product_id", "=", "products.id")
+            ->join("products", "order_items.product_id", "=", "products.id")
             ->select("order_items.id", "products.name as product_name", "amount", "is_verified", "price", "offer")
             ->where("order_items.order_id", "=", $id)
             ->get();
 
         $ret['timeline'] = DB::table('timeline')
-            ->join('dash_users', 'TMLN_DASH_ID', '=', 'dash_users.id')
+            ->join('dash_users', 'dash_user_id', '=', 'dash_users.id')
             ->select('name', 'timeline.*')
             ->orderByDesc('timeline.id')
-            ->where('TMLN_ORDR_ID', $id)->get();
+            ->where('order_id', $id)->get();
 
         return $ret;
     }
@@ -170,8 +174,7 @@ class Order extends Model
             ->Leftjoin("users", "user_id", "=", "users.id")
             ->Leftjoin("dash_users", "dash_user_id", "=", "dash_users.id")
             ->Leftjoin("order_items", "order_id", "=", "orders.id")
-            // ->join("payment_options", "ORDR_PYOP_ID", "=", "payment_options.id")
-            ->select("orders.*", "dash_users.name", "areas.name", "users.name", "users.mobile")->selectRaw("SUM(amount) as itemsCount")
+            ->select("orders.*", "orders.created_at as open_date", "dash_users.name as user_name", "areas.name as area_name", "users.name as client_name", "users.mobile")->selectRaw("SUM(amount) as itemsCount")
             ->groupBy("orders.id", "orders.user_id", "orders.created_at", "areas.name", "users.name", "users.mobile");
     }
 
@@ -205,7 +208,7 @@ class Order extends Model
 
     public function timeline()
     {
-        return $this->hasMany("timeline", "TMLN_ORDR_ID", "id");
+        return $this->hasMany("timeline", "order_id", "id");
     }
 
     public function client()
@@ -232,9 +235,9 @@ class Order extends Model
     public function addTimeline($text)
     {
         $timeline = new Timeline();
-        $timeline->TMLN_DASH_ID = (Auth::user() && is_a(Auth::user(), DashUser::class)) ? Auth::user()->id : NULL;
-        $timeline->TMLN_ORDR_ID = $this->id;
-        $timeline->TMLN_TEXT    = $text;
+        $timeline->dash_user_id = (Auth::user() && is_a(Auth::user(), DashUser::class)) ? Auth::user()->id : NULL;
+        $timeline->order_id = $this->id;
+        $timeline->text    = $text;
         $timeline->save();
     }
 }

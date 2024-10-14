@@ -74,11 +74,11 @@ class WSBaseDataManager
 
             case self::COLLECTION_PAGES[2]: //category page
                 // $data['showFilters'] = true;
-                $data['title']  =   $subCategory->SBCT_NAME;
+                $data['title']  =   $subCategory->name;
                 $data['breadcumbs'] = [
                     (object)['title'    =>  "Home", 'url'   =>  url('/')],
-                    (object)['title'    =>  $subCategory->category->CATG_NAME, 'url'   =>  url('/all/' . $subCategory->category->id)],
-                    (object)['title'    =>  $subCategory->SBCT_NAME, 'url'   =>  url('/subcategory/' .  $subCategory->id)],
+                    (object)['title'    =>  $subCategory->category->name, 'url'   =>  url('/all/' . $subCategory->category->id)],
+                    (object)['title'    =>  $subCategory->name, 'url'   =>  url('/subcategory/' .  $subCategory->id)],
                 ];
                 break;
 
@@ -113,9 +113,9 @@ class WSBaseDataManager
                     //val in array is 150 - 450 - 750
                     if ($val == 1050) {
                         //max filter
-                        $query->orWhere('PROD_PRCE', '>', $val - 150);
+                        $query->orWhere('price', '>', $val - 150);
                     } else {
-                        $query->orWhereBetween('PROD_PRCE', [$val - 150, $val + 150]);
+                        $query->orWhereBetween('price', [$val - 150, $val + 150]);
                     }
                 }
             });
@@ -125,16 +125,16 @@ class WSBaseDataManager
         if (isset($sortOption) && $sortOption != null) {
             switch ($sortOption) {
                 case "price_asc":
-                    $productsQuery = $productsQuery->orderBy('PROD_PRCE', 'ASC');
+                    $productsQuery = $productsQuery->orderBy('price', 'ASC');
                     break;
                 case "price_desc":
-                    $productsQuery = $productsQuery->orderBy('PROD_PRCE', 'DESC');
+                    $productsQuery = $productsQuery->orderBy('price', 'DESC');
                     break;
                 case "name_asc":
-                    $productsQuery = $productsQuery->orderBy('PROD_NAME', 'ASC');
+                    $productsQuery = $productsQuery->orderBy('name', 'ASC');
                     break;
                 case "name_desc":
-                    $productsQuery = $productsQuery->orderBy('PROD_NAME', 'DESC');
+                    $productsQuery = $productsQuery->orderBy('name', 'DESC');
                     break;
                 default:
                     break;

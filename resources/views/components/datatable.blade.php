@@ -66,7 +66,7 @@
                             @if(array_key_exists('url', $att['stateQuery']))
                             <a href="{{ url($att['stateQuery']['url'] . $item->{$att['stateQuery']['urlAtt']})}}">
                                 @endif
-                                <button class="label {{ $att['stateQuery']['classes'][$item->{$att['stateQuery']['att']}] }}">{{ $item->{$att['stateQuery']['foreignAtt']} }}</button>
+                                <button class="label {{ $att['stateQuery']['classes'][$item->{$att['stateQuery']['att']}] }}">{{ $item->{$att['stateQuery']['att']} }}</button>
                                 @if(array_key_exists('url', $att['stateQuery']))
                             </a>
                             @endif

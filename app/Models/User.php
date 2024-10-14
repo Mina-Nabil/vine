@@ -24,7 +24,7 @@ class User extends Authenticatable
 
         $newUser = new self();
         $newUser->name = $name;
-        $newUser->mail = $mail;
+        $newUser->email = $mail;
         $newUser->address = $address;
         $newUser->area_id = $area;
         $newUser->gender_id = $gender;
@@ -89,7 +89,7 @@ class User extends Authenticatable
 
                 //for each product in the cart loop over the colors to add all details
                 $tmpProd->id = $prod->id;
-                $tmpProd->title = $prod->PROD_NAME;
+                $tmpProd->title = $prod->name;
                 $tmpProd->image_url = $prod->main_image_url;
                 $tmpProd->quantity = $quantity;
 

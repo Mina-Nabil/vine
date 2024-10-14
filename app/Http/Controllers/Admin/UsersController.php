@@ -81,7 +81,6 @@ class UsersController extends Controller
                         "5" =>  "label-danger",
                     ],
                     "att"           =>  "status",
-                    'foreignAtt'    => "STTS_NAME",
                     'url'           => "orders/details/",
                     'urlAtt'        =>  'id'
                 ]
@@ -98,9 +97,9 @@ class UsersController extends Controller
             'PROD_BRCD',
             ['attUrl' => ['url' => 'admin/products/details', 'urlAtt' => "id", "shownAtt" => "name"]],
             ['attUrl' => ['url' => 'admin/products/details', 'urlAtt' => "id", "shownAtt" => "arabic_name"]],
-            ['sumForeign' => ['rel'=>"stock", "att"=>"INVT_CUNT"]] ,
-            'PROD_PRCE',
-            'PROD_OFFR',
+            ['sumForeign' => ['rel'=>"stock", "att"=>"amount"]] ,
+            'price',
+            'offer',
         ];
         //Items Bought
         $this->data['boughtList'] = $this->data['user']->itemsBought();
