@@ -55,7 +55,20 @@
                         <textarea class="form-control" rows="3" required name=arbcDesc>{{(isset($product)) ? $product->arabic_desc : old('desc')}}</textarea>
                     </div>
 
-         
+                    <div class="form-group">
+                        <label>Material</label>
+                        <textarea class="form-control" rows="3" required name=material>{{(isset($product)) ? $product->material : old('material')}}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dimensions</label>
+                        <textarea class="form-control" rows="3" required name=dimensions>{{(isset($product)) ? $product->material : old('dimensions')}}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Handled Topics / مواضيع المنتج</label>
+                        <textarea class="form-control" rows="3" required name=handled_topics>{{(isset($product)) ? $product->handled_topics : old('handled_topics')}}</textarea>
+                    </div>
 
                     <div class="form-group">
                         <label>Price</label>

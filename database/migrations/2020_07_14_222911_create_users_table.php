@@ -50,8 +50,8 @@ class CreateUsersTable extends Migration
             $table->string("name");
             $table->string("email")->nullable();
             $table->string("address")->nullable();
-            $table->foreignIdFor(Area::class)->constrained("areas");
-            $table->foreignIdFor(Gender::class)->constrained("genders")->default(1);
+            $table->foreignIdFor(Area::class)->nullable()->constrained("areas");
+            $table->foreignIdFor(Gender::class)->default(1)->constrained("genders");
             $table->string("mobile")->nullable();
             $table->string("password")->nullable();
             $table->timestamps();

@@ -19,7 +19,7 @@ class WSBaseDataManager
     public static function getSiteData($loadStockDataOnCart = false): array
     {
         $data['site_info'] = SiteInfo::getSiteInfo();
-        $data['categories'] = Category::with('subCategory')->get();
+        $data['categories'] = Category::with('subcategories')->get();
         $data['subcategories'] = SubCategory::all();
         $data['logged_user'] = Auth::user();
         $data['is_logged'] = $data['logged_user'] != null;
@@ -166,10 +166,9 @@ class WSBaseDataManager
 
     public static function getHomePageData(){
         $data = self::getSiteData();
+        $data['is_home'] = true;
         $data['slides']   = Slide::site()->get();
         $data['models'] = Product::with("tags", "images", "stock", "mainImage")->limit(10)->get();
-        $data['newArrivals'] = Product::with("tags", "images", "stock", "mainImage")->newArrivals("P1M")->get();
-        $data['onSale'] = Product::with("tags", "images", "stock", "mainImage")->onSale()->get();
         return $data;
     }
 }

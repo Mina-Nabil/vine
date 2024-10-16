@@ -23,7 +23,7 @@ class Product extends Model
     ];
 
     //CRUD queries
-    public static function create(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, float $offer=null): Product
+    public static function create(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, $material, $dimensions, $handled_topics=null, float $offer=null): Product
     {
         $product = new Product();
         $product->name = $name;
@@ -33,11 +33,14 @@ class Product extends Model
         $product->sub_category_id = $category;
         $product->price = $price;
         $product->offer = $offer ?? 0;
+        $product->material = $material;
+        $product->dimensions = $dimensions;
+        $product->handled_topics = $handled_topics;
         $product->save();
         return $product;
     }
 
-    public function modify(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, float $offer=null): bool
+    public function modify(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, $material, $dimensions, $handled_topics=null, float $offer=null): bool
     {
 
         $this->name = $name;
@@ -47,6 +50,9 @@ class Product extends Model
         $this->sub_category_id = $category;
         $this->price = $price;
         $this->offer = $offer ?? 0;
+        $this->material = $material;
+        $this->dimensions = $dimensions;
+        $this->handled_topics = $handled_topics;
         return $this->save();
     }
 

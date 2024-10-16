@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Color;
 use App\Models\Product;
-use App\Models\Size;
 use App\Models\SubCategory;
 use App\Models\User;
 use App\Mail\ContactUsMail;
+use App\Models\Category;
 use App\Services\WSBaseDataManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,31 +36,24 @@ class SiteController extends Controller
         return view('frontend.home', $data);
     }
 
-    public function all($id = 0)
+    public function shop($category_id=null)
     {
         $data = WSBaseDataManager::getSiteData();
-        if ($id != 0)
-            $data['subcategories'] = SubCategory::ofCategory($id)->get();
-        return view('frontend.catalog.categories', $data);
+        $data['categories'] = Category::with('products')->get();
+        $data['products'] = Product::all();
+        $data['category_id'] = $category_id;
+        return view('frontend.catalog.shop', $data);
     }
 
     public function productPage($id)
     {
         $data = WSBaseDataManager::getSiteData();
-        $data['product'] = Product::with("images", "stock", "tags", "subcategory")->findOrFail($id);
+        $data['product'] = Product::with("images", "stock", "tags", "subcategory", "subcategory.category")->findOrFail($id);
+        $data['related_products'] = $data['product']->subcategory->category->products()
+        ->limit(3)->get();
         return view('frontend.catalog.product', $data);
     }
 
-    public function productInfo(Request $request)
-    {
-        $request->validate([
-            "id"    => "required|exists:products"
-        ]);
-        $product = Product::with("images", "stock", "tags")->find($request->id);
-        return response($product->toJson())->withHeaders([
-            'Content-Type: application/json'
-        ]);
-    }
 
     public function subcategory($id, Request $request)
     {
@@ -125,40 +117,6 @@ class SiteController extends Controller
         return view("frontend.catalog.collection", $data);
     }
 
-    public function search(Request $request)
-    {
-        $request->validate([
-            "q"   =>  "required"
-        ]);
-
-        $applyNewFilters = $request->isMethod('POST');
-        //loading applied filters
-        if ($applyNewFilters) {
-            $colorFilters = $request->color_filters ?? null;
-            $sizeFilters = $request->size_filters ?? null;
-            $priceFilters = $request->price_filters ?? null;
-            $sortOption = $request->sort_option ?? null;
-        } else {
-            $colorFilters =  $request->input('applied_color_filters') ?? null;
-            $sizeFilters =  $request->input('applied_size_filters') ?? null;
-            $priceFilters =  $request->input('applied_price_filters') ?? null;
-            $sortOption =  $request->input('applied_sort_option') ?? null;
-        }
-        $productsQuery = Product::searchQuery($request->q);
-        $availableProducts = $productsQuery->get();
-        $data = WSBaseDataManager::getCollectionPageData(
-            $applyNewFilters,
-            WSBaseDataManager::COLLECTION_PAGES[0],
-            $productsQuery,
-            $priceFilters,
-            $sortOption,
-            null,
-            $request->per_page ?? ($request->input('per_page') ?? 28)
-        );
-
-        return view("frontend.catalog.collection", $data);
-    }
-
     public function aboutus()
     {
         $data = WSBaseDataManager::getSiteData();
@@ -186,12 +144,6 @@ class SiteController extends Controller
             report($e);
         }
         return redirect('home');
-    }
-
-    public function searchForm()
-    {
-        $data = WSBaseDataManager::getSiteData();
-        return view('frontend.catalog.search', $data);
     }
 
     // public function notfound_404()

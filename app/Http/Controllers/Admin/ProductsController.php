@@ -161,7 +161,7 @@ class ProductsController extends Controller
             "cost" => "nullable|numeric",
         ]);
 
-        $newProd = Product::create($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->offer);
+        $newProd = Product::create($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->material, $request->dimensions, $request->handled_topics, $request->offer);
 
         return redirect('admin/products/details/' . $newProd->id);
     }
@@ -173,6 +173,7 @@ class ProductsController extends Controller
         $request->validate([
             "id"          => "required",
         ]);
+        /** @var Product */
         $product = Product::findOrFail($request->id);
         $request->validate([
             "name"          => ["required",  Rule::unique('products', "name")->ignore($product->name, "name"),],
@@ -181,7 +182,7 @@ class ProductsController extends Controller
             "price" => "required|numeric",
             "cost" => "nullable|numeric",
         ]);
-        $product->modify($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->offer);
+        $product->modify($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->material, $request->dimensions, $request->handled_topics, $request->offer);
 
         return redirect('admin/products/details/' . $product->id);
     }

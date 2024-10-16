@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\FileManager;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Category extends Model
 {
@@ -45,5 +46,9 @@ class Category extends Model
     public function subcategories()
     {
         return $this->hasMany(SubCategory::class);
+    }
+    public function products() : HasManyThrough
+    {
+        return $this->hasManyThrough(Product::class, SubCategory::class);
     }
 }

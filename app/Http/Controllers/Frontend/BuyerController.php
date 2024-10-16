@@ -12,9 +12,11 @@ use App\Models\Size;
 use App\Models\SubCategory;
 use App\Models\User;
 use App\Services\WSBaseDataManager;
+use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,6 +50,26 @@ class BuyerController extends Controller
             return back();
         } else {
             return redirect("admin/login")->withErrors(["password" => "invalid credentials please try again"]);
+        }
+    }
+
+    public function googleLogin(Request $request)
+    {
+
+        Validator::make($request->all(), [
+            "credential"     =>  "required",
+        ])->validate();
+
+        Log::info($request->credential);
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+        $payload = $client->verifyIdToken($request->credential);
+        Log::info($payload);
+        User::googleLogin($payload);
+
+        if (User::googleLogin($payload)) {
+            return redirect()->action([SiteController::class, 'home']);
+        } else {
+            return redirect()->action([self::class, 'loadLoginPage'])->withErrors(["google_login" => "Google Login failed"]);
         }
     }
 

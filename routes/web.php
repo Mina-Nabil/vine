@@ -15,6 +15,8 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\SiteController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\WebsiteInfoController;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +51,8 @@ Route::post('cart/remove', [CartController::class, "remove"]);
 Route::post('order/submit', [CartController::class, "submitOrder"]);
 
 //catalog functions
-Route::get('all', [SiteController::class, 'all'])->name('all');
-Route::get('all/{id}', [SiteController::class, 'all']);
-Route::get('categories/{id}', [SiteController::class, 'subcategory']);
-Route::post('categories/{id}', [SiteController::class, 'subcategory']);
-Route::post("get/product", [SiteController::class, 'productInfo']);
+Route::get('shop', [SiteController::class, 'shop'])->name('all');
+Route::get('shop/{id}', [SiteController::class, 'shop']);
 Route::get("product/{id}", [SiteController::class, 'productPage']);
 
 //search routes
@@ -70,6 +69,8 @@ Route::get('/changepass/{encryptedID}', [BuyerController::class, 'changePassForm
 Route::post('/changePass', [BuyerController::class, 'changePass']);
 Route::get('/login', [BuyerController::class, 'loadLoginPage'])->name('login');
 Route::post('/login', [BuyerController::class, 'login']);
+
+Route::post('/googlelogin', [BuyerController::class, 'googleLogin'])->withoutMiddleware(ValidateCsrfToken::class);
 
 Route::get('/home', [SiteController::class, 'home'])->name("home");
 Route::get('/aboutus', [SiteController::class, 'aboutus'])->name("aboutus");

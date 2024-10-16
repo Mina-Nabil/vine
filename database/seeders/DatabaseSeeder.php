@@ -39,6 +39,9 @@ class DatabaseSeeder extends Seeder
                 "شرح وافي بسيط",
                 1,
                 1200,
+                "خشب زان",
+                "5 * 5",
+                "العهد القديم و تاريخ الكتاب",
                 200
             );
             Product::create(
@@ -47,7 +50,10 @@ class DatabaseSeeder extends Seeder
                 "Shar7 wafy baseet lel knisa",
                 "شرح وافي بسيط قوي",
                 1,
-                500
+                500,
+                "ورق ملون",
+                "5 * 5",
+                "العهد القديم و تاريخ الكتاب",
             );
 
             Category::newCategory("Material", "تحضير");
@@ -65,7 +71,10 @@ class DatabaseSeeder extends Seeder
                 "Shar7 wafy baseet lel knisa",
                 "شرح وافي بسيط قوي",
                 2,
-                40
+                40,
+                "ورق ملون",
+                "5 * 5",
+                "العهد القديم و تاريخ الكتاب",
             );
 
             Inventory::insertEntry(

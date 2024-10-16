@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
@@ -14,6 +15,9 @@ class User extends Authenticatable
     protected $table = "users";
     public $timestamps = true;
 
+    protected $fillable = [
+        'email', 'name'
+    ];
     protected $hidden = [
         'remember_token',
     ];
@@ -56,6 +60,17 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public static function googleLogin($payload){
+        $user = self::firstOrCreate([
+            "email" =>  $payload['email']
+        ],[
+            "name"  =>  $payload['given_name'] . ' ' . $payload['family_name']
+        ]);
+
+        Auth::guard('web')->loginUsingId($user->id, true);
+        return true;
+    }
+
     public static function getUserCart($loadStock = false)
     {
         //initialize cart array
@@ -94,8 +109,6 @@ class User extends Authenticatable
                 $tmpProd->quantity = $quantity;
 
                 $tmpProd->price = $prod->final_price;
-                $tmpProd->availableItems = ($loadStock) ? Inventory::checkProductAvailability($prod->id) : -1;
-
                 array_push($retObj->items, $tmpProd);
 
                 $total += $prod->final_price * $quantity;
