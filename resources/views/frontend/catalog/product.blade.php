@@ -25,7 +25,7 @@
                 <div id="ws-products-carousel" class="owl-carousel">
                     @foreach ($product->images as $img)
                         <div class="item">
-                            <img src="{{ $image->image_url }}" class="img-responsive" alt="{{ $product->name }}">
+                            <img src="{{ $img->full_image_url }}" class="img-responsive" alt="{{ $product->name }}">
                         </div>
                     @endforeach
                 </div>
@@ -55,9 +55,9 @@
                         @endif
                         <!-- Quantity -->
                         <div class="ws-product-quantity">
-                            <a href="#" class="minus">-</a>
-                            <input type="text" value="1" size="4">
-                            <a href="#" class="plus">+</a>
+                            <a onclick="subCount()" class="minus">-</a>
+                            <input id="prod_count" type="text" value="1" size="4">
+                            <a onclick="addCount()" class="plus">+</a>
                         </div>
                     </header>
 
@@ -144,4 +144,14 @@
         </div>
     </div>
     <!-- End Related Post -->
+
+    <script>
+        function addCount() {
+            $('#prod_count').val( +$('#prod_count').val() + 1)
+        }
+
+        function subCount() {
+            $('#prod_count').val(  Math.max(+$('#prod_count').val() - 1, 0))
+        }
+    </script>
 @endsection

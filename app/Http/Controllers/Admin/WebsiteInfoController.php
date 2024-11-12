@@ -15,7 +15,7 @@ class WebsiteInfoController extends Controller
     public function slides()
     {
         $data['slides'] = Slide::get();
-        $data['deleteURL'] = url("website/slides/delete");
+        $data['deleteURL'] = url("admin/website/slides/delete");
         return view("settings.slides", $data);
     }
 
@@ -64,7 +64,20 @@ class WebsiteInfoController extends Controller
     public function setWebsiteInfo(Request $request)
     {
         $siteInfo = SiteInfo::getSiteInfo();
-        $siteInfo->setSiteInfo($request->logo, $request->mail, $request->offerSmallImg, $request->offerLargeImg, $request->phone, $request->instagram, $request->fb,  $request->footerImage1, $request->footerImage2, $request->footerTitle1, $request->footerTitle2, $request->footerSubtitle1, $request->footerSubtitle2);
+        $siteInfo->setSiteInfo(
+            $request->logo,
+            $request->mail,
+            $request->landingImage,
+            $request->footerLargeImg,
+            $request->phone,
+            $request->instagram,
+            $request->fb,
+            $request->footerImage1,
+            $request->footerImage2,
+            $request->footerImage3,
+            $request->footerTitle1,
+            $request->footerSubtitle1
+        );
         return redirect($this->homeURL);
     }
 

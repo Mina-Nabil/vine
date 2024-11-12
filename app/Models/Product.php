@@ -89,11 +89,11 @@ class Product extends Model
     {
         $this->loadMissing('mainImage', 'images');
         if (is_null($this->mainImage)) {
-            return ($this->images->isNotEmpty()) ? $this->images->random()->full_image_url : 1;
+            return ($this->images->isNotEmpty()) ? $this->images->random()->full_image_url : asset('assets/img/works/journals/1.jpg');
         } else {
-            return $this->mainImage->full_image_url ?? 2;
+            return $this->mainImage->full_image_url ?? asset('assets/img/works/journals/1.jpg');
         }
-        return 3;
+        return asset('assets/img/works/journals/1.jpg');
     }
 
     public function getMainImageIdAttribute(): ?int
@@ -155,7 +155,7 @@ class Product extends Model
     }
 
     public function scopeOnSale($query){
-        return $query->where('products.offer', '>', 0);
+        return $query->where('products.offer', '>', 0)->orderBy('products.offer');
     }
 
     public function scopeNewArrivals($query, $dateInterval){

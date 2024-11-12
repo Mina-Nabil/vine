@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(["buyer_auth:web"])->group(function () {
+Route::middleware(["web"])->group(function () {
     Route::get('logout', [BuyerController::class, 'logout']);
     Route::get('wishlist', [SiteController::class, "wishlist"]);
     Route::post('wishlist', [SiteController::class, "wishlist"]);
@@ -74,6 +74,8 @@ Route::post('/googlelogin', [BuyerController::class, 'googleLogin'])->withoutMid
 
 Route::get('/home', [SiteController::class, 'home'])->name("home");
 Route::get('/aboutus', [SiteController::class, 'aboutus'])->name("aboutus");
+Route::get('/delivery', [SiteController::class, 'delivery'])->name("delivery");
+Route::get('/payment', [SiteController::class, 'paymentPolicy'])->name("payment");
 Route::get('/contact', [SiteController::class, 'contactus'])->name("contact");
 Route::post('/contactus/sendemail', [SiteController::class, 'sendContactUsEmail']);
 Route::get('/',  [SiteController::class, 'home']);

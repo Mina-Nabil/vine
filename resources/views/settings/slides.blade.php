@@ -24,7 +24,7 @@
 
     <div class="col-lg-6">
         <div class="card">
-            <img class="card-img-top img-responsive" src='{{asset("frontend/placeholders/slide.png")}}' alt="Card image cap">
+            <img class="card-img-top img-responsive" src='{{asset("assets/img/backgrounds/abstract-bg.jpg")}}' alt="Card image cap">
             <div class="card-body">
                 <h4 class="card-title">Add Slide</h4>
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#slide-modal" class="btn btn-primary">Add</a>
@@ -40,7 +40,7 @@
                 <h4 class="modal-title">Add New Slide</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form action="{{ url('website/slides/add') }}" method=post enctype="multipart/form-data">
+            <form action="{{ url('admin/website/slides/add') }}" method=post enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="input-group mb-3">

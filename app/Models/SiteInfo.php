@@ -24,36 +24,52 @@ class SiteInfo extends Model
         }
     }
 
-    public function setSiteInfo($logo, $mail, $offerSmallImg, $offerLargeImg , $phone, $instagram, $fb, $footerImage1,  $footerTitle1, $footerSubtitle1, $officeName, $officeAddress, $officeLoc)
-    {
+    public function setSiteInfo(
+        $logo,
+        $mail,
+        $landingPhoto,
+        $largeFooter,
+        $phone,
+        $instagram,
+        $fb,
+        $footerImage1,
+        $footerImage2,
+        $footerImage3,
+        $footerTitle,
+        $footerSubtitle
+    ) {
         $this->WBST_MAIL = $mail;
         $this->WBST_PHON = $phone;
         $this->WBST_INST = $instagram;
         $this->WBST_FB = $fb;
-        $this->WBST_FOOT_TTL = $footerTitle1;
-        $this->WBST_FOOT_SUB = $footerSubtitle1;
-
-        $this->WBST_OFFC_NAME = $officeName;
-        $this->WBST_OFFC_ADRS = $officeAddress;
-        $this->WBST_OFFC_LOC = $officeLoc;
+        $this->WBST_FOOT_TTL = $footerTitle;
+        $this->WBST_FOOT_SUB = $footerSubtitle;
 
         if ($logo != null) {
             $oldLogo = $this->WBST_LOGO;
             $this->WBST_LOGO = FileManager::save($logo, "logo");
         }
 
-        if ($offerLargeImg != null) {
-            $oldOfferLargeImg = $this->WBST_OFFR_STRP_LARG;
-            $this->WBST_OFFR_STRP_LARG = FileManager::save($offerLargeImg, "offers");
+        if ($landingPhoto != null) {
+            $oldLandingPhoto = $this->WBST_LAND;
+            $this->WBST_LAND = FileManager::save($landingPhoto, "offers");
         }
 
-        if ($offerSmallImg != null) {
-            $oldOfferSmallImg = $this->WBST_OFFR_STRP_SMAL;
-            $this->WBST_OFFR_STRP_SMAL = FileManager::save($offerSmallImg, "offers");
+        if ($largeFooter != null) {
+            $oldLargeFooter = $this->WBST_FOOT_LRG;
+            $this->WBST_FOOT_LRG = FileManager::save($largeFooter, "offers");
         }
 
         if ($footerImage1 != null) {
             $oldFooterImage1 = $this->WBST_FOOT_IMG1;
+            $this->WBST_FOOT_IMG1 = FileManager::save($footerImage1, "footers");
+        }
+        if ($footerImage2 != null) {
+            $oldFooterImage2 = $this->WBST_FOOT_IMG2;
+            $this->WBST_FOOT_IMG1 = FileManager::save($footerImage1, "footers");
+        }
+        if ($footerImage3 != null) {
+            $oldFooterImage3 = $this->WBST_FOOT_IMG3;
             $this->WBST_FOOT_IMG1 = FileManager::save($footerImage1, "footers");
         }
 
@@ -61,14 +77,17 @@ class SiteInfo extends Model
         try {
             $this->save();
             if (isset($oldLogo)) FileManager::delete($oldLogo);
-            if (isset($oldOfferSmallImg)) FileManager::delete($oldOfferSmallImg);
-            if (isset($oldOfferLargeImg)) FileManager::delete($oldOfferLargeImg);
+            if (isset($oldLandingPhoto)) FileManager::delete($oldLandingPhoto);
             if (isset($oldFooterImage1)) FileManager::delete($oldFooterImage1);
+            if (isset($oldFooterImage2)) FileManager::delete($oldFooterImage2);
+            if (isset($oldFooterImage3)) FileManager::delete($oldFooterImage3);
+            if (isset($oldLargeFooter)) FileManager::delete($oldLargeFooter);
         } catch (Exception $e) {
             if ($logo != null) FileManager::delete($logo);
-            if ($offerLargeImg != null) FileManager::delete($offerLargeImg);
-            if ($offerSmallImg != null) FileManager::delete($offerSmallImg);
-            if ($footerImage1 != null) FileManager::delete($footerImage1);
+            if ($landingPhoto != null) FileManager::delete($landingPhoto);
+            if ($footerImage1 != null) FileManager::delete($landingPhoto);
+            if ($footerImage2 != null) FileManager::delete($landingPhoto);
+            if ($footerImage3 != null) FileManager::delete($landingPhoto);
         }
     }
 
@@ -105,14 +124,6 @@ class SiteInfo extends Model
         }
     }
 
-    public function setContactInfo($mail = null, $phone = null, $instagram = null, $fb = null,)
-    {
-    }
-
-    public function setWebsiteImages($offerSmallImg = null, $offerLargeImg = null, $footerImage1 = null, $footerImage2 = null)
-    {
-    }
-
     ///////Accessors
     public function getEmailAttribute()
     {
@@ -144,49 +155,29 @@ class SiteInfo extends Model
         return $this->WBST_PPOL;
     }
 
-    public function getOfferSmallUrlAttribute()
+    public function getLandingImageAttribute()
     {
-        return FileManager::get($this->WBST_OFFR_STRP_SMAL) ?? asset('frontend/placeholders/strip_small.png');
+        return FileManager::get($this->WBST_LAND) ?? url('assets/img/backgrounds/hero-bg.jpg');
     }
 
-    public function getOfferLargeUrlAttribute()
+    public function getFooterLargeAttribute()
     {
-        return FileManager::get($this->WBST_OFFR_STRP_LARG) ?? asset('frontend/placeholders/strip_square.png');
-    }
-
-    public function getOfferUrlAttribute()
-    {
-        return $this->WBST_OFFR_URL;
+        return FileManager::get($this->WBST_FOOT_LRG) ?? asset('frontend/placeholders/strip_square.png');
     }
 
     public function getFooter1UrlAttribute()
     {
-        return FileManager::get($this->WBST_FOOT_IMG1) ?? asset('frontend/placeholders/footers.png');
-    }
-
-    public function getFooter1TitleAttribute()
-    {
-        return $this->WBST_FOOT_TTL1; //?? "Footer1 Title";
-    }
-
-    public function getFooter1SubtitleAttribute()
-    {
-        return $this->WBST_FOOT_SUB1; //?? "Footer1 Subtitle";;
+        return FileManager::get($this->WBST_FOOT_IMG1) ?? asset('assets/img/journal/8.jpg');
     }
 
     public function getFooter2UrlAttribute()
     {
-        return FileManager::get($this->WBST_FOOT_IMG2) ?? asset('frontend/placeholders/footers.png');
+        return FileManager::get($this->WBST_FOOT_IMG2) ?? asset('assets/img/journal/8.jpg');
     }
 
-    public function getFooter2TitleAttribute()
+    public function getFooter3UrlAttribute()
     {
-        return $this->WBST_FOOT_TTL2; //?? "Footer2 Title";
-    }
-
-    public function getFooter2SubtitleAttribute()
-    {
-        return $this->WBST_FOOT_SUB2; //?? "Footer2 Subtitle";;
+        return FileManager::get($this->WBST_FOOT_IMG3) ?? asset('assets/img/journal/8.jpg');
     }
 
     public function getFbUrlAttribute()

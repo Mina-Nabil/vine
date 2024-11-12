@@ -2,115 +2,69 @@
 
 @section('content')
 <script src="https://www.google.com/recaptcha/api.js"></script>
-<section id="content" class="clearfix">
-    <div id="page">
-        <div class="title-breadcrumb">
-            <div class="container">
-                <div class="col-md-12">
-                    <!-- Page Listing Title -->
-                    <div class="page-listing-title">
-                        <h2 class="page-title">Contact Us</h2>
-                    </div>
-                    <!-- Begin breadcrumb -->
-                    <div class="breadcrumb clearfix">
-                        <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://cs-jemiz.myshopify.com" title="Jemiz - ThemeforShop" itemprop="url"><span
-                                    itemprop="title">Home</span></a></span>
-                        <span class="arrow-space"><i class="fa fa-angle-right"></i></span>
-                        <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/pages/contact-us" title="Contact Us" itemprop="url"><span itemprop="title">Contact Us</span></a></span>
-                    </div>
-                </div>
+   <!-- Page Parallax Header -->
+   <div class="ws-parallax-header parallax-window" data-parallax="scroll" data-image-src="{{$site_info->landing_image}}">        
+    <div class="ws-overlay">            
+        <div class="ws-parallax-caption">                
+            <div class="ws-parallax-holder">
+                <h1>Contact Us</h1>                        
             </div>
         </div>
+    </div>            
+</div>            
+<!-- End Page Parallax Header -->
 
-        <div class="container">
-            <div class="col-md-12">
-                <div class="page-with-contact-form">
+<!-- Page Content -->
+<div class="container ws-page-container">
+    <div class="row">            
+        <div class="ws-contact-page">
 
-                    <ul class="contacts-links">
-                        <li class="contacts-address">
-
-                            <img src="{{asset('assets/images/contact_loc.webp')}}" alt="">
-
-                            <br>
-                            <h3>Address</h3>
-                            {{$site_info->WBST_ADRS}}
-                        </li>
-                        <li class="contacts-phone">
-                            @isset($site_info->WBST_PHON)
-                            <a href="tel:{{$site_info->WBST_PHON}}">
-                                @endisset
-                                <img src="{{asset('assets/images/contact_call.webp')}}" alt=""><br>
-                                @isset($site_info->WBST_PHON)
-                            </a>
-                            @endisset
-                            <h3>Phone Number</h3>
-                            <p> {{$site_info->WBST_PHON}}</p>
-
-                        </li>
-                        <li class="contacts-email">
-                            @isset($site_info->WBST_MAIL)
-                            <a href="mailto:{{$site_info->WBST_MAIL}}">
-                                @endisset
-                                <img src="{{asset('assets/images/contact_email.webp')}}" alt=""><br>
-                                @isset($site_info->WBST_MAIL)
-                            </a>
-                            @endisset
-
-                            <h3>Email</h3>
-                            <p> {{$site_info->WBST_MAIL}}</p>
-                        </li>
-                    </ul>
-
-
-                    <!-- Content -->
-                    <h1 class="contacts-title">Get in Touch</h1>
-                    <div class="dash-line mb-5"></div>
-
-                    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfSqjsgAAAAAJfrCgUif24ST-qpuoILnkR2HGgd"></script>
-                    <!-- Form -->
-                    <form method="post" action="{{$sendEmailUrl}}" id="contact_form" accept-charset="UTF-8" class="contact-form mt-5"><input type="hidden" name="form_type" value="contact"><input type="hidden" name="utf8"
-                            value="✓">
-
-                        @csrf
-
-                        <div id="contactFormWrapper">
-                            <div class="col-md-4">
-                                <label>Your Name:</label>
-                                <input type="text" id="contactFormName" name="name" placeholder="John Doe">
-                                <small class="txt txt-danger">
-                                    {{$errors->first('name')}}
-                                </small>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Email Address:</label>
-                                <input type="email" id="contactFormEmail" name="email" placeholder="john@example.com">
-                                <small class="txt txt-danger">
-                                    {{$errors->first('email')}}
-                                </small>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Phone Number:</label>
-                                <input type="telephone" id="contactFormTelephone" name="phone" placeholder="555-555-1234">
-                                <small class="txt txt-danger">
-                                    {{$errors->first('phone')}}
-                                </small>
-                            </div>
-                            <div class="col-md-12">
-                                <label>Your Message:</label>
-                                <textarea rows="15" id="contactFormMessage" name="message" placeholder="Your message"></textarea>
-                            </div>
-                            <div class="contactFormSubmit col-md-12">
-
-                                <input type="submit" id="contactFormSubmit" value="Submit" class="btn btn-3" disabled>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="clearfix"></div>
+            <!-- General Information -->
+            <div class="col-sm-6">
+                <div class="ws-contact-info">
+                    <h2>General:</h2>
+                    <p><a href="mailto:{{$site_info->email}}">{{$site_info->email}}</a></p>
+                    <br>
+                    <h2>Phone:</h2>
+                    <p><a href="mailto:{{$site_info->phone}}">{{$site_info->phone}}</a></p>
+                    <br>
+                    <p>We’d love to hear from you! Whether you have questions about our products, need assistance with an order, or simply want to share your feedback, feel free to reach out. Our team is here to support you and ensure you have the best experience possible.</p> <p> Contact us via email, phone, or through our social media channels, and we’ll get back to you promptly. Let’s stay connected!</p>
                 </div>
             </div>
+
+            <!-- Contact Form -->
+            <div class="col-sm-6">
+                <form class="form-horizontal ws-contact-form">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label class="control-label">Name <span>*</span></label>
+                        <input type="text" class="form-control">                        
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="control-label">Email <span>*</span></label>                        
+                        <input type="email" class="form-control">                        
+                    </div>
+
+                    <!-- Message -->
+                    <div class="form-group">
+                        <label class="control-label">Message <span>*</span></label>      
+                        <textarea class="form-control" rows="7"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-group">                        
+                        <a href="#x"  id="contactFormSubmit" class="btn ws-big-btn" disabled>Submit</a>                        
+                    </div>
+                </form>
+            </div>
+
+
         </div>
     </div>
-</section>
+</div>
+<!-- End Page Content -->
 
 <script>
     grecaptcha.enterprise.ready(function() {

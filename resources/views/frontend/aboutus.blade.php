@@ -1,34 +1,59 @@
 @extends('layouts.site')
 
 @section('content')
-<section id="content" class="clearfix">
-    <div id="page">
-        <div class="title-breadcrumb">
-            <div class="container">
-                <div class="col-md-12">
-                    <!-- Page Listing Title -->
-                    <div class="page-listing-title">
-                        <h2 class="page-title">About Us</h2>
-                    </div>
-                    <!-- Begin breadcrumb -->
-                    <div class="breadcrumb clearfix">
-                        <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{url('home')}}" title="{{env('APP_NAME')}}" itemprop="url"><span itemprop="title">Home</span></a></span>
-                        <span class="arrow-space"><i class="fa fa-angle-right"></i></span>
-                        <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{url('aboutus')}}" title="About Us" itemprop="url"><span itemprop="title">About Us</span></a></span>
-                    </div>
+    <!-- Page Parallax Header -->
+    <div class="ws-parallax-header parallax-window" data-parallax="scroll" data-image-src="{{$site_info->landing_image}}">        
+        <div class="ws-overlay">            
+            <div class="ws-parallax-caption">                
+                <div class="ws-parallax-holder">
+                    <h1>About Vine Activities</h1>                        
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="col-md-12">
-                <div class="about-us">
-                    {!! $site_info->about_us !!}
+        </div>            
+    </div>            
+    <!-- End Page Parallax Header -->
+
+    <!-- Page Content -->
+    <div class="container ws-page-container">   
+        <div class="row">
+            <div class="ws-about-content col-sm-12">
+                <!-- Information -->
+               {!! $site_info->about_us !!}       
+
+                <!-- Space Helper Class -->
+                <div class="padding-top-x70"></div>
+
+                <!-- Team Members -->
+                <div class="row text-center">
+                    <div class="ws-about-team">
+                        <div class="col-sm-6 ws-about-team-item" data-sr='wait 0.1s, ease-in 20px'>                        
+                            <img src="assets/img/about/team-1.jpg" alt="Alternative Text" class="img-responsive">
+                            <div class="caption">
+                                <h3>Hellen Madison</h3>
+                                <div class="ws-separator"></div>     
+                                <h5>Owner / Designer / Creative Director</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim.</p>                    
+                            </div>                        
+                        </div>
+                        
+                        <div class="col-sm-6 ws-about-team-item" data-sr='wait 0.3s, ease-in 20px'>                        
+                            <img src="assets/img/about/team-2.jpg" alt="Alternative Text" class="img-responsive">
+                            <div class="caption">
+                                <h3>Ellen Moonday</h3>
+                                <div class="ws-separator"></div>     
+                                <h5>Owner / Illustrator / Letterer </h5>        
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim.</p>                           
+                            </div>                        
+                        </div>
+                    </div>
                 </div>
-                <!--end about us-->
-            </div>
-        </div>
+
+
+
+            </div> 
+        </div>                                                              
     </div>
-</section>
+    <!-- End Page Content --> 
 
 
 @endsection

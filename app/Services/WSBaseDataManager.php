@@ -167,8 +167,8 @@ class WSBaseDataManager
     public static function getHomePageData(){
         $data = self::getSiteData();
         $data['is_home'] = true;
-        $data['slides']   = Slide::site()->get();
-        $data['models'] = Product::with("tags", "images", "stock", "mainImage")->limit(10)->get();
+        $data['slides']   = Slide::site()->get()->take(4);
+        $data['categories'] = Category::all();
         return $data;
     }
 }

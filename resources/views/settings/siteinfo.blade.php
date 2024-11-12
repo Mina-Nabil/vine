@@ -43,30 +43,38 @@
                     </div>
 
                     <hr>
+
+                    <div class="form-group">
+                        <label>Landing Page</label>
+                        <div class="input-group mb-3">
+                            <input type="file" id="input-file-now-custom-1" name=landingImage class="dropify" data-default-file="{{$info->landing_image}}"  />
+                            <small>4MB maximum - 1920 * 1080</small>
+                        </div>
+                        <small class="text-danger">{{$errors->first('landingImage')}}</small>
+                    </div>
+
+
+                    <hr>
+
+                    <div class="form-group">
+                        <label>Footer Large Image</label>
+                        <div class="input-group mb-3">
+                            <input type="file" id="input-file-now-custom-1" name=footerLargeImg class="dropify" data-default-file="{{$info->footer_large}}"  />
+                            <small>2MB maximum - 1000 * 1000</small>
+                        </div>
+                        <small class="text-danger">{{$errors->first('footerLargeImg')}}</small>
+                    </div>
                     <div class="form-group col-md-12 m-t-0">
-                        <h5>Offer Url</h5>
-                        <input type="text" class="form-control form-control-line" name=offerUrl value="{{ $info->offer_url ?? old('offerUrl')}}" >
-                        <small>Enter full url .. example: https://getwhalewear/jackets/2</small>
+                        <h5>Footer Title </h5>
+                        <input type="text" class="form-control form-control-line" name=footerTitle1 value="{{ $info->WBST_FOOT_TTL ?? old('footerTitle1')}}" >
+                        <small>Appears on home page wide footer</small>
                     </div>
 
-                    <div class="form-group">
-                        <label>Offer Image Wide</label>
-                        <div class="input-group mb-3">
-                            <input type="file" id="input-file-now-custom-1" name=offerSmallImg class="dropify" data-default-file="{{$info->offer_small_url}}"  />
-                            <small>4MB maximum - Appears on Laptop Screen - 1170 * 90</small>
-                        </div>
-                        <small class="text-danger">{{$errors->first('offerSmallImg')}}</small>
+                    <div class="form-group col-md-12 m-t-0">
+                        <h5>Footer Subtitle 1</h5>
+                        <input type="text" class="form-control form-control-line" name=footerSubtitle1 value="{{ $info->WBST_FOOT_SUB ?? old('footerSubtitle1')}}" >
+                        <small>Appears on home page wide footer</small>
                     </div>
-
-                    <div class="form-group">
-                        <label>Offer Image Square</label>
-                        <div class="input-group mb-3">
-                            <input type="file" id="input-file-now-custom-1" name=offerLargeImg class="dropify" data-default-file="{{$info->offer_large_url}}"  />
-                            <small>4MB maximum - Appears on Mobile Screen - 900 * 600 </small>
-                        </div>
-                        <small class="text-danger">{{$errors->first('offerLargeImg')}}</small>
-                    </div>
-
 
                     <hr>
 
@@ -74,47 +82,29 @@
                         <label>Footer Image 1</label>
                         <div class="input-group mb-3">
                             <input type="file" id="input-file-now-custom-1" name=footerImage1 class="dropify" data-default-file="{{$info->footer1_url}}"  />
-                            <small>2MB maximum - 570 * 335</small>
+                            <small>2MB maximum - 1000 * 1000</small>
+                        </div>
+                        <small class="text-danger">{{$errors->first('footerImage1')}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Footer Image 2</label>
+                        <div class="input-group mb-3">
+                            <input type="file" id="input-file-now-custom-1" name=footerImage2 class="dropify" data-default-file="{{$info->footer2_url}}"  />
+                            <small>2MB maximum - 1000 * 1000</small>
+                        </div>
+                        <small class="text-danger">{{$errors->first('footerImage1')}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Footer Image 3</label>
+                        <div class="input-group mb-3">
+                            <input type="file" id="input-file-now-custom-1" name=footerImage3 class="dropify" data-default-file="{{$info->footer3_url}}"  />
+                            <small>2MB maximum - 1000 * 1000</small>
                         </div>
                         <small class="text-danger">{{$errors->first('footerImage1')}}</small>
                     </div>
 
 
-                    <div class="form-group col-md-12 m-t-0">
-                        <h5>Footer Title 1</h5>
-                        <input type="text" class="form-control form-control-line" name=footerTitle1 value="{{ $info->WBST_FOOT_TTL1 ?? old('footerTitle1')}}" >
-                        <small>Appears on home page footer</small>
-                    </div>
 
-                    <div class="form-group col-md-12 m-t-0">
-                        <h5>Footer Subtitle 1</h5>
-                        <input type="text" class="form-control form-control-line" name=footerSubtitle1 value="{{ $info->WBST_FOOT_SUB1 ?? old('footerSubtitle1')}}" >
-                        <small>Appears on home page footer</small>
-                    </div>
-
-                    <hr>
-
-
-                    <div class="form-group">
-                        <label>Footer Image 2</label>
-                        <div class="input-group mb-3">
-                            <input type="file" id="input-file-now-custom-1" name=footerImage2 class="dropify" data-default-file="{{$info->footer2_url}}" />
-                            <small>2MB maximum - 570 * 335 </small>
-                        </div>
-                        <small class="text-danger">{{$errors->first('footerImage2')}}</small>
-                    </div>
-
-                    <div class="form-group col-md-12 m-t-0">
-                        <h5>Footer Title 2</h5>
-                        <input type="text" class="form-control form-control-line" name=footerTitle2 value="{{ $info->WBST_FOOT_TTL2 ?? old('footerTitle2')}}" >
-                        <small>Appears on home page footer</small>
-                    </div>
-
-                    <div class="form-group col-md-12 m-t-0">
-                        <h5>Footer Subtitle 2</h5>
-                        <input type="text" class="form-control form-control-line" name=footerSubtitle2 value="{{ $info->WBST_FOOT_SUB2 ?? old('footerSubtitle2')}}" >
-                        <small>Appears on home page footer</small>
-                    </div>
 
 
                     <button type="submit" class="btn btn-success mr-2">Submit</button>

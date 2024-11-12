@@ -1410,7 +1410,6 @@ tfoot.ws-checkout-shipping tr.ws-shipping-total td{
 .ws-call-section {
 	position: relative;
 	min-height: 350px;
-	background: url(../img/backgrounds/shop-header-bg.jpg) no-repeat; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

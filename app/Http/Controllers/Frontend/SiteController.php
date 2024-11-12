@@ -19,6 +19,8 @@ class SiteController extends Controller
     public function home()
     {
         $data = WSBaseDataManager::getHomePageData();
+        $data['on_sale_prods'] = Product::onSale()->with('subcategory', 'subcategory.category')->limit(9)->get();
+        $data['new_arrivals'] = Product::latest()->with('subcategory', 'subcategory.category')->limit(6)->get();
         $flag = session('flag');
         switch ($flag) {
             case 'showOrderSubmitted':
@@ -86,41 +88,22 @@ class SiteController extends Controller
         return view("frontend.catalog.collection", $data);
     }
 
-    public function wishlist(Request $request)
-    {
-
-        $applyNewFilters = $request->isMethod('POST');
-        //loading applied filters
-        if ($applyNewFilters) {
-            $colorFilters = $request->color_filters ?? null;
-            $sizeFilters = $request->size_filters ?? null;
-            $priceFilters = $request->price_filters ?? null;
-            $sortOption = $request->sort_option ?? null;
-        } else {
-            $colorFilters =  $request->input('applied_color_filters') ?? null;
-            $sizeFilters =  $request->input('applied_size_filters') ?? null;
-            $priceFilters =  $request->input('applied_price_filters') ?? null;
-            $sortOption =  $request->input('applied_sort_option') ?? null;
-        }
-        $loggedInUser = User::with('wishlist')->findOrFail(Auth::id());
-        $productsQuery = $loggedInUser->wishlistQuery();
-        $data = WSBaseDataManager::getCollectionPageData(
-            $applyNewFilters,
-            WSBaseDataManager::COLLECTION_PAGES[0],
-            $productsQuery,
-            $priceFilters,
-            $sortOption,
-            null,
-            $request->per_page ?? ($request->input('per_page') ?? 28)
-        );
-
-        return view("frontend.catalog.collection", $data);
-    }
-
     public function aboutus()
     {
         $data = WSBaseDataManager::getSiteData();
         return view('frontend.aboutus', $data);
+    }
+
+    public function delivery()
+    {
+        $data = WSBaseDataManager::getSiteData();
+        return view('frontend.delivery', $data);
+    }
+
+    public function paymentPolicy()
+    {
+        $data = WSBaseDataManager::getSiteData();
+        return view('frontend.payment', $data);
     }
 
     public function contactus()

@@ -90,7 +90,7 @@
 
     <script src="https://accounts.google.com/gsi/client" async></script>
     <div id="g_id_onload" data-client_id="980156877622-i08tl355o8bd0aks6tuq1a3uper1latf.apps.googleusercontent.com"
-        data-login_uri="{{url('googlelogin')}}" data-use_fedcm_for_prompt="true" data-auto_prompt="true">
+        data-login_uri="{{ url('googlelogin') }}" data-use_fedcm_for_prompt="true" data-auto_prompt="true">
     </div>
     </div>
 
@@ -242,29 +242,9 @@
 
         @yield('content')
 
-        <!-- Call to Action Section -->
-        <section class="ws-call-section">
-            <div class="ws-overlay">
-                <div class="ws-parallax-caption">
-                    <div class="ws-parallax-holder">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <h2>Explore More on Facebook!</h2>
-                            <div class="ws-separator"></div>
-                            <p>Looking for more inspiring materials and discuss new ideas? Visit our page to browse our
-                                full collection! Stay updated on the latest products, offers, and tips for making the
-                                most of our artistic learning tools.</p>
-                            <div class="ws-call-btn">
-                                <a href="{{ $site_info['WBST_FB'] }}">Facebook page</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Call to Action Section -->
 
         <!-- Instagram Content -->
-        <section id="ws-instagram-section">
+        <section id="ws-instagram-section" style="margin-top: 20px">
             <div class="container">
                 <div class="row vertical-align">
 
@@ -281,22 +261,22 @@
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.1s, ease-in 20px'>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <img src="assets/img/journal/1.jpg" alt="Alternative Text" class="img-responsive">
+                        <a href="https://www.instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank">
+                            <img src="{{ $site_info->footer1_url }}" alt="Alternative Text" class="img-responsive">
                         </a>
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.3s, ease-in 20px'>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <img src="assets/img/journal/4.jpg" alt="Alternative Text" class="img-responsive">
+                        <a href="https://www.instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank">
+                            <img src="{{ $site_info->footer2_url }}" alt="Alternative Text" class="img-responsive">
                         </a>
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.5s, ease-in 20px'>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <img src="assets/img/journal/8.jpg" alt="Alternative Text" class="img-responsive">
+                        <a href="https://www.instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank">
+                            <img src="{{ $site_info->footer3_url }}" alt="Alternative Text" class="img-responsive">
                         </a>
                     </div>
                 </div>
@@ -334,10 +314,9 @@
                         <h3>Support</h3>
                         <div class="ws-footer-separator"></div>
                         <ul>
-                            <li><a href="#x">Shipping &amp; Return</a></li>
-                            <li><a href="#x">Privacy Policy</a></li>
-                            <li><a href="#x">F.A.Q</a></li>
-                            <li><a href="#x">Contact Us</a></li>
+                            <li><a href="{{ url('delivery') }}">Shipping Policy</a></li>
+                            <li><a href="{{ url('payment') }}">Privacy Policy</a></li>
+                            <li><a href="{{ url('contact') }}">Contact Us</a></li>
                         </ul>
                     </div>
 
@@ -346,8 +325,8 @@
                         <h3>Socials</h3>
                         <div class="ws-footer-separator"></div>
                         <ul class="ws-footer-social">
-                            <li><a href="#x"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
-                            <li><a href="#x"><i class="fa fa-instagram fa-lg"></i> Instagram</a></li>
+                            <li><a href="{{$site_info->fb_url}}" target="_blank"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+                            <li><a href="{{$site_info->insta_url}}" target="_blank"><i class="fa fa-instagram fa-lg"></i> Instagram</a></li>
                         </ul>
                     </div>
 
@@ -356,10 +335,9 @@
                         <h3>Shop</h3>
                         <div class="ws-footer-separator"></div>
                         <ul>
-                            <li><a href="#x">Journals</a></li>
-                            <li><a href="#x">Abstract Prints</a></li>
-                            <li><a href="#x">Illustrated Prints</a></li>
-                            <li><a href="#x">Greeting Cards</a></li>
+                            @foreach ($categories as $catg)
+                                <li><a href="{{ url('shop/' . $catg->id) }}">{{ $catg->name }}</a></li>
+                            @endforeach
                         </ul>
                     </div>
 
@@ -378,13 +356,7 @@
                 </div>
 
                 <!-- Payments -->
-                <div class="pull-right">
-                    <ul class="ws-footer-payments">
-                        <li><i class="fa fa-cc-visa fa-lg"></i></li>
-                        <li><i class="fa fa-cc-paypal fa-lg"></i></li>
-                        <li><i class="fa fa-cc-mastercard fa-lg"></i></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
         <!-- Footer Bar End -->

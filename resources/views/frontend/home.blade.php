@@ -1,25 +1,20 @@
 @extends('layouts.site')
 
 @section('content')
-
-
     <!-- Hero Content -->
     <div id="ws-hero-fullscreen" class="rev_slider">
         <ul>
-            <li data-transition="fade" data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut"
-                data-masterspeed="2000">
+            <li data-transition="fade" data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000">
                 <!-- Background Image -->
-                <img src="{{ url('assets/img/backgrounds/hero-bg.jpg') }}" alt="Alternative Text"
-                    data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"
-                    data-bgparallax="10">
+                <img src="{{ $site_info->landing_image }}" alt="Alternative Text" data-bgposition="center center"
+                    data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10">
 
                 <!-- Background Overlay -->
-                <div class="tp-caption" data-x="['center','center','center','center']"
-                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                    data-voffset="['0','0','0','0']" data-width="full" data-height="full" data-whitespace="nowrap"
-                    data-transform_idle="o:1;" data-transform_in="opacity:0;s:1500;e:Power3.easeInOut;"
-                    data-transform_out="s:300;s:300;" data-start="750" data-basealign="slide"
-                    data-responsive_offset="on" data-responsive="off"
+                <div class="tp-caption" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                    data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" data-width="full"
+                    data-height="full" data-whitespace="nowrap" data-transform_idle="o:1;"
+                    data-transform_in="opacity:0;s:1500;e:Power3.easeInOut;" data-transform_out="s:300;s:300;"
+                    data-start="750" data-basealign="slide" data-responsive_offset="on" data-responsive="off"
                     style="z-index: 5;background-color:rgba(0, 0, 0, 0.40);border-color:rgba(0, 0, 0, 0.50);">
                 </div>
 
@@ -28,8 +23,8 @@
                     data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
                     data-voffset="['0','0','0','1']"
                     data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
-                    data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000"
-                    data-responsive_offset="on" style="z-index: 6;">
+                    data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000" data-responsive_offset="on"
+                    style="z-index: 6;">
                     <h1>AInspiring Learning Through Art &amp; Faith</h1>
                 </div>
 
@@ -38,15 +33,14 @@
                     data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
                     data-voffset="['-72','-72','-72','-48']"
                     data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
-                    data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000"
-                    data-responsive_offset="on" style="z-index: 7;">
+                    data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000" data-responsive_offset="on"
+                    style="z-index: 7;">
                     <h4>Creative Materials to Spark Understanding and Growth in Every Lesson</h4>
                 </div>
 
                 <!-- Button -->
-                <div class="tp-caption" data-x="['center','center','center','center']"
-                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                    data-voffset="['92','92','92','76']"
+                <div class="tp-caption" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                    data-y="['middle','middle','middle','middle']" data-voffset="['92','92','92','76']"
                     data-transform_in="y:50px;opacity:0;s:1500;e:Power4.easeInOut;" data-start="1000"
                     data-responsive_offset="on" data-responsive="off" style="z-index: 8;"><a class="btn ws-big-btn"
                         href="{{ url('shop') }}">View Material</a>
@@ -68,53 +62,37 @@
                     <div class="col-sm-8 col-sm-offset-2">
                         <h3>Where Art and Faith Shape Young Minds</h3>
                         <div class="ws-separator"></div>
-                        <p>Our materials are designed to engage students in meaningful ways, combining creativity with thoughtful content that encourages exploration and personal growth. By making learning visually stimulating and interactive, we aim to cultivate curiosity and critical thinking. Each product fosters a deeper connection to the subjects explored, helping young learners develop skills, values, and insights that stay with them well beyond the classroom.</p>
+                        <p>Our materials are designed to engage students in meaningful ways, combining creativity with
+                            thoughtful content that encourages exploration and personal growth. By making learning visually
+                            stimulating and interactive, we aim to cultivate curiosity and critical thinking. Each product
+                            fosters a deeper connection to the subjects explored, helping young learners develop skills,
+                            values, and insights that stay with them well beyond the classroom.</p>
                     </div>
                 </div>
 
                 <!-- Featured Collections -->
                 <div class="ws-featured-collections clearfix">
-                    <!-- Item -->
-                    <div class="col-sm-4 featured-collections-item">
-                        <a href="#x">
-                            <div class="thumbnail">
-                                <img src="assets/img/backgrounds/abstract-bg.jpg" alt="Alternative Text">
-                                <div class="ws-overlay">
-                                    <div class="caption">
-                                        <h3>Abstract Prints</h3>
-                                    </div>
+                    @foreach ($slides as $slide)
+                        <!-- Item -->
+                        <div class="col-sm-{{ 12 / $slides->count() }} featured-collections-item">
+                            <a @if ($slide->SLID_BTN_URL) href="{{ $slide->SLID_BTN_URL }}" @endif>
+                                <div class="thumbnail">
+                                    <img src="{{ $slide->image_url }}">
+                                    @if ($slide->SLID_TITL)
+                                        <div class="ws-overlay">
+                                            <div class="caption">
+                                                <h3>{{ $slide->SLID_TITL }}</h3>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    @endforeach
 
-                    <!-- Item -->
-                    <div class="col-sm-4 featured-collections-item">
-                        <a href="#x">
-                            <div class="thumbnail">
-                                <img src="assets/img/backgrounds/journal-bg.jpg" alt="Alternative Text">
-                                <div class="ws-overlay">
-                                    <div class="caption">
-                                        <h3>Journals</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
 
-                    <!-- Item -->
-                    <div class="col-sm-4 featured-collections-item">
-                        <a href="#x">
-                            <div class="thumbnail">
-                                <img src="assets/img/backgrounds/illustrated-bg.jpg" alt="Alternative Text">
-                                <div class="ws-overlay">
-                                    <div class="caption">
-                                        <h3>Illustrated Prints</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+
+
                 </div>
 
             </div>
@@ -133,149 +111,39 @@
         </div>
 
         <div id="ws-items-carousel">
+            @foreach ($new_arrivals as $new_prod)
+                <!-- Item -->
+                <div class="ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
+                    <a href="{{ url('products/' . $new_prod->id) }}">
+                        <div class="ws-item-offer">
+                            <!-- Image -->
+                            <figure>
+                                <img src="{{ $new_prod->main_image_url }}" alt="{{ $new_prod->name }}"
+                                    class="img-responsive">
+                            </figure>
+                        </div>
 
-            <!-- Item -->
-            <div class="ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
-                <a href="#">
-                    <div class="ws-item-offer">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/abstract/5.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                    </div>
+                        <div class="ws-works-caption text-center">
+                            <!-- Item Category -->
+                            <div class="ws-item-category">{{ $new_prod->subcategory->category->name }} - {{ $new_prod->subcategory->name }}</div>
 
-                    <div class="ws-works-caption text-center">
-                        <!-- Item Category -->
-                        <div class="ws-item-category">Abstract Prints</div>
+                            <!-- Title -->
+                            <h3 class="ws-item-title">{{ $new_prod->name }}</h3>
 
-                        <!-- Title -->
-                        <h3 class="ws-item-title">Pinning Moon</h3>
+                            <div class="ws-item-separator"></div>
 
-                        <div class="ws-item-separator"></div>
+                            <!-- Price -->
+                            <div class="ws-item-price">
+                                @if ($new_prod->offer)
+                                    <del>{{ $new_prod->price }}EGP</del>
+                                @endif
+                                <ins>{{ $new_prod->price - $new_prod->offer }}EGP</ins>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
 
-                        <!-- Price -->
-                        <div class="ws-item-price"><del>$50.00</del> <ins>$25.00</ins></div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Item -->
-            <div class="ws-works-item" data-sr='wait 0.3s, ease-in 20px'>
-                <a href="#">
-                    <!-- Image -->
-                    <figure>
-                        <img src="assets/img/works/illustrated/4.jpg" alt="Alternative Text" class="img-responsive">
-                    </figure>
-                    <div class="ws-works-caption text-center">
-                        <!-- Item Category -->
-                        <div class="ws-item-category">Illustrated Prints</div>
-
-                        <!-- Title -->
-                        <h3 class="ws-item-title">Arkose Factor</h3>
-
-                        <div class="ws-item-separator"></div>
-
-                        <!-- Price -->
-                        <div class="ws-item-price">$150.00</div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Item -->
-            <div class="ws-works-item" data-sr='wait 0.5s, ease-in 20px'>
-                <a href="#">
-                    <!-- Image -->
-                    <figure>
-                        <img src="assets/img/works/abstract/6.jpg" alt="Alternative Text" class="img-responsive">
-                    </figure>
-                    <div class="ws-works-caption text-center">
-                        <!-- Item Category -->
-                        <div class="ws-item-category">Abstract Prints</div>
-
-                        <!-- Title -->
-                        <h3 class="ws-item-title">Interstellar</h3>
-
-                        <div class="ws-item-separator"></div>
-
-                        <!-- Price -->
-                        <div class="ws-item-price">$75.00</div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Item -->
-            <div class="ws-works-item" data-sr='wait 0.7s, ease-in 20px'>
-                <a href="#">
-                    <div class="ws-item-offer">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/journals/3.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                    </div>
-                    <div class="ws-works-caption text-center">
-                        <!-- Item Category -->
-                        <div class="ws-item-category">Journal</div>
-
-                        <!-- Title -->
-                        <h3 class="ws-item-title">Rubby Hubby</h3>
-
-                        <div class="ws-item-separator"></div>
-
-                        <!-- Price -->
-                        <div class="ws-item-price">$53.00</div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Item -->
-            <div class="ws-works-item">
-                <a href="#">
-                    <div class="ws-item-offer">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/abstract/7.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                    </div>
-
-                    <div class="ws-works-caption text-center">
-                        <!-- Item Category -->
-                        <div class="ws-item-category">Abstract Prints</div>
-
-                        <!-- Title -->
-                        <h3 class="ws-item-title">Pinning Moon</h3>
-
-                        <div class="ws-item-separator"></div>
-
-                        <!-- Price -->
-                        <div class="ws-item-price"><del>$50.00</del> <ins>$25.00</ins></div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Item -->
-            <div class="ws-works-item">
-                <a href="#">
-                    <div class="ws-item-offer">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/journals/4.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                    </div>
-
-                    <div class="ws-works-caption text-center">
-                        <!-- Item Category -->
-                        <div class="ws-item-category">Abstract Prints</div>
-
-                        <!-- Title -->
-                        <h3 class="ws-item-title">Pinning Moon</h3>
-
-                        <div class="ws-item-separator"></div>
-
-                        <!-- Price -->
-                        <div class="ws-item-price"><del>$50.00</del> <ins>$25.00</ins></div>
-                    </div>
-                </a>
-            </div>
         </div>
     </section>
     <!-- End New Arrivals Section -->
@@ -287,236 +155,72 @@
 
                 <div class="ws-works-title">
                     <div class="col-sm-12">
-                        <h3>Featured Products</h3>
+                        <h3>On Sale Products</h3>
                         <div class="ws-separator"></div>
                     </div>
                 </div>
 
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
-                    <a href="#">
-                        <div class="ws-item-offer">
-                            <!-- Image -->
-                            <figure>
-                                <img src="assets/img/works/abstract/1.jpg" alt="Alternative Text"
-                                    class="img-responsive">
-                            </figure>
-                            <!-- Sale Caption -->
-                            <div class="ws-item-sale">
-                                <span>Sale</span>
+                @foreach ($on_sale_prods as $prod)
+                    <!-- Item -->
+                    <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
+                        <a href="{{ url('products/' . $prod->id) }}">
+                            <div class="ws-item-offer">
+                                <!-- Image -->
+                                <figure>
+                                    <img src="{{ $prod->main_image_url }}" alt="{{ $prod->name }}"
+                                        class="img-responsive">
+                                </figure>
+                                <!-- Sale Caption -->
+                                @if ($prod->offer)
+                                    <div class="ws-item-sale">
+                                        <span>Sale</span>
+                                    </div>
+                                @endif
                             </div>
-                        </div>
 
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Abstract Prints</div>
+                            <div class="ws-works-caption text-center">
+                                <!-- Item Category -->
+                                <div class="ws-item-category">{{ $prod->subcategory->category->name }} - {{ $prod->subcategory->name }}</div>
 
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Pinning Moon</h3>
+                                <!-- Title -->
+                                <h3 class="ws-item-title">{{ $prod->name }}</h3>
 
-                            <div class="ws-item-separator"></div>
+                                <div class="ws-item-separator"></div>
 
-                            <!-- Price -->
-                            <div class="ws-item-price"><del>$50.00</del> <ins>$25.00</ins></div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.3s, ease-in 20px'>
-                    <a href="#">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/illustrated/1.jpg" alt="Alternative Text"
-                                class="img-responsive">
-                        </figure>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Illustrated Prints</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Arkose Factor</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price">$150.00</div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.5s, ease-in 20px'>
-                    <a href="#">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/abstract/2.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Abstract Prints</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Interstellar</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price">$75.00</div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
-                    <a href="#">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/abstract/3.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Abstract Prints</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Lake House</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price">$33.00</div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.3s, ease-in 20px'>
-                    <a href="#">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/illustrated/2.jpg" alt="Alternative Text"
-                                class="img-responsive">
-                        </figure>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Illustrated Prints</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Sorbetto</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price">$123.00</div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.5s, ease-in 20px'>
-                    <a href="#">
-                        <div class="ws-item-offer">
-                            <!-- Image -->
-                            <figure>
-                                <img src="assets/img/works/journals/1.jpg" alt="Alternative Text"
-                                    class="img-responsive">
-                            </figure>
-                            <!-- Sale Caption -->
-                            <div class="ws-item-sale">
-                                <span>Sold</span>
+                                <!-- Price -->
+                                <div class="ws-item-price">
+                                    @if ($prod->offer)
+                                        <del>{{ $prod->price }}EGP</del>
+                                    @endif
+                                    <ins>{{ $prod->price - $prod->offer }}EGP</ins>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Journal</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Rubby Hubby</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price">$53.00</div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
-                    <a href="#">
-                        <div class="ws-item-offer">
-                            <!-- Image -->
-                            <figure>
-                                <img src="assets/img/works/illustrated/3.jpg" alt="Alternative Text"
-                                    class="img-responsive">
-                            </figure>
-                            <!-- Sale Caption -->
-                            <div class="ws-item-sale">
-                                <span>Sale</span>
-                            </div>
-                        </div>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Illustrated Prints</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Grey Mountains</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price"><del>$23.00</del> <ins>$10.00</ins></div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.3s, ease-in 20px'>
-                    <a href="#">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/journals/2.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Journals</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Thinking Wood</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price">$23.00</div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Item -->
-                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.5s, ease-in 20px'>
-                    <a href="#">
-                        <!-- Image -->
-                        <figure>
-                            <img src="assets/img/works/abstract/4.jpg" alt="Alternative Text" class="img-responsive">
-                        </figure>
-                        <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">Abstract Prints</div>
-
-                            <!-- Title -->
-                            <h3 class="ws-item-title">Thinking Wood</h3>
-
-                            <div class="ws-item-separator"></div>
-
-                            <!-- Price -->
-                            <div class="ws-item-price">$23.00</div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endforeach
 
             </div>
         </div>
     </section>
     <!-- Work Collection End  -->
-
+    <!-- Call to Action Section -->
+    <section class="ws-call-section" style="background-image: {{ $site_info->footer_large }}">
+        <div class="ws-overlay">
+            <div class="ws-parallax-caption">
+                <div class="ws-parallax-holder">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <h2>Explore More on Facebook!</h2>
+                        <div class="ws-separator"></div>
+                        <p>Looking for more inspiring materials and discuss new ideas? Visit our page to browse our
+                            full collection! Stay updated on the latest products, offers, and tips for making the
+                            most of our artistic learning tools.</p>
+                        <div class="ws-call-btn">
+                            <a href="{{ $site_info['WBST_FB'] }}">Facebook page</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Call to Action Section -->
 @endsection
