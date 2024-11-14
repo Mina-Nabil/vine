@@ -210,8 +210,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-left">
                             <li class="dropdown">
-                                <a href="{{ url('home') }}" class="dropdown-toggle" data-toggle="dropdown"
-                                    data-hover="dropdown" data-animations="fadeIn">Home </a>
+                                <a href="{{ url('home') }}" >Home </a>
 
                             </li>
                             <li><a href="{{ url('shop') }}">Shop</a></li>
@@ -325,8 +324,10 @@
                         <h3>Socials</h3>
                         <div class="ws-footer-separator"></div>
                         <ul class="ws-footer-social">
-                            <li><a href="{{$site_info->fb_url}}" target="_blank"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
-                            <li><a href="{{$site_info->insta_url}}" target="_blank"><i class="fa fa-instagram fa-lg"></i> Instagram</a></li>
+                            <li><a href="{{ $site_info->fb_url }}" target="_blank"><i
+                                        class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+                            <li><a href="{{ $site_info->insta_url }}" target="_blank"><i
+                                        class="fa fa-instagram fa-lg"></i> Instagram</a></li>
                         </ul>
                     </div>
 
