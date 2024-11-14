@@ -83,7 +83,7 @@
                             <tbody>
                                 <tr class="cart-subtotal">
                                     <th>Subtotal</th>
-                                    <td><span class="amount">{{number_format($cart->total - $cart->discount,2)}}EGP</span></td>
+                                    <td><span class="amount">{{number_format($cart->total + $cart->discount,2)}}EGP</span></td>
                                 </tr>
 
                                 <tr class="shipping">
