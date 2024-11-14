@@ -27,7 +27,7 @@
                     @foreach ($categories as $catg)
                         <li role="presentation" @class(['active' => isset($category_id) && $category_id == $catg->id])>
                             <a href="#{{ $catg->name }}" aria-controls="prints" role="tab"
-                                data-toggle="tab">{{ $catg->name }}
+                                data-toggle="tab">{{ $catg->arabic_name }}
                                 ({{ $catg->products->count() }})
                             </a>
                         </li>
@@ -52,10 +52,10 @@
 
                                     <div class="ws-works-caption text-center">
                                         <!-- Item Category -->
-                                        <div class="ws-item-category">{{ $prod->subcategory->name }}</div>
+                                        <div class="ws-item-category">{{ $prod->subcategory->arabic_name }}</div>
 
                                         <!-- Title -->
-                                        <h3 class="ws-item-title">{{ $prod->name }}</h3>
+                                        <h3 class="ws-item-title">{{ $prod->arabic_name }}</h3>
 
                                         <div class="ws-item-separator"></div>
 
@@ -93,10 +93,10 @@
 
                                         <div class="ws-works-caption text-center">
                                             <!-- Item Category -->
-                                            <div class="ws-item-category">{{ $prod->subcategory->name }}</div>
+                                            <div class="ws-item-category">{{ $prod->subcategory->arabic_name }}</div>
 
                                             <!-- Title -->
-                                            <h3 class="ws-item-title">{{ $prod->name }}</h3>
+                                            <h3 class="ws-item-title">{{ $prod->arabic_name }}</h3>
 
                                             <div class="ws-item-separator"></div>
 
