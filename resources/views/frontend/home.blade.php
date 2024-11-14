@@ -125,10 +125,10 @@
 
                         <div class="ws-works-caption text-center">
                             <!-- Item Category -->
-                            <div class="ws-item-category">{{ $new_prod->subcategory->category->name }} - {{ $new_prod->subcategory->name }}</div>
+                            <div class="ws-item-category">{{ $new_prod->subcategory->category->arabic_name }} - {{ $new_prod->subcategory->arabic_name }}</div>
 
                             <!-- Title -->
-                            <h3 class="ws-item-title">{{ $new_prod->name }}</h3>
+                            <h3 class="ws-item-title">{{ $new_prod->arabic_name }}</h3>
 
                             <div class="ws-item-separator"></div>
 
@@ -180,10 +180,10 @@
 
                             <div class="ws-works-caption text-center">
                                 <!-- Item Category -->
-                                <div class="ws-item-category">{{ $prod->subcategory->category->name }} - {{ $prod->subcategory->name }}</div>
+                                <div class="ws-item-category">{{ $prod->subcategory->category->arabic_name }} - {{ $prod->subcategory->arabic_name }}</div>
 
                                 <!-- Title -->
-                                <h3 class="ws-item-title">{{ $prod->name }}</h3>
+                                <h3 class="ws-item-title">{{ $prod->arabic_name }}</h3>
 
                                 <div class="ws-item-separator"></div>
 
