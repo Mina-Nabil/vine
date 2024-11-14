@@ -7,9 +7,9 @@
             <ol class="breadcrumb">
                 <li><a href="{{ url('shop') }}">Shop</a></li>
                 <li><a
-                        href="{{ url('shop/' . $product->subcategory->category->id) }}">{{ $product->subcategory->category->name }}</a>
+                        href="{{ url('shop/' . $product->subcategory->category->id) }}">{{ $product->subcategory->category->arabic_name }}</a>
                 </li>
-                <li><a href="{{ url('shop/' . $product->subcategory->category->id) }}">{{ $product->subcategory->name }}</a>
+                <li><a href="{{ url('shop/' . $product->subcategory->category->id) }}">{{ $product->subcategory->arabic_name }}</a>
                 </li>
             </ol>
         </div>
@@ -36,11 +36,11 @@
                 <div class="ws-product-content">
                     <header>
                         <!-- Item Category -->
-                        <div class="ws-item-category">{{ $product->subcategory->category->name }} -
-                            {{ $product->subcategory->name }}</div>
+                        <div class="ws-item-category">{{ $product->subcategory->category->arabic_name }} -
+                            {{ $product->subcategory->arabic_name }}</div>
 
                         <!-- Title -->
-                        <h3 class="ws-item-title">{{ $product->name }}</h3>
+                        <h3 class="ws-item-title">{{ $product->arabic_name }}</h3>
 
                         <div class="ws-separator"></div>
 
@@ -62,7 +62,7 @@
                     </header>
 
                     <div class="ws-product-details">
-                        {{ $product->desc }}<br><br>{{ $product->arabic_desc }}
+                        {{ $product->arabic_desc }}<br><br>{{ $product->desc }}
                     </div>
 
                     <!-- Button -->
