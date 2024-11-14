@@ -27,9 +27,10 @@ class WSBaseDataManager
         $data['sendEmailUrl'] = url('contactus/sendemail');
 
         //cart vars
+        $data['apiCart'] = url('api/cart');
         $data['addToCartUrl'] = url('cart/add');
-        $data['addToWishlistUrl'] = url('wishlist/add');
         $data['removeFromCartUrl'] = url('cart/remove');
+        $data['updateCartUrl'] = url('cart/submit');
         $data['submitOrderUrl'] = url('order/submit');
         $data['cart'] = User::getUserCart($loadStockDataOnCart);
 

@@ -103,7 +103,7 @@ class Product extends Model
 
     public function getFinalPriceAttribute(): ?float
     {
-        return ((100 - $this->offer) / 100) * $this->price;
+        return $this->price - $this->offer;
     }
 
     public function getCategoryNameAttribute(): ?string

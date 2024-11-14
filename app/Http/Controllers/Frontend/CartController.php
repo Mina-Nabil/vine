@@ -40,11 +40,16 @@ class CartController extends Controller
             } else {
                 $msgClientName = $request->guestName;
             }
-        //    SendOrderConfirmationSMS::dispatch($msgClientName, $request->phone, str_pad($order->id, 5, '0', STR_PAD_LEFT));
-            return  redirect('home')->with("flag", "showOrderSubmitted"); 
+            //    SendOrderConfirmationSMS::dispatch($msgClientName, $request->phone, str_pad($order->id, 5, '0', STR_PAD_LEFT));
+            return  redirect('home')->with("flag", "showOrderSubmitted");
         } else {
             return redirect('home')->with("flag", "showOrderFailed");
         }
+    }
+
+    public function cartData()
+    {
+        return response()->json(User::getUserCart());
     }
 
     public function cart()
@@ -65,19 +70,11 @@ class CartController extends Controller
 
         $request->validate([
             "product"   =>  "required|array",
-            "color"     =>  "required|array",
-            "size"      =>  "required|array",
             "quantity"  =>  "required|array",
 
         ]);
         $this->updateCartFromCartArray($request);
-        if (isset($request->update)) {
-            return redirect('cart');
-        } elseif (isset($request->checkout)) {
-            return redirect('checkout');
-        } else {
-            return redirect('home');
-        }
+        return redirect('cart');
     }
 
     public function add(Request $request)
@@ -91,43 +88,26 @@ class CartController extends Controller
             "details"   =>  Product::findOrFail($request->id),
         ];
 
-        $new_cart_item["variant"] = $new_cart_item["size"]->code . " / " . $new_cart_item["color"]->name;
-
 
         if ($request->session()->has("cart")) {
             //cart found
             $cartArray = $request->session()->get("cart");
             //the cart array key's format is "[prod_id]-[color_id]-[size_id]"
-            $alreadyInCart = ($cartArray[$request->id . "-" . $request->color_id . "-" . $request->size_id] ?? 0);
+            $alreadyInCart = ($cartArray[$request->id] ?? 0);
 
-            $itemsAvailable = Inventory::checkProductAvailability($request->id, $request->color_id, $request->size_id);
-            if ($itemsAvailable < $request->quantity + $alreadyInCart) {
-                return json_encode((object) ["added" => false, "msg" => "Product addition to cart failed! Can't add more of this product to the cart."]);
-            }
-
-            $cartArray[$request->id . "-" . $request->color_id . "-" . $request->size_id] =
+            $cartArray[$request->id] =
                 $alreadyInCart + $request->quantity;
-            $new_cart_item["quantity"] = $cartArray[$request->id . "-" . $request->color_id . "-" . $request->size_id];
+            $new_cart_item["quantity"] = $cartArray[$request->id];
         } else {
-            $itemsAvailable = Inventory::checkProductAvailability($request->id, $request->color_id, $request->size_id);
-            if ($itemsAvailable < $request->quantity) {
-                return json_encode((object) ["added" => false, "msg" => "Product addition to cart failed! Item Unavailable"]);
-            }
+
             //new cart created by adding first item
             $cartArray = [
-                $request->id . "-" . $request->color_id . "-" . $request->size_id =>  $request->quantity
+                $request->id => $request->quantity
             ];
             $new_cart_item["quantity"] = $request->quantity;
         }
         $request->session()->put("cart", $cartArray);
-        return json_encode(
-            [
-                "added" => true,
-                "cart" => User::getUserCart($request),
-                "product"   =>  $new_cart_item
-            ],
-            JSON_UNESCAPED_UNICODE
-        );
+        return response()->json(["message" => true]);
     }
 
     public function remove(Request $request)
@@ -137,15 +117,13 @@ class CartController extends Controller
         ]);
         $cartArray = session("cart");
 
-        if (isset($cartArray[$request->id . "-" . $request->color_id . "-" . $request->size_id])) {
-            unset($cartArray[$request->id . "-" . $request->color_id . "-" . $request->size_id]);
+        if (isset($cartArray[$request->id])) {
+            unset($cartArray[$request->id]);
         }
 
         $request->session()->put("cart", $cartArray);
 
-        return json_encode([
-            "cart" => User::getUserCart($request)
-        ], JSON_UNESCAPED_UNICODE);
+        return response()->json(["message" => true]);
     }
 
     /**
@@ -157,7 +135,8 @@ class CartController extends Controller
 
         $newCartArr = array();
         foreach ($cartRequest->product as $index => $prodID) {
-            $newCartArr[$prodID . '-' . $cartRequest->color[$index] . '-' . $cartRequest->size[$index]] = $cartRequest->quantity[$index];
+            if($cartRequest->quantity[$index])
+            $newCartArr[$prodID] = $cartRequest->quantity[$index];
         }
         Session::put('cart', $newCartArr);
         return $newCartArr;

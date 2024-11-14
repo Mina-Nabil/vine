@@ -12,6 +12,7 @@
     <title>Vine Arts</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="google-signin-client_id"
         content="980156877622-i08tl355o8bd0aks6tuq1a3uper1latf.apps.googleusercontent.com">
 
@@ -118,7 +119,7 @@
 
                 <!-- Cart -->
                 <li class="ws-shop-cart">
-                    <a href="{{ url('cart') }}" class="btn btn-sm">Cart (2)</a>
+                    <a href="{{ url('cart') }}" class="btn btn-sm cart-count">Cart (2)</a>
 
                     <!-- Cart Popover -->
                     <div class="ws-shop-minicart">
@@ -126,32 +127,7 @@
 
                             <!-- Added Items -->
                             <ul class="minicart-content-items clearfix">
-                                @foreach ($cart->items as $item)
-                                    <!-- Item -->
-                                    <li class="media">
-                                        <div class="media-left">
-                                            <!-- Image -->
-                                            <a href="#">
-                                                <img src="{{ $item->image_url }}" class="media-object"
-                                                    alt="Alternative Text">
-                                            </a>
-                                        </div>
 
-                                        <div class="minicart-content-details media-body">
-                                            <!-- Title -->
-                                            <h3><a
-                                                    href="#">{{ $item->quantity > 1 ? "$item->quantity x " : '' }}{{ $item->title }}</a>
-                                            </h3>
-
-                                            <!-- Price -->
-                                            <span class="minicart-content-price">{{ $item->quantity }} x
-                                                {{ $item->price }}EGP</span>
-                                        </div>
-
-                                        <!-- Remove -->
-                                        {{-- <span class="minicart-content-remove"><a href="#"><i class="fa fa-times"></i></a></span>  --}}
-                                    </li>
-                                @endforeach
 
                             </ul>
 
@@ -210,7 +186,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-left">
                             <li class="dropdown">
-                                <a href="{{ url('home') }}" >Home </a>
+                                <a href="{{ url('home') }}">Home </a>
 
                             </li>
                             <li><a href="{{ url('shop') }}">Shop</a></li>
@@ -370,6 +346,100 @@
         <script src="{{ url('assets/js/plugins/scrollReveal.min.js') }}"></script>
         <script src="{{ url('assets/js/plugins/bootstrap-dropdownhover.min.js') }}"></script>
         <script src="{{ url('assets/js/main.js') }}"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                fetchCartData();
+
+                function fetchCartData() {
+                    fetch('{{ $apiCart }}')
+                        .then(response => response.json())
+                        .then(cart => {
+                            populateCart(cart);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching cart data:', error);
+                        });
+                }
+
+                function populateCart(cart) {
+                    const minicartContentItems = document.querySelector('.minicart-content-items');
+                    const minicartTotal = document.querySelector('.minicart-content-total h3');
+                    const minicartCount = document.querySelector('.cart-count');
+                    minicartContentItems.innerHTML = ''; // Clear current items
+
+                    cart.items.forEach(item => {
+                        minicartContentItems.innerHTML += `
+
+
+
+
+                <li class="media" data-id="${item.id}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img src="${item.image_url}" class="media-object" alt="Alternative Text">
+                        </a>
+                    </div>
+                    <div class="minicart-content-details media-body">
+                        <h3><a href="#">${item.quantity > 1 ? `${item.quantity} x ` : ''}${item.title}</a></h3>
+                        <span class="minicart-content-price" >${item.quantity} x ${item.price}EGP</span>               
+                        <span class="minicart-content-remove btn-remove" data-id="${item.id}"><i class="fa fa-times"></i></span> 
+                    </div>
+                </li>`;
+                    });
+
+                    // Update subtotal
+                    minicartTotal.textContent = `Subtotal: ${cart.total}`;
+                    minicartCount.textContent = `Cart (${cart.count})`;
+
+                    // Attach event listeners
+                    attachEventListeners();
+                }
+
+                function attachEventListeners() {
+
+
+                    document.querySelectorAll('.btn-remove').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const id = this.dataset.id;
+                            updateCart('{{ $removeFromCartUrl }}', {
+                                id: id
+                            });
+                        });
+                    });
+                }
+
+                function updateCart(url, data) {
+                    fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .then(response => response.json())
+                        .then(cart => {
+                            fetchCartData();
+                        })
+                        .catch(error => {
+                            console.error('Error updating cart:', error);
+                        });
+                }
+
+                document.querySelectorAll('.btn-add-cart').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = document.querySelector(`#prod_id`).value;
+                        const quantityInput = document.querySelector(`#prod_count`);
+                        const quantity = parseInt(quantityInput.value) || 1;
+                        updateCart('{{ $addToCartUrl }}', {
+                            id: id,
+                            quantity: quantity
+                        });
+                    });
+                });
+            });
+        </script>
 </body>
 
 </html>

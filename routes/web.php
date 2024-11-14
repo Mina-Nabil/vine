@@ -45,6 +45,7 @@ Route::post('wishlist/add', [BuyerController::class, "addToWishlist"]);
 Route::get('checkout', [CartController::class, "checkout"]);
 Route::post('checkout', [CartController::class, "checkout"]);
 Route::get('cart', [CartController::class, "cart"]);
+Route::get('api/cart', [CartController::class, "cartData"]);
 Route::post('cart', [CartController::class, "submitCart"]);
 Route::post('cart/add', [CartController::class, "add"]);
 Route::post('cart/remove', [CartController::class, "remove"]);

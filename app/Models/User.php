@@ -71,13 +71,14 @@ class User extends Authenticatable
         return true;
     }
 
-    public static function getUserCart($loadStock = false)
+    public static function getUserCart()
     {
         //initialize cart array
         $cartArray =  session("cart");
         $retObj = new stdClass();
         $retObj->items = array();
         $total = 0;
+        $discount = 0;
         $count = 0;
         $retObj->total = $total;
         $retObj->count = $count;
@@ -104,7 +105,7 @@ class User extends Authenticatable
 
                 //for each product in the cart loop over the colors to add all details
                 $tmpProd->id = $prod->id;
-                $tmpProd->title = $prod->name;
+                $tmpProd->title = $prod->arabic_name;
                 $tmpProd->image_url = $prod->main_image_url;
                 $tmpProd->quantity = $quantity;
 
@@ -112,9 +113,11 @@ class User extends Authenticatable
                 array_push($retObj->items, $tmpProd);
 
                 $total += $prod->final_price * $quantity;
+                $discount += $prod->offer * $quantity;
                 $count += $quantity;
             }
             $retObj->total = $total;
+            $retObj->discount = $discount;
             $retObj->count = $count;
         }
 

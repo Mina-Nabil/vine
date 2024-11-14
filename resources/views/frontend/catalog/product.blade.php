@@ -64,9 +64,9 @@
                     <div class="ws-product-details">
                         {{ $product->arabic_desc }}<br><br>{{ $product->desc }}
                     </div>
-
+                    <input type="hidden" id="prod_id" value="{{$product->id}}" />
                     <!-- Button -->
-                    <a class="btn ws-btn-fullwidth">Add To Cart</a><br><br><br>
+                    <a class="btn ws-btn-fullwidth btn-add-cart">Add To Cart</a><br><br><br>
                 </div>
             </div>
         </div>
