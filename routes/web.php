@@ -49,17 +49,12 @@ Route::get('api/cart', [CartController::class, "cartData"]);
 Route::post('cart', [CartController::class, "submitCart"]);
 Route::post('cart/add', [CartController::class, "add"]);
 Route::post('cart/remove', [CartController::class, "remove"]);
-Route::post('order/submit', [CartController::class, "submitOrder"]);
+Route::post('order/submit', [CartController::class, "submitOrder"])->name('confirmOrder');
 
 //catalog functions
 Route::get('shop', [SiteController::class, 'shop'])->name('all');
 Route::get('shop/{id}', [SiteController::class, 'shop']);
 Route::get("product/{id}", [SiteController::class, 'productPage']);
-
-//search routes
-Route::get('search/results', [SiteController::class, 'search']);
-Route::post('search/results', [SiteController::class, 'search']);
-Route::get('search', [SiteController::class, 'searchForm']);
 
 //User authentication routes
 Route::get('/register', [BuyerController::class, 'loadRegister'])->name("register");
@@ -81,9 +76,7 @@ Route::get('/contact', [SiteController::class, 'contactus'])->name("contact");
 Route::post('/contactus/sendemail', [SiteController::class, 'sendContactUsEmail']);
 Route::get('/',  [SiteController::class, 'home']);
 
-// Route::get('404', [SiteController::class, 'notfound_404']);
 
-// Route::fallback(fn() => redirect('404'));
 
 //////////////////////////////////////ADMIN ROUTES////////
 Route::prefix('admin')->group(function () {

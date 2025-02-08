@@ -1283,7 +1283,7 @@ table .img-responsive{
 	margin-bottom: 20px;	
 	letter-spacing: 2px;
 }
-.ws-checkout-billing input{
+.ws-checkout-billing input, select{
 	height: 40px;
 	width: 100%;
 	font-size: 13px;

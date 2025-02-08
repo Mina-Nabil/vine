@@ -235,7 +235,7 @@ class Order extends Model
     public function addTimeline($text)
     {
         $timeline = new Timeline();
-        $timeline->dash_user_id = (Auth::user() && is_a(Auth::user(), DashUser::class)) ? Auth::user()->id : NULL;
+        $timeline->dash_user_id = (Auth::user() && is_a(Auth::user(), DashUser::class)) ? Auth::user()->id : 1;
         $timeline->order_id = $this->id;
         $timeline->text    = $text;
         $timeline->save();

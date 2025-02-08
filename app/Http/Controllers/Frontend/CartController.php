@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Services\WSBaseDataManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use stdClass;
 
@@ -18,19 +19,20 @@ class CartController extends Controller
 {
     public function submitOrder(Request $request)
     {
+        Log::info("HNA");
+
         $request->validate([
             "user"          =>  "required_if:guest,2|nullable|exists:users,id",
             "guestName"     =>  "required_if:guest,1",
             "area"          =>  "required",
-            "option"        =>  "required",
             "address"      =>  "required",
             "phone"      =>  "required",
         ]);
 
         $loadedCart = User::getUserCart();
         $itemsArray = $this->getOrderItemsObjectArray($loadedCart->items);
-
-        $order = Order::addNew($request->user, $request->phone, $request->address, $request->area, $request->option, $request->note, $itemsArray, $loadedCart->total, $request->guestName);
+        Log::info("HNA");
+        $order = Order::addNew($request->user, $request->phone, $request->address, $request->area, $request->note, $itemsArray, $loadedCart->total, $request->guestName);
         if ($order) {
             $order->addTimeline("Order Opened by client");
             $request->session()->forget('cart');
@@ -40,7 +42,7 @@ class CartController extends Controller
             } else {
                 $msgClientName = $request->guestName;
             }
-            //    SendOrderConfirmationSMS::dispatch($msgClientName, $request->phone, str_pad($order->id, 5, '0', STR_PAD_LEFT));
+
             return  redirect('home')->with("flag", "showOrderSubmitted");
         } else {
             return redirect('home')->with("flag", "showOrderFailed");
@@ -135,8 +137,8 @@ class CartController extends Controller
 
         $newCartArr = array();
         foreach ($cartRequest->product as $index => $prodID) {
-            if($cartRequest->quantity[$index])
-            $newCartArr[$prodID] = $cartRequest->quantity[$index];
+            if ($cartRequest->quantity[$index])
+                $newCartArr[$prodID] = $cartRequest->quantity[$index];
         }
         Session::put('cart', $newCartArr);
         return $newCartArr;
@@ -147,9 +149,9 @@ class CartController extends Controller
     {
         $retArr = array();
         foreach ($itemsArray as $item) {
-            $inventoryID = Inventory::getInventoryID($item->id, $item->color->id, $item->size->id);
+            $inventoryID = Inventory::getInventoryID($item->id);
             array_push($retArr, new OrderItem(
-                ["inventory_id" => $inventoryID, "amount" => $item->quantity]
+                ["product_id" => $inventoryID, "amount" => $item->quantity]
             ));
         }
         return $retArr;

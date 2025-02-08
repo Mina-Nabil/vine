@@ -114,7 +114,7 @@
             @foreach ($new_arrivals as $new_prod)
                 <!-- Item -->
                 <div class="ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
-                    <a href="{{ url('products/' . $new_prod->id) }}">
+                    <a href="{{ url('product/' . $new_prod->id) }}">
                         <div class="ws-item-offer">
                             <!-- Image -->
                             <figure>
@@ -125,7 +125,8 @@
 
                         <div class="ws-works-caption text-center">
                             <!-- Item Category -->
-                            <div class="ws-item-category">{{ $new_prod->subcategory->category->arabic_name }} - {{ $new_prod->subcategory->arabic_name }}</div>
+                            <div class="ws-item-category">{{ $new_prod->subcategory->category->arabic_name }} -
+                                {{ $new_prod->subcategory->arabic_name }}</div>
 
                             <!-- Title -->
                             <h3 class="ws-item-title">{{ $new_prod->arabic_name }}</h3>
@@ -163,7 +164,7 @@
                 @foreach ($on_sale_prods as $prod)
                     <!-- Item -->
                     <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
-                        <a href="{{ url('products/' . $prod->id) }}">
+                        <a href="{{ url('product/' . $prod->id) }}">
                             <div class="ws-item-offer">
                                 <!-- Image -->
                                 <figure>
@@ -180,7 +181,8 @@
 
                             <div class="ws-works-caption text-center">
                                 <!-- Item Category -->
-                                <div class="ws-item-category">{{ $prod->subcategory->category->arabic_name }} - {{ $prod->subcategory->arabic_name }}</div>
+                                <div class="ws-item-category">{{ $prod->subcategory->category->arabic_name }} -
+                                    {{ $prod->subcategory->arabic_name }}</div>
 
                                 <!-- Title -->
                                 <h3 class="ws-item-title">{{ $prod->arabic_name }}</h3>
@@ -222,5 +224,19 @@
             </div>
         </div>
     </section>
+
+    @isset($showOrderSubmitted)
+        <script>
+            $('document').ready(function() {
+
+                alert("Thank you for submiting the order. We will call you to confirm order details")
+                // return Swal.fire({
+                //     text: "Thank you for submiting the order. We will call you to confirm order details",
+                //     icon: "success",
+                //     showCancelButton: true,
+                // })
+            });
+        </script>
+    @endisset
     <!-- End Call to Action Section -->
 @endsection

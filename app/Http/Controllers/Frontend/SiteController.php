@@ -64,13 +64,9 @@ class SiteController extends Controller
         $applyNewFilters = $request->isMethod('POST');
         //loading applied filters
         if ($applyNewFilters) {
-            $colorFilters = $request->color_filters ?? null;
-            $sizeFilters = $request->size_filters ?? null;
             $priceFilters = $request->price_filters ?? null;
             $sortOption = $request->sort_option ?? null;
         } else {
-            $colorFilters =  $request->input('applied_color_filters') ?? null;
-            $sizeFilters =  $request->input('applied_size_filters') ?? null;
             $priceFilters =  $request->input('applied_price_filters') ?? null;
             $sortOption =  $request->input('applied_sort_option') ?? null;
         }

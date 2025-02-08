@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Inventory extends Model
 {
@@ -29,9 +30,7 @@ class Inventory extends Model
 
     public static function getInventoryID($prod_id): int
     {
-        return self::where([
-            ["product_id",  $prod_id]
-        ])->firstOrFail()->id;
+        return self::firstOrCreate(["product_id" => $prod_id], ['amount'   =>  0])->id;
     }
 
 

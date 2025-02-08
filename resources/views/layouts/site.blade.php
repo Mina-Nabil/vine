@@ -69,6 +69,7 @@
         src="{{ url('assets/js/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js') }}"></script>
     <script type="text/javascript"
         src="{{ url('assets/js/plugins/revolution/js/extensions/revolution.extension.video.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 
 <body>
@@ -112,6 +113,7 @@
                 <li class="ws-shop-account">
                     @if ($is_logged)
                         <a class="btn btn-sm">Hello {{ $logged_user->name }}!</a>
+                        <a href="{{ url('logout') }}" class="btn btn-sm">Logout</a>
                     @else
                         <a href="{{ url('login') }}" class="btn btn-sm">Login</a>
                     @endif
@@ -372,8 +374,6 @@
                         minicartContentItems.innerHTML += `
 
 
-
-
                 <li class="media" data-id="${item.id}">
                     <div class="media-left">
                         <a href="#">
@@ -394,6 +394,7 @@
 
                     // Attach event listeners
                     attachEventListeners();
+
                 }
 
                 function attachEventListeners() {
@@ -421,10 +422,13 @@
                         .then(response => response.json())
                         .then(cart => {
                             fetchCartData();
+
                         })
                         .catch(error => {
                             console.error('Error updating cart:', error);
                         });
+
+
                 }
 
                 document.querySelectorAll('.btn-add-cart').forEach(button => {
@@ -436,6 +440,11 @@
                             id: id,
                             quantity: quantity
                         });
+
+                        Swal.fire({
+                            text: "Cart Updated",
+                            icon: "success",
+                        })
                     });
                 });
             });

@@ -25,6 +25,7 @@ class WSBaseDataManager
         $data['is_logged'] = $data['logged_user'] != null;
         $data['loadProductJsonUrl'] = url('get/product');
         $data['sendEmailUrl'] = url('contactus/sendemail');
+        $data['signUpUrl'] = url('register');
 
         //cart vars
         $data['apiCart'] = url('api/cart');

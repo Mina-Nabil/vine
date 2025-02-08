@@ -5,11 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\ForgetPass;
 use App\Models\Area;
-use App\Models\Color;
 use App\Models\Gender;
-use App\Models\SiteInfo;
-use App\Models\Size;
-use App\Models\SubCategory;
 use App\Models\User;
 use App\Services\WSBaseDataManager;
 use Google_Client;
@@ -28,6 +24,8 @@ class BuyerController extends Controller
     public function loadLoginPage()
     {
         $data = WSBaseDataManager::getSiteData();
+        $data['areas'] = Area::all();
+        $data['genders'] = Gender::all();
         if ($data['is_logged'] == true) {
             return redirect('home');
         }
@@ -37,7 +35,7 @@ class BuyerController extends Controller
     public function login(Request $request)
     {
         Validator::make($request->all(), [
-            "email"     =>  "required",
+            "email"     =>  "required|exists:users,email",
             "password"  =>  "required"
         ], [
             "email.exists" => "The entered email address doesn't exist!"
@@ -47,7 +45,7 @@ class BuyerController extends Controller
             "email" => $request->email,
             "password"  =>  $request->password
         ])) {
-            return back();
+            return redirect()->action([SiteController::class, 'home']);
         } else {
             return redirect("admin/login")->withErrors(["password" => "invalid credentials please try again"]);
         }
@@ -99,20 +97,21 @@ class BuyerController extends Controller
             "gender"    =>  "required|exists:genders,id",
             "mobile"  =>  "required|min:11",
             "password"  =>  "required|min:6",
+            "password_confirmation"  =>  "required|same:password",
         ], [
             "email.unique" => "The entered email address already exists :/"
         ])->validate();
 
-        $newUser = User::create($request->name, $request->email, $request->area, $request->gender, $request->mobile, $request->address, $request->password);
+        $newUser = User::createUser($request->name, $request->email, $request->area, $request->gender, $request->mobile, $request->address, $request->password);
 
         if ($newUser != null) {
             Auth::guard("web")->attempt([
                 "email" => $newUser->email,
                 "password"  => $request->password,
             ], true);
-            return redirect()->route("home");
+            return response()->json(["success"   =>  true]);
         } else {
-            return redirect()->route("register");
+            return response()->json(["status"   =>  "failed"], 500);
         }
     }
 
