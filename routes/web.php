@@ -50,6 +50,7 @@ Route::post('cart', [CartController::class, "submitCart"]);
 Route::post('cart/add', [CartController::class, "add"]);
 Route::post('cart/remove', [CartController::class, "remove"]);
 Route::post('order/submit', [CartController::class, "submitOrder"])->name('confirmOrder');
+Route::post('order/whatsapp/submit', [CartController::class, "sendWhatsappOrder"])->name('whatsappOrder');
 
 //catalog functions
 Route::get('shop', [SiteController::class, 'shop'])->name('all');

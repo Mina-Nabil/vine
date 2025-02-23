@@ -73,6 +73,42 @@ class Order extends Model
         return $order;
     }
 
+    public static function generateWhatsAppMessage($user, $mobN, $address, $area, $note, $ItemsArray, $total, $guestName)
+    {
+        if (isset($user))
+            $userName = User::find($user)->name;
+        else
+            $userName = $guestName;
+
+        $message = <<<EOD
+            اهلا vine،
+
+          اريد ان اطلب منتجات منكم، الرجاء التواصل معي لتأكيد الطلب.
+
+          انا {$userName}، رقم الهاتف: {$mobN}
+           العنوان: {$address}
+            المنطقة: {$area}
+            الملاحظات: {$note}
+            الاجمالي: {$total} جنيه
+            الطلبات:
+        EOD;
+
+        foreach ($ItemsArray as $prod) {
+            $product = Product::findOrFail($prod->product_id);
+            $message .= "\n• {$product->name}: {$prod->amount} ";
+        }
+
+
+        $message .= <<<EOD
+                    \n\nبرجاء التواصل لتأكيد الطلب. \n\n
+            EOD;
+
+        $encodedMessage = urlencode($message);
+
+
+        return "https://wa.me/+201272537888?text={$encodedMessage}";
+    }
+
     public static function getOrdersByDate(bool $currentMonth = true, int $month = -1, int $year = -1, int $state = -1)
     {
 

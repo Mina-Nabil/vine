@@ -4,7 +4,7 @@
     {{ $errors }}
     <div class="ws-checkout-content clearfix">
         <div class=container>
-            <form method="POST" action="{{ $submitOrderUrl }}">
+            <form method="POST" action="{{ $submitOrderUrl }}" id="checkoutForm">
 
                 @csrf
 
@@ -30,7 +30,7 @@
                                 <label>Name <span> * </span></label><br>
                                 <input type="text" name=guestName
                                     @isset($logged_user) value="{{ $logged_user->name }}" disabled @endisset
-                                    value="{{ old('name') }}" />
+                                    value="{{ old('name') }}" required />
 
                                 @error('guestName')
                                     <small class="text-danger">
@@ -59,7 +59,7 @@
                         <!-- Adress -->
                         <div class="col-no-p ws-checkout-input col-sm-12">
                             <label>Address <span> * </span></label><br>
-                            <textarea type="text" rows=3 name=address >@isset($logged_user) {{ $logged_user->address }} @endif</textarea>
+                            <textarea type="text" rows=3 name=address required >@isset($logged_user) {{ $logged_user->address }} @endif</textarea>
                                 @error('address')
                                     <small class="text-danger">
                                         {{ $errors->first('address') }}
@@ -72,9 +72,10 @@
 
                             <div class="col-no-p ws-checkout-input col-sm-12">
                                 <label>Area <span> * </span></label><br>
-                                <select onchange="loadShipping()" id="selectedArea" >
+                                <select onchange="loadShipping()" id="selectedArea">
                                     @foreach ($areas as $area)
-                                        <option value='{{$area->id}}%%{{ number_format($area->rate, 2)}}' @selected(isset($logged_user) && $logged_user->area_id == $area->id)>
+                                        <option value='{{ $area->id }}%%{{ number_format($area->rate, 2) }}'
+                                            @selected(isset($logged_user) && $logged_user->area_id == $area->id)>
                                             {{ $area->name }} - {{ $area->arabic_name }}
                                         </option>
                                     @endforeach
@@ -146,6 +147,9 @@
 
                         </div>
                         <button class="btn ws-btn-fullwidth" type="submit">Confirm Order</button>
+                        <button class="btn ws-btn-fullwidth" style="margin-top: 5px" type="button" onclick="sendWhatsappMsg()">
+                            <i class="fa fa-whatsapp"></i>
+                            Order using Whatsapp</button>
                     </div>
                 </div>
 
@@ -162,7 +166,7 @@
             var selectedAreaID = selectedArea[0];
 
             $('#selectedAreaID').val(selectedAreaID)
-                
+
             $('#shippingCheckout').html(shippingPrice.toLocaleString(undefined, {
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
@@ -178,5 +182,26 @@
 
         }
         loadShipping()
+
+        function sendWhatsappMsg() {
+            if (!$('#checkoutForm')[0].checkValidity()) {
+                $('#checkoutForm')[0].reportValidity();
+                return;
+            }
+            var formData = $('#checkoutForm').serialize();
+
+            $.ajax({
+                url: "{{ url('order/whatsapp/submit') }}",
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    window.open(response.url, '_blank');
+
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred while submitting the order via WhatsApp.');
+                }
+            });
+        }
     </script>
 @endsection

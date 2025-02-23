@@ -19,8 +19,6 @@ class CartController extends Controller
 {
     public function submitOrder(Request $request)
     {
-        Log::info("HNA");
-
         $request->validate([
             "user"          =>  "required_if:guest,2|nullable|exists:users,id",
             "guestName"     =>  "required_if:guest,1",
@@ -31,7 +29,7 @@ class CartController extends Controller
 
         $loadedCart = User::getUserCart();
         $itemsArray = $this->getOrderItemsObjectArray($loadedCart->items);
-        Log::info("HNA");
+
         $order = Order::addNew($request->user, $request->phone, $request->address, $request->area, $request->note, $itemsArray, $loadedCart->total, $request->guestName);
         if ($order) {
             $order->addTimeline("Order Opened by client");
@@ -47,6 +45,21 @@ class CartController extends Controller
         } else {
             return redirect('home')->with("flag", "showOrderFailed");
         }
+    }
+
+    public function sendWhatsappOrder(Request $request)
+    {
+        $request->validate([
+            "user"          =>  "required_if:guest,2|nullable|exists:users,id",
+            "guestName"     =>  "required_if:guest,1",
+            "area"          =>  "required",
+            "address"      =>  "required",
+            "phone"      =>  "required",
+        ]);
+        $loadedCart = User::getUserCart();
+        $itemsArray = $this->getOrderItemsObjectArray($loadedCart->items);
+        $whatsappUrl = Order::generateWhatsAppMessage($request->user, $request->phone, $request->address, $request->area, $request->note, $itemsArray, $loadedCart->total, $request->guestName);
+        return response()->json(["url" => $whatsappUrl]);
     }
 
     public function cartData()
