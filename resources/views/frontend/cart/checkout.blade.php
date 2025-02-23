@@ -91,7 +91,7 @@
                             <!-- Order Notes -->
                             <div class="col-no-p ws-checkout-input col-sm-12">
                                 <label>Order Notes</label><br>
-                                <textarea placeholder="Notes about your order, e.g. special notes for delivery." rows="2" cols="5"></textarea>
+                                <textarea placeholder="Notes about your order, e.g. special notes for delivery." rows="2" cols="5" name=note></textarea>
                             </div>
 
 

@@ -80,6 +80,8 @@ class Order extends Model
         else
             $userName = $guestName;
 
+            $areaName = Area::find($area)->name;    
+
         $message = <<<EOD
             اهلا vine،
 
@@ -87,7 +89,7 @@ class Order extends Model
 
           انا {$userName}، رقم الهاتف: {$mobN}
            العنوان: {$address}
-            المنطقة: {$area}
+            المنطقة: {$areaName}
             الملاحظات: {$note}
             الاجمالي: {$total} جنيه
             الطلبات:
