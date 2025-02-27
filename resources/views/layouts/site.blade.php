@@ -18,7 +18,16 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('assets/img/favicon.ico') }}">
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-66R6DYJHWT');
+    </script>
     <!-- Jquery -->
     <script src="{{ url('assets/js/plugins/jquery-1.11.3.min.js') }}"></script>
 
@@ -70,6 +79,10 @@
     <script type="text/javascript"
         src="{{ url('assets/js/plugins/revolution/js/extensions/revolution.extension.video.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-66R6DYJHWT"></script>
+
 </head>
 
 <body>
