@@ -49,7 +49,7 @@ class Slide extends Model
 
     //Queries
     public static function scopeSite($query){
-        return $query->limit(4)->active()->orderBy("id", "desc");
+        return $query->active()->orderBy("id", "desc");
     }
     public static function scopeActive($query){
         return $query->where("SLID_ACTV", 1);
