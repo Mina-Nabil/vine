@@ -169,7 +169,7 @@ class WSBaseDataManager
     public static function getHomePageData(){
         $data = self::getSiteData();
         $data['is_home'] = true;
-        $data['slides']   = Slide::site()->get()->take(4);
+        $data['slides']   = Slide::site()->get();
         $data['categories'] = Category::all();
         return $data;
     }
