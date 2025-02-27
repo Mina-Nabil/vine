@@ -66,11 +66,11 @@ class SiteInfo extends Model
         }
         if ($footerImage2 != null) {
             $oldFooterImage2 = $this->WBST_FOOT_IMG2;
-            $this->WBST_FOOT_IMG1 = FileManager::save($footerImage1, "footers");
+            $this->WBST_FOOT_IMG2 = FileManager::save($footerImage2, "footers");
         }
         if ($footerImage3 != null) {
             $oldFooterImage3 = $this->WBST_FOOT_IMG3;
-            $this->WBST_FOOT_IMG1 = FileManager::save($footerImage1, "footers");
+            $this->WBST_FOOT_IMG3 = FileManager::save($footerImage3, "footers");
         }
 
 
