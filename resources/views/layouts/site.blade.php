@@ -203,8 +203,8 @@
                                         class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     @foreach ($subcategories as $subcatg)
-                                        <li><a href="{{ url("shop/{$subcatg->category->id}") }}">{{ $subcatg->category->name }}
-                                                - {{ $subcatg->name }}</a></li>
+                                        <li><a href="{{ url("shop/{$subcatg->category->id}") }}">{{ $subcatg->category->arabic_name }}
+                                                - {{ $subcatg->arabic_name }}</a></li>
                                     @endforeach
                                 </ul>
                             </li>
