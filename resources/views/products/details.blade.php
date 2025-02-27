@@ -172,7 +172,7 @@
                                         <option value="{{ $categry->id }}" @if(isset($product) && $categry->id == $product->sub_category_id)
                                             selected
                                             @endif
-                                            >{{$categry->category->name}} : {{$categry->name}}</option>
+                                            >{{$categry->category->arabic_name}} : {{$categry->arabic_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
