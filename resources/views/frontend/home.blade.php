@@ -67,6 +67,7 @@
                             stimulating and interactive, we aim to cultivate curiosity and critical thinking. Each product
                             fosters a deeper connection to the subjects explored, helping young learners develop skills,
                             values, and insights that stay with them well beyond the classroom.</p>
+                        <div class="ws-separator"></div>
                         <p>تم تصميم موادنا لإشراك الطلاب بطرق هادفة، حيث تجمع بين الإبداع والمحتوى الفكري الذي يشجع على
                             الاستكشاف والنمو الشخصي. من خلال جعل التعلم محفزًا بصريًا وتفاعليًا، نهدف إلى تنمية الفضول
                             والتفكير النقدي. يعزز كل منتج ارتباطًا أعمق بالموضوعات المستكشفة، مما يساعد المتعلمين الصغار
