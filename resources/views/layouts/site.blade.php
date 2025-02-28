@@ -24,7 +24,7 @@
         function gtag() {
             dataLayer.push(arguments);
         }
-        
+
         gtag('js', new Date());
 
         gtag('config', 'G-66R6DYJHWT');
@@ -252,7 +252,7 @@
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.1s, ease-in 20px'>
-                        <img src="{{ $site_info->footer1_url }}" alt="Alternative Text" class="img-responsive">
+                        <img src="{{ $site_info->footer1_url }}" alt="Alternative Text" class="img-responsive" title="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته">
                     </div>
 
                     <!-- Instagram Item -->
