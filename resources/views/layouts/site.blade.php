@@ -281,23 +281,9 @@
                         <div class="ws-footer-separator"></div>
                         <div class="ws-footer-about">
                           
-                            <p>مرحباً بكم في Vine Arts!، حيث يلتقي الفن بالتعليم! نحن متحمسون لإنشاء وتنظيم المواد الفنية المصممة لمساعدة مخدومين مدارس الأحد القبطية على القراءة والتعلم والنمو.
+                            <p>مرحباً بكم في Vine Activities! نحن نقدم مواد فنية تعليمية مبتكرة لمدارس الأحد القبطية. منتجاتنا تجمع بين الفن والتعليم لإلهام الفهم وإشعال الإبداع وتعميق المعرفة. انضموا إلينا في رحلة التعلم من خلال الإبداع!</p>
 
-                                منتجاتنا أكثر من مجرد أدوات - فهي تلهم الفهم، وتشعل الإبداع، وتعمق المعرفة في مجموعة متنوعة من الموضوعات. سواء كانت وسائل بصرية، أو قطع فنية تفاعلية، أو تصميمات تثير التفكير، فإن كل عنصر نقدمه يعكس التزامنا بالتعليم والإيمان.
-
-                            انضموا إلينا في هذه الرحلة من التعلم من خلال الإبداع، واكتشفوا كيف يمكن للفن أن يجعل المفاهيم حية!</p>
-
-                            <p>Welcome to Vine Arts!, where art meets education! We are passionate about creating and
-                                curating artistic materials designed to help students in Coptic Sunday schools read,
-                                learn, and grow.
-
-                                Our products are more than just tools—they inspire understanding, spark creativity, and
-                                deepen knowledge across a variety of topics. Whether it's visual aids, interactive art
-                                pieces, or thought-provoking designs, every item we offer reflects our commitment to
-                                education and faith.
-
-                                Join us on this journey of learning through creativity, and explore how art can bring
-                                concepts to life!</p>
+                            <p>Welcome to Vine Activities! We provide innovative artistic educational materials for Coptic Sunday schools. Our products combine art and education to inspire understanding, spark creativity and deepen knowledge. Join us on a journey of learning through creativity!</p>
                         </div>
                     </div>
 
