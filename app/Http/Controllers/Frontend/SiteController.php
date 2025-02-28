@@ -42,7 +42,9 @@ class SiteController extends Controller
     {
         $data = WSBaseDataManager::getSiteData();
         $data['categories'] = Category::with('products')->get();
-        $data['products'] = Product::join('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
+        $data['products'] = Product::
+        select('products.*')
+        ->join('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
         ->join('categories', 'sub_categories.category_id', '=', 'categories.id')
         ->orderBy('categories.id', 'asc')
         ->orderBy('sub_categories.id', 'asc')
