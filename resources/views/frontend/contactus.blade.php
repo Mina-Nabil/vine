@@ -30,6 +30,8 @@
                     <br>
                     <p><strong>نحن نحب أن نسمع منك! سواء كان لديك أسئلة حول منتجاتنا، تحتاج إلى مساعدة في طلبك، أو ترغب في مشاركة رأيك، لا تتردد في التواصل معنا. فريقنا هنا لدعمك والتأكد من حصولك على أفضل تجربة ممكنة.</strong></p>
                     <p><strong>يمكنك الاتصال بنا عبر البريد الإلكتروني، الهاتف، أو من خلال قنوات التواصل الاجتماعي، وسنرد عليك في أسرع وقت. دعونا نبقى على تواصل! 🌿💬</strong></p>
+                    <p><strong>We love hearing from you! Whether you have questions about our products, need help with your order, or want to share your feedback, don't hesitate to reach out. Our team is here to support you and ensure you have the best possible experience.</strong></p>
+                    <p><strong>You can contact us via email, phone, or through our social media channels, and we'll get back to you as quickly as possible. Let's stay connected! 🌿💬</strong></p>
                 </div>
             </div>
 
