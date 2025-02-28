@@ -43,7 +43,7 @@
                     data-y="['middle','middle','middle','middle']" data-voffset="['92','92','92','76']"
                     data-transform_in="y:50px;opacity:0;s:1500;e:Power4.easeInOut;" data-start="1000"
                     data-responsive_offset="on" data-responsive="off" style="z-index: 8;"><a class="btn ws-big-btn"
-                        href="{{ url('shop') }}">View Material</a>
+                        href="{{ url('shop') }}">View Shop</a>
                 </div>
             </li>
         </ul>
@@ -60,13 +60,17 @@
                 <!-- Description -->
                 <div class="ws-about-content clearfix">
                     <div class="col-sm-8 col-sm-offset-2">
-                        <h3>Where Art and Faith Shape Young Minds</h3>
-                        <div class="ws-separator"></div>
+                        {{-- <h3>Where Art and Faith Shape Young Minds</h3>
+                        <div class="ws-separator"></div> --}}
                         <p>Our materials are designed to engage students in meaningful ways, combining creativity with
                             thoughtful content that encourages exploration and personal growth. By making learning visually
                             stimulating and interactive, we aim to cultivate curiosity and critical thinking. Each product
                             fosters a deeper connection to the subjects explored, helping young learners develop skills,
                             values, and insights that stay with them well beyond the classroom.</p>
+                        <p>تم تصميم موادنا لإشراك الطلاب بطرق هادفة، حيث تجمع بين الإبداع والمحتوى الفكري الذي يشجع على
+                            الاستكشاف والنمو الشخصي. من خلال جعل التعلم محفزًا بصريًا وتفاعليًا، نهدف إلى تنمية الفضول
+                            والتفكير النقدي. يعزز كل منتج ارتباطًا أعمق بالموضوعات المستكشفة، مما يساعد المتعلمين الصغار
+                            على تطوير المهارات والقيم والرؤى التي تبقى معهم إلى ما بعد الفصل الدراسي.</p>
                     </div>
                 </div>
 
