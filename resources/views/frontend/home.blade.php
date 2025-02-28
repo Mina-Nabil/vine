@@ -25,8 +25,8 @@
                     data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
                     data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000" data-responsive_offset="on"
                     style="z-index: 6;">
-                    <h1>أَنَا الْكَرْمَةُ الْحَقِيقِيَّةُ وَأَبِي الْكَرَّامُ </h1>
-                    <h1>(يو 15: 1)</h1>
+                    <h1 style="padding-top=0px">أَنَا الْكَرْمَةُ الْحَقِيقِيَّةُ وَأَبِي الْكَرَّامُ </h1>
+                    <h1 style="padding-top=0px">(يو 15: 1)</h1>
                 </div>
 
                 <!-- Layer -->
@@ -224,7 +224,7 @@
                         <p>Looking for more inspiring materials and discuss new ideas? Visit our page to browse our
                             full collection! Stay updated on the latest products, offers, and tips for making the
                             most of our artistic learning tools.</p>
-                  
+
                         <div class="ws-call-btn">
                             <a href="https://www.fb.com/{{ $site_info['WBST_FB'] }}">Facebook page</a>
                         </div>
