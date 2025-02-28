@@ -42,7 +42,7 @@ class SiteController extends Controller
     {
         $data = WSBaseDataManager::getSiteData();
         $data['categories'] = Category::with('products')->get();
-        $data['products'] = Product::all();
+        $data['products'] = Product::orderBy('category_id', 'asc')->get();
         $data['category_id'] = $category_id;
         return view('frontend.catalog.shop', $data);
     }
