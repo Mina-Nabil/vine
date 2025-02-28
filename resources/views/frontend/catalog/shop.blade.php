@@ -26,7 +26,7 @@
                     </li>
                     @foreach ($categories as $catg)
                         <li role="presentation" @class(['active' => isset($category_id) && $category_id == $catg->id])>
-                            <a href="#{{ $catg->name }}" aria-controls="prints" role="tab"
+                            <a href="#{{ str_replace(' ', '-', $catg->name) }}" aria-controls="prints" role="tab"
                                 data-toggle="tab">{{ $catg->arabic_name }}
                                 ({{ $catg->products->count() }})
                             </a>
@@ -79,7 +79,7 @@
                         <div role="tabpanel" @class([
                             'tab-pane fade in',
                             'active' => isset($category_id) && $category_id == $catg->id,
-                        ]) id="{{ $catg->name }}">
+                        ]) id="{{ str_replace(' ', '-', $catg->name) }}">
                             @foreach ($catg->products as $prod)
                                 <div class="col-sm-6 col-md-4 ws-works-item">
                                     <a href="{{ url("product/$prod->id") }}">
