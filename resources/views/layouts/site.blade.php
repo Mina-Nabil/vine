@@ -252,17 +252,17 @@
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.1s, ease-in 20px'>
-                        <img src="{{ $site_info->footer1_url }}" alt="Alternative Text" class="img-responsive" title="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته">
+                        <img src="{{ $site_info->footer1_url }}" alt="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته" class="img-responsive" title="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته">
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.3s, ease-in 20px'>
-                        <img src="{{ $site_info->footer2_url }}" alt="Alternative Text" class="img-responsive">
+                        <img src="{{ $site_info->footer2_url }}" alt="نيافه الانبا موسي اسقف الشباب يقوم بشرح الخط الزمني في معرض الكتاب القبطي" class="img-responsive" title="نيافه الانبا موسي اسقف الشباب يقوم بشرح الخط الزمني في معرض الكتاب القبطي">
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.5s, ease-in 20px'>
-                        <img src="{{ $site_info->footer3_url }}" alt="Alternative Text" class="img-responsive">
+                        <img src="{{ $site_info->footer3_url }}" alt="القمص تادرس يعقوب مالطي يقوم بمراجعه الخط الزمني بالكتاب المقدس و يقوم بعرضه علي قدسه القمص مارك عزيز" class="img-responsive" title="القمص تادرس يعقوب مالطي يقوم بمراجعه الخط الزمني بالكتاب المقدس و يقوم بعرضه علي قدسه القمص مارك عزيز">
                     </div>
                 </div>
             </div>
