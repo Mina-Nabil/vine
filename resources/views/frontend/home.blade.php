@@ -25,7 +25,8 @@
                     data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
                     data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000" data-responsive_offset="on"
                     style="z-index: 6;">
-                    <h1>أَنَا الْكَرْمَةُ الْحَقِيقِيَّةُ وَأَبِي الْكَرَّامُ (يو 15: 1)</h1>
+                    <h1>أَنَا الْكَرْمَةُ الْحَقِيقِيَّةُ وَأَبِي الْكَرَّامُ </h1>
+                    <h2>(يو 15: 1)</h2>
                 </div>
 
                 <!-- Layer -->
