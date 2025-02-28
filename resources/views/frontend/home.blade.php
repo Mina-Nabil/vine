@@ -217,7 +217,7 @@
                             full collection! Stay updated on the latest products, offers, and tips for making the
                             most of our artistic learning tools.</p>
                         <div class="ws-call-btn">
-                            <a href="{{ $site_info['WBST_FB'] }}">Facebook page</a>
+                            <a href="https://www.fb.com/{{ $site_info['WBST_FB'] }}">Facebook page</a>
                         </div>
                     </div>
                 </div>

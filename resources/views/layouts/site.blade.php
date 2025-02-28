@@ -9,7 +9,7 @@
     <!-- Meta -->
     <meta charset="utf-8">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-    <title>Vine Arts</title>
+    <title>Vine Activities</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -245,29 +245,23 @@
                             <br>
                             <a href="https://instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank"
                                 class="ws-instagram-link"> {{ '@' . $site_info['WBST_INST'] }}</a>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+                            <p>Follow us on Instagram for our latest ideas and products</p>
                         </div>
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.1s, ease-in 20px'>
-                        <a href="https://www.instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank">
-                            <img src="{{ $site_info->footer1_url }}" alt="Alternative Text" class="img-responsive">
-                        </a>
+                        <img src="{{ $site_info->footer1_url }}" alt="Alternative Text" class="img-responsive">
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.3s, ease-in 20px'>
-                        <a href="https://www.instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank">
-                            <img src="{{ $site_info->footer2_url }}" alt="Alternative Text" class="img-responsive">
-                        </a>
+                        <img src="{{ $site_info->footer2_url }}" alt="Alternative Text" class="img-responsive">
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.5s, ease-in 20px'>
-                        <a href="https://www.instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank">
-                            <img src="{{ $site_info->footer3_url }}" alt="Alternative Text" class="img-responsive">
-                        </a>
+                        <img src="{{ $site_info->footer3_url }}" alt="Alternative Text" class="img-responsive">
                     </div>
                 </div>
             </div>
