@@ -26,9 +26,10 @@
                     <p><a href="mailto:{{$site_info->email}}">{{$site_info->email}}</a></p>
                     <br>
                     <h2>Phone:</h2>
-                    <p><a href="mailto:{{$site_info->phone}}">{{$site_info->phone}}</a></p>
+                    <p><a href="tel:{{$site_info->phone}}">{{$site_info->phone}}</a></p>
                     <br>
-                    <p>We’d love to hear from you! Whether you have questions about our products, need assistance with an order, or simply want to share your feedback, feel free to reach out. Our team is here to support you and ensure you have the best experience possible.</p> <p> Contact us via email, phone, or through our social media channels, and we’ll get back to you promptly. Let’s stay connected!</p>
+                    <p>نحن نحب أن نسمع منك! سواء كان لديك أسئلة حول منتجاتنا، تحتاج إلى مساعدة في طلبك، أو ترغب في مشاركة رأيك، لا تتردد في التواصل معنا. فريقنا هنا لدعمك والتأكد من حصولك على أفضل تجربة ممكنة.</p>
+                    <p>يمكنك الاتصال بنا عبر البريد الإلكتروني، الهاتف، أو من خلال قنوات التواصل الاجتماعي، وسنرد عليك في أسرع وقت. دعونا نبقى على تواصل! 🌿💬</p>
                 </div>
             </div>
 
