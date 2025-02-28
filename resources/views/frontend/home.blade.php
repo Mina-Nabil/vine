@@ -35,7 +35,7 @@
                     data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
                     data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000" data-responsive_offset="on"
                     style="z-index: 7;">
-                    <h4>Creative Materials to Spark Understanding and Growth in Every Lesson</h4>
+
                 </div>
 
                 <!-- Button -->
@@ -216,11 +216,14 @@
             <div class="ws-parallax-caption">
                 <div class="ws-parallax-holder">
                     <div class="col-sm-6 col-sm-offset-3">
-                        <h2>Explore More on Facebook!</h2>
+                        <p>هل تبحث عن المزيد من المواد الملهمة ومناقشة أفكار جديدة؟ قم بزيارة صفحتنا لتصفح مجموعتنا
+                            الكاملة! ابق على اطلاع على أحدث المنتجات والعروض والنصائح للاستفادة القصوى من أدواتنا
+                            التعليمية الفنية.</p>
                         <div class="ws-separator"></div>
                         <p>Looking for more inspiring materials and discuss new ideas? Visit our page to browse our
                             full collection! Stay updated on the latest products, offers, and tips for making the
                             most of our artistic learning tools.</p>
+                  
                         <div class="ws-call-btn">
                             <a href="https://www.fb.com/{{ $site_info['WBST_FB'] }}">Facebook page</a>
                         </div>
