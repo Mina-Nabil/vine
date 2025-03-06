@@ -72,7 +72,6 @@
                                 </a>
                             </div>
                         @endforeach
-
                     </div>
 
                     @foreach ($categories as $catg)
