@@ -15,7 +15,7 @@
                 <small class="text-muted p-t-30 db">Phone</small>
                 <h6>{{$user->mobile}}</h6>
                 <small class="text-muted p-t-30 db">Area</small>
-                <h6>{{$user->area->name}}</h6>
+                <h6>{{$user->area?->name}}</h6>
                 <small class="text-muted p-t-30 db">Address</small>
                 <h6>{{$user->address}}</h6>
 
