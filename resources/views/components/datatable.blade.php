@@ -40,7 +40,7 @@
                         @if(array_key_exists('edit', $att))
                         <td><a href="{{ url( $att['edit']['url'] . $item->{$att['edit']['att']}) }}"><img src="{{ asset('images/edit.png') }}" width=25 height=25></a></td>
                         @elseif(array_key_exists('foreign', $att))
-                        <td>{{ $item->{$att['foreign'][0]}->{$att['foreign'][1]} }}</td>
+                        <td>{{ $item->{$att['foreign'][0]}?->{$att['foreign'][1]} }}</td>
                         @elseif(array_key_exists('sumForeign', $att))
                         <td>{{ $item->{$att['sumForeign']['rel']}->sum($att['sumForeign']['att']) }}</td>
                         @elseif(array_key_exists('url', $att))
