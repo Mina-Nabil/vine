@@ -14,8 +14,9 @@ class AreasSeeder extends Seeder
      */
     public function run()
     {
-        Area::createArea("El Rehab", "الرحاب", 40);
-        Area::createArea("5th District", "التجمع الخامس", 40);
-        Area::createArea("Masr El Gdeeda", "مصر الجديده", 40);
+        $cities = json_decode(file_get_contents(resource_path('json/governorates.json')));
+        foreach ($cities as $city) {
+            Area::createArea($city->governorate_name_en, $city->governorate_name_ar, 40);
+        }
     }
 }
