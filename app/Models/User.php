@@ -168,7 +168,6 @@ class User extends Authenticatable
     public function itemsBought()
     {
         return DB::table('order_items')
-            ->join('inventory', 'inventory_id', '=', 'inventory.id')
             ->join('products', 'product_id', '=', 'products.id')
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
             ->selectRaw("products.name as product_name, SUM(order_items.amount) as itemCount")
