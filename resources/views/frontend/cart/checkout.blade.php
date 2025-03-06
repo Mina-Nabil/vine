@@ -1,7 +1,7 @@
 @extends('layouts.site')
 
 @section('content')
-    {{ $errors }}
+
     <div class="ws-checkout-content clearfix">
         <div class=container>
             <form method="POST" action="{{ $submitOrderUrl }}" id="checkoutForm">
