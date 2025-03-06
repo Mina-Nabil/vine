@@ -181,7 +181,7 @@ class Order extends Model
 
         $ret['items'] = DB::table('order_items')
             ->join("products", "order_items.product_id", "=", "products.id")
-            ->select("order_items.id", "products.name as product_name", "amount", "is_verified", "price", "offer")
+            ->select("order_items.id", "products.arabic_name as product_name", "amount", "is_verified", "price", "offer")
             ->where("order_items.order_id", "=", $id)
             ->get();
 

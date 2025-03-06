@@ -43,7 +43,7 @@
                         <div class="font-bold">
                             Area
                         </div>
-                        <p>{{$order->name}}</p>
+                        <p>{{$order->area->arabic_name}}</p>
                     </div>
                     <div class="col-md-2">
                         <div class="font-bold">
