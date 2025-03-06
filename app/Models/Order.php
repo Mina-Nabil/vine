@@ -213,7 +213,7 @@ class Order extends Model
             ->Leftjoin("dash_users", "dash_user_id", "=", "dash_users.id")
             ->Leftjoin("order_items", "order_id", "=", "orders.id")
             ->select("orders.*", "orders.created_at as open_date", "dash_users.name as user_name", "areas.name as area_name", "users.name as client_name", "users.mobile")->selectRaw("SUM(amount) as itemsCount")
-            ->groupBy("orders.id", "areas.name", "users.name", "users.mobile");
+            ->groupBy("orders.id", "orders.user_id", "orders.created_at", "orders.delivery_date", "orders.guest_name", "orders.guest_mobn", "orders.status", "areas.name", "users.name", "users.mobile");
     }
 
     //attribute
