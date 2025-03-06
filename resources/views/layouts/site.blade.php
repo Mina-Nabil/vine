@@ -252,17 +252,26 @@
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.1s, ease-in 20px'>
-                        <img src="{{ $site_info->footer1_url }}" alt="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته" class="img-responsive" title="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته">
+                        <img src="{{ $site_info->footer1_url }}"
+                            alt="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته"
+                            class="img-responsive"
+                            title="قداسه البابا تواضرس  يبدي اعجابه الشديد بالخط الزمني بعد مراجعته">
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.3s, ease-in 20px'>
-                        <img src="{{ $site_info->footer2_url }}" alt="نيافه الانبا موسي اسقف الشباب يقوم بشرح الخط الزمني في معرض الكتاب القبطي" class="img-responsive" title="نيافه الانبا موسي اسقف الشباب يقوم بشرح الخط الزمني في معرض الكتاب القبطي">
+                        <img src="{{ $site_info->footer2_url }}"
+                            alt="نيافه الانبا موسي اسقف الشباب يقوم بشرح الخط الزمني في معرض الكتاب القبطي"
+                            class="img-responsive"
+                            title="نيافه الانبا موسي اسقف الشباب يقوم بشرح الخط الزمني في معرض الكتاب القبطي">
                     </div>
 
                     <!-- Instagram Item -->
                     <div class="col-sm-3 ws-instagram-item" data-sr='wait 0.5s, ease-in 20px'>
-                        <img src="{{ $site_info->footer3_url }}" alt="القمص تادرس يعقوب ملطي يقوم بمراجعه الخط الزمني للكتاب المقدس و يقوم بعرضه علي قدسه القمص مارك عزيز" class="img-responsive" title="القمص تادرس يعقوب ملطي يقوم بمراجعه الخط الزمني للكتاب المقدس و يقوم بعرضه علي قدسه القمص مارك عزيز">
+                        <img src="{{ $site_info->footer3_url }}"
+                            alt="القمص تادرس يعقوب ملطي يقوم بمراجعه الخط الزمني للكتاب المقدس و يقوم بعرضه علي قدسه القمص مارك عزيز"
+                            class="img-responsive"
+                            title="القمص تادرس يعقوب ملطي يقوم بمراجعه الخط الزمني للكتاب المقدس و يقوم بعرضه علي قدسه القمص مارك عزيز">
                     </div>
                 </div>
             </div>
@@ -280,10 +289,15 @@
                         <h3>About Us</h3>
                         <div class="ws-footer-separator"></div>
                         <div class="ws-footer-about">
-                          
-                            <p>مرحباً بكم في Vine Activities! نحن نقدم مواد فنية تعليمية مبتكرة لمدارس الأحد القبطية. منتجاتنا تجمع بين الفن والتعليم لإلهام الفهم وإشعال الإبداع وتعميق المعرفة. انضموا إلينا في رحلة التعلم من خلال الإبداع!</p>
 
-                            <p>Welcome to Vine Activities! We provide innovative artistic educational materials for Coptic Sunday schools. Our products combine art and education to inspire understanding, spark creativity and deepen knowledge. Join us on a journey of learning through creativity!</p>
+                            <p>مرحباً بكم في Vine Activities! نحن نقدم مواد فنية تعليمية مبتكرة لمدارس الأحد القبطية.
+                                منتجاتنا تجمع بين الفن والتعليم لإلهام الفهم وإشعال الإبداع وتعميق المعرفة. انضموا إلينا
+                                في رحلة التعلم من خلال الإبداع!</p>
+
+                            <p>Welcome to Vine Activities! We provide innovative artistic educational materials for
+                                Coptic Sunday schools. Our products combine art and education to inspire understanding,
+                                spark creativity and deepen knowledge. Join us on a journey of learning through
+                                creativity!</p>
                         </div>
                     </div>
 
@@ -303,6 +317,8 @@
                         <h3>Socials</h3>
                         <div class="ws-footer-separator"></div>
                         <ul class="ws-footer-social">
+                            <li><a href="https://wa.me/+201272537888" target="_blank"><i
+                                        class="fa fa-whatsapp fa-lg"></i> WhatsApp</a></li>
                             <li><a href="{{ $site_info->fb_url }}" target="_blank"><i
                                         class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
                             <li><a href="{{ $site_info->insta_url }}" target="_blank"><i
