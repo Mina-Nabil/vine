@@ -157,8 +157,7 @@ class User extends Authenticatable
 
     public function previouslyBoughtQuery(): Builder
     {
-        return Product::join('inventory', 'product_id', '=', 'products.id')
-            ->join('order_items', 'inventory_id', '=', 'inventory.id')
+        return Product::join('order_items', 'product_id', '=', 'products.id')
             ->join('orders', 'order_id', '=', 'orders.id')
             ->select("products.*")
             ->groupBy('products.id')
