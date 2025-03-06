@@ -16,7 +16,7 @@ class AreasSeeder extends Seeder
     {
         $cities = json_decode(file_get_contents(resource_path('json/governorates.json')));
         foreach ($cities as $city) {
-            Area::createArea($city->governorate_name_en, $city->governorate_name_ar, 40);
+            Area::createArea($city->governorate_name_en, $city->governorate_name_ar, 85);
         }
     }
 }
