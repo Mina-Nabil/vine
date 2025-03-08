@@ -28,7 +28,7 @@ class Order extends Model
     {
         $total = 0;
         foreach ($this->order_items as $item) {
-            $product = Inventory::with("product")->findOrFail($item->product_id)->product;
+            $product = Inventory::with("product")->where("product_id", $item->product_id)->first()->product;
             $price = $product->price - $product->offer;
             $total += $item->amount * $price;
         }
