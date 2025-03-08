@@ -250,9 +250,9 @@
                             <p>Follow us on Instagram for our latest ideas and products</p>
 
                             <h3>Whatsapp</h3>
-                            <a href="https://wa.me/+201272537888" target="_blank">
-                                <p> Chat with us </p>
-                            </a>
+                       
+                            <a href="https://wa.me/+201272537888" target="_blank"
+                                class="ws-instagram-link"> <i class="fa fa-whatsapp fa-lg"></i> </a>
                         </div>
                     </div>
 
