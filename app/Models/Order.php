@@ -73,7 +73,7 @@ class Order extends Model
         return $order;
     }
 
-    public static function generateWhatsAppMessage($user, $mobN, $address, $area, $note, $ItemsArray, $total, $guestName)
+    public static function generateWhatsAppMessage($user, $mobN = null, $address = null, $area = null, $note = null, $ItemsArray = null, $total = null, $guestName = null)
     {
         if (isset($user))
             $userName = User::find($user)->name;
