@@ -244,15 +244,15 @@
                         <div class="ws-instagram-header">
                             <h3>Instagram</h3>
                             <br>
-                   
+
                             <a href="https://instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank"
                                 class="ws-instagram-link"> {{ '@' . $site_info['WBST_INST'] }}</a>
-                                <p>Follow us on Instagram for our latest ideas and products</p>
+                            <p>Follow us on Instagram for our latest ideas and products</p>
 
-                                <h3>Whatsapp</h3>
-                                <a href="https://wa.me/+201272537888" target="_blank"
-                                class="ws-instagram-link"> Chat with us </a> 
-
+                            <h3>Whatsapp</h3>
+                            <a href="https://wa.me/+201272537888" target="_blank">
+                                <p> Chat with us </p>
+                            </a>
                         </div>
                     </div>
 
