@@ -242,7 +242,6 @@
                     <!-- Instagram Information -->
                     <div class="col-sm-3">
                         <div class="ws-instagram-header">
-                            <h3>Whatsapp</h3>
                             <h3>Instagram</h3>
                             <br>
                    
