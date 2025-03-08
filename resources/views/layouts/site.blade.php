@@ -251,8 +251,9 @@
                             <br>
                             <h3>Whatsapp</h3>
                        
-                            <a href="https://wa.me/+201272537888" target="_blank"
-                                class="ws-instagram-link"> <i class="fa fa-whatsapp fa-lg"></i> +201272537888 </a>
+                            <a href="https://wa.me/+201200165007" target="_blank"
+                                class="ws-instagram-link"> <i class="fa fa-whatsapp fa-lg"></i> +201200165007 </a>
+                            <p>Chat with us</p>
                         </div>
                     </div>
 
@@ -323,7 +324,7 @@
                         <h3>Socials</h3>
                         <div class="ws-footer-separator"></div>
                         <ul class="ws-footer-social">
-                            <li><a href="https://wa.me/+201272537888" target="_blank"><i
+                            <li><a href="https://wa.me/+201200165007" target="_blank"><i
                                         class="fa fa-whatsapp fa-lg"></i> WhatsApp</a></li>
                             <li><a href="{{ $site_info->fb_url }}" target="_blank"><i
                                         class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
