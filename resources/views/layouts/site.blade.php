@@ -245,7 +245,7 @@
                             <h3>Instagram</h3>
                             <br>
                             <a href="https://wa.me/+201272537888" target="_blank"
-                                class="ws-instagram-link"> Whatsapp</a>
+                                class="ws-instagram-link"> Whatsapp</a> <br /> <br />
                             <a href="https://instagram.com/{{ $site_info['WBST_INST'] }}" target="_blank"
                                 class="ws-instagram-link"> {{ '@' . $site_info['WBST_INST'] }}</a>
                                 <p>Follow us on Instagram for our latest ideas and products</p>
