@@ -252,7 +252,7 @@
                             <h3>Whatsapp</h3>
                        
                             <a href="https://wa.me/+201272537888" target="_blank"
-                                class="ws-instagram-link"> <i class="fa fa-whatsapp fa-lg"></i> </a>
+                                class="ws-instagram-link"> <i class="fa fa-whatsapp fa-lg"></i> +201272537888 </a>
                         </div>
                     </div>
 
