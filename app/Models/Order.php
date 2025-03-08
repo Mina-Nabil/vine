@@ -54,9 +54,9 @@ class Order extends Model
             // $order->ORDR_PYOP_ID = $option;
             $order->status = 'new'; // new order
             $order->dash_user_id = Auth::user() && is_a(Auth::user(), DashUser::class) ? Auth::id() : null; // new order
-
+            $areaObj = Area::findOrFail($area);
             $orderItemArray = $ItemsArray;
-            $order->total = $total;
+            $order->total = $total + $areaObj->rate;
 
             $order->save();
             $order->order_items()->saveMany($orderItemArray);
