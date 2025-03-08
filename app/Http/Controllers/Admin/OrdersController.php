@@ -170,8 +170,8 @@ class OrdersController extends Controller
             $isReady = true;
             foreach ($order->order_items as $item) {
                 if ($item->is_verified == '0') {
-                    $isReady = false;
-                    break;
+                    $item->is_verified = 1;
+                    $item->save();
                 }
             }
             if ($isReady) {

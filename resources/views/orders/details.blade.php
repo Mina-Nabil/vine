@@ -170,7 +170,7 @@
                         </ul>
                         @switch($order->status)
                         @case('New')
-                        <button class="btn btn-warning mr-2" id=readyButton onclick="confirmAndGoTo('{{url($setOrderReadyUrl)}}', 'Set Order as Ready')" {{($isOrderReady) ? '' : "disabled"}}>Order Is
+                        <button class="btn btn-warning mr-2" id=readyButton onclick="confirmAndGoTo('{{url($setOrderReadyUrl)}}', 'Set Order as Ready')" >Order Is
                             Ready For Shipment</button>
                         <button class="btn btn-danger mr-2" onclick="confirmAndGoTo('{{url($setOrderCancelledUrl)}}', 'Cancel the Order')">Cancel Order</button>
                         @break
