@@ -189,14 +189,14 @@ class OrdersController extends Controller
         $order = Order::findOrFail($id);
         DB::transaction(function () use ($order) {
             $isReturned = true;
-            foreach ($order->order_items as $item) {
-                $inventory = Inventory::findOrfail($item->inventory_id);
-                $inventory->amount += $item->amount;
-                if (!$inventory->save()) {
-                    $isReturned = false;
-                    break;
-                }
-            }
+            // foreach ($order->order_items as $item) {
+            //     $inventory = Inventory::findOrfail($item->inventory_id);
+            //     $inventory->amount += $item->amount;
+            //     if (!$inventory->save()) {
+            //         $isReturned = false;
+            //         break;
+            //     }
+            // }
             if ($isReturned) {
                 $order->status = Order::STATUSES[4];
                 $order->paid = 0;
