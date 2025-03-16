@@ -28,12 +28,12 @@ class UsersController extends Controller
             $this->data['items'] = User::latest()->get();
 
         $this->data['subTitle'] = "Manage Clients";
-        $this->data['cols'] = ['id', 'Full Name', 'Mob#', 'Gender', 'Area', 'Since', 'Edit'];
+        $this->data['cols'] = ['id', 'Full Name', 'Mob#', 'Email', 'Area', 'Since', 'Edit'];
         $this->data['atts'] = [
             'id',
             ['attUrl' => ["url" => 'admin/users/profile', "urlAtt" => 'id', "shownAtt" =>  "name"]],
             'mobile',
-            ['foreign' => ['gender', 'name']],
+            'email',
             ['foreign' => ['area', 'name']],
             // ['sumForeign' => ['rel' => 'orders', 'att' => 'total']],
             ['date' => ['att' => 'created_at', 'format' => 'Y-M-d']],
