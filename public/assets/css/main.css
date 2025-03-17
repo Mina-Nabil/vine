@@ -51,7 +51,9 @@ body{
     -moz-osx-font-smoothing: grayscale;	
 }
 h1, h2, h3, h4, h5, h6{		
-	letter-spacing: 1.5px;
+	font-family: 'Tajawal';
+	/* letter-spacing: 1.5px; */
+	font-weight: 700;
 	margin: 0;	
 }
 p{
