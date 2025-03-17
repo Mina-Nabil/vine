@@ -224,6 +224,13 @@
                                 @endif
                             </div>
 
+                            <div class="form-group">
+                                <label>Created At</label>
+                                <div class="input-group mb-3">
+                                    <input type="date" class="form-control" name=created_at value="{{ (isset($product)) ? $product->created_at->format('Y-m-d') : old('created_at') }}">
+                                </div>
+                            </div>
+
 
 
 

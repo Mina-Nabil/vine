@@ -181,8 +181,9 @@ class ProductsController extends Controller
             "category" => "required|exists:sub_categories,id",
             "price" => "required|numeric",
             "cost" => "nullable|numeric",
+            "created_at" => "nullable|date",
         ]);
-        $product->modify($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->material, $request->dimensions, $request->handled_topics, $request->offer);
+        $product->modify($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->material, $request->dimensions, $request->handled_topics, $request->offer, $request->created_at);
 
         return redirect('admin/products/details/' . $product->id);
     }

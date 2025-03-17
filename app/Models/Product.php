@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\FileManager;
+use Carbon\Carbon;
 use DateInterval;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,7 +41,7 @@ class Product extends Model
         return $product;
     }
 
-    public function modify(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, $material, $dimensions, $handled_topics=null, float $offer=null): bool
+    public function modify(string $name, string $arbcName, string $desc, string $arbcDesc, int $category, float $price, $material, $dimensions, $handled_topics=null, ?float $offer=null, ?Carbon $created_at=null): bool
     {
 
         $this->name = $name;
@@ -53,6 +54,7 @@ class Product extends Model
         $this->material = $material;
         $this->dimensions = $dimensions;
         $this->handled_topics = $handled_topics;
+        $this->created_at = $created_at ?? now();
         return $this->save();
     }
 
