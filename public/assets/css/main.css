@@ -46,6 +46,7 @@ Table of Contents:
 
 body{		
 	font-family: 'Tajawal', 'Merriweather';		
+	font-size: 14px;
 	color: #999;	    
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;	
