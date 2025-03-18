@@ -1,7 +1,6 @@
 @extends('layouts.site')
 
 @section('content')
-
     <div class="ws-checkout-content clearfix">
         <div class=container>
             <form method="POST" action="{{ $submitOrderUrl }}" id="checkoutForm">
@@ -23,14 +22,15 @@
                             <input type="hidden" name=guest
                                 value="@isset($logged_user) 2 @else 1 @endisset" />
 
-                            <input type="hidden" name=area id="selectedAreaID" />
+                            <input type="hidden" name=area id="selectedAreaID"
+                                value=" {{ isset($logged_user) ? $logged_user->area_id : old('area') ?? 1 }}" />
 
                             <!-- Name -->
                             <div class="col-no-p ws-checkout-input col-sm-12">
                                 <label>Name <span> * </span></label><br>
                                 <input type="text" name=guestName
-                                    @isset($logged_user) value="{{ $logged_user->name }}" disabled @endisset
-                                    value="{{ old('name') }}" required />
+                                    @isset($logged_user) value="{{ $logged_user->name }}" disabled @else value="{{ old('name') }}" @endisset
+                                    required />
 
                                 @error('guestName')
                                     <small class="text-danger">
@@ -47,7 +47,7 @@
                             <div class="col-no-p ws-checkout-input col-sm-12">
                                 <label>Phone <span> * </span></label><br>
                                 <input type="tel" name=phone required
-                                    @isset($logged_user) value="{{ $logged_user->mobile }}"  @endif />
+                                    @isset($logged_user) value="{{ $logged_user->mobile }}" @else value="{{ old('phone') }}" @endif />
                                     @error('phone')
                                     <small class="text-danger">
                                         {{ $errors->first('phone') }}
@@ -59,7 +59,7 @@
                         <!-- Adress -->
                         <div class="col-no-p ws-checkout-input col-sm-12">
                             <label>Address <span> * </span></label><br>
-                            <textarea type="text" rows=3 name=address required >@isset($logged_user) {{ $logged_user->address }} @endif</textarea>
+                            <textarea type="text" rows=3 name=address required >@if (isset($logged_user)) {{ $logged_user->address }} @else {{ old('address') }} @endif</textarea>
                                 @error('address')
                                     <small class="text-danger">
                                         {{ $errors->first('address') }}
@@ -72,7 +72,7 @@
 
                             <div class="col-no-p ws-checkout-input col-sm-12">
                                 <label>Area <span> * </span></label><br>
-                                <select onchange="loadShipping()" id="selectedArea">
+                                <select onchange="loadShipping()" id="selectedArea" required>
                                     @foreach ($areas as $area)
                                         <option value='{{ $area->id }}%%{{ number_format($area->rate, 2) }}'
                                             @selected(isset($logged_user) && $logged_user->area_id == $area->id)>
@@ -91,7 +91,8 @@
                             <!-- Order Notes -->
                             <div class="col-no-p ws-checkout-input col-sm-12">
                                 <label>Order Notes</label><br>
-                                <textarea placeholder="Notes about your order, e.g. special notes for delivery." rows="2" cols="5" name=note></textarea>
+                                <textarea placeholder="Notes about your order, e.g. special notes for delivery." rows="2" cols="5"
+                                    name=note> {{ old('note') }} </textarea>
                             </div>
 
 
@@ -147,7 +148,8 @@
 
                         </div>
                         <button class="btn ws-btn-fullwidth" type="submit">Confirm Order</button>
-                        <button class="btn ws-btn-fullwidth" style="margin-top: 5px" type="button" onclick="sendWhatsappMsg()">
+                        <button class="btn ws-btn-fullwidth" style="margin-top: 5px" type="button"
+                            onclick="sendWhatsappMsg()">
                             <i class="fa fa-whatsapp"></i>
                             Order using Whatsapp</button>
                     </div>
@@ -181,7 +183,10 @@
             ) + " EGP")
 
         }
-        loadShipping()
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadShipping()
+        })
 
         function sendWhatsappMsg() {
             if (!$('#checkoutForm')[0].checkValidity()) {
