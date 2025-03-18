@@ -183,7 +183,7 @@ class ProductsController extends Controller
             "cost" => "nullable|numeric",
             "created_at" => "nullable|date",
         ]);
-        $product->modify($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->material, $request->dimensions, $request->handled_topics, $request->offer, $request->created_at);
+        $product->modify($request->name, $request->arbcName, $request->desc, $request->arbcDesc, $request->category, $request->price, $request->material, $request->dimensions, $request->handled_topics, $request->offer, Carbon::parse($request->created_at));
 
         return redirect('admin/products/details/' . $product->id);
     }
