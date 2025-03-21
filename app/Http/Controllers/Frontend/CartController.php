@@ -162,9 +162,8 @@ class CartController extends Controller
     {
         $retArr = array();
         foreach ($itemsArray as $item) {
-            $inventoryID = Inventory::getInventoryID($item->id);
             array_push($retArr, new OrderItem(
-                ["product_id" => $inventoryID, "amount" => $item->quantity]
+                ["product_id" => $item->id, "amount" => $item->quantity]
             ));
         }
         return $retArr;
