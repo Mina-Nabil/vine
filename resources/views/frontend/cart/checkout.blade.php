@@ -1,78 +1,121 @@
 @extends('layouts.site')
 
 @section('content')
-    <div class="ws-checkout-content clearfix">
-        <div class=container>
-            <form method="POST" action="{{ $submitOrderUrl }}" id="checkoutForm">
-
-                @csrf
-
-                <!-- Cart Content -->
-                <div class="col-sm-8 ">
-
-                    <!-- Billing Details -->
-                    <div class="ws-checkout-billing">
-                        <h3>Order Details</h3>
-
-                        <!-- Form Inputs -->
-                        <form class="form-inline">
-                            <input type="hidden" name=user
-                                value="@isset($logged_user) {{ $logged_user->id }} @endisset " />
-
-                            <input type="hidden" name=guest
-                                value="@isset($logged_user) 2 @else 1 @endisset" />
-
-                            <input type="hidden" name=area id="selectedAreaID"
-                                value=" {{ isset($logged_user) ? $logged_user->area_id : old('area') ?? 1 }}" />
-
-                            <!-- Name -->
-                            <div class="col-no-p ws-checkout-input col-sm-12">
-                                <label>Name <span> * </span></label><br>
-                                <input type="text" name=guestName
-                                    @isset($logged_user) value="{{ $logged_user->name }}" disabled @else value="{{ old('name') }}" @endisset
-                                    required />
-
-                                @error('guestName')
-                                    <small class="text-danger">
-                                        {{ $errors->first('guestName') }}
-                                    </small>
-                                @enderror
+    <!-- HORUS Checkout Container -->
+    <div class="horus-checkout-container">
+        <form method="POST" action="{{ $submitOrderUrl }}" id="checkoutForm">
+            @csrf
+            
+            <div class="horus-checkout-main">
+                
+                <!-- Payment Section -->
+                <div class="horus-checkout-section">
+                    <h2 class="horus-checkout-title">PAYMENT</h2>
+                    
+                    <!-- Payment Methods -->
+                    <div class="horus-payment-methods">
+                        <h3 class="horus-payment-method-title">SELECT PAYMENT METHOD</h3>
+                        <div class="horus-payment-options">
+                            <div class="horus-payment-option">
+                                <input type="radio" id="card" name="payment_method" value="card" checked>
+                                <label for="card">💳 Card</label>
                             </div>
-
-
-
-                            <!-- Email -->
-
-
-                            <div class="col-no-p ws-checkout-input col-sm-12">
-                                <label>Phone <span> * </span></label><br>
-                                <input type="tel" name=phone required
-                                    @isset($logged_user) value="{{ $logged_user->mobile }}" @else value="{{ old('phone') }}" @endif />
-                                    @error('phone')
-                                    <small class="text-danger">
-                                        {{ $errors->first('phone') }}
-                                    </small>
-                                @enderror
+                            <div class="horus-payment-option">
+                                <input type="radio" id="paypal" name="payment_method" value="paypal">
+                                <label for="paypal">PayPal</label>
+                            </div>
+                            <div class="horus-payment-option">
+                                <input type="radio" id="applepay" name="payment_method" value="applepay">
+                                <label for="applepay">🍎 Pay</label>
+                            </div>
+                            <div class="horus-payment-option">
+                                <input type="radio" id="googlepay" name="payment_method" value="googlepay">
+                                <label for="googlepay">G Pay</label>
+                            </div>
                         </div>
-
-
-                        <!-- Adress -->
-                        <div class="col-no-p ws-checkout-input col-sm-12">
-                            <label>Address <span> * </span></label><br>
-                            <textarea type="text" rows=3 name=address required >@if (isset($logged_user)) {{ $logged_user->address }} @else {{ old('address') }} @endif</textarea>
-                                @error('address')
-                                    <small class="text-danger">
-                                        {{ $errors->first('address') }}
-                                    </small>
+                        
+                        <!-- Card Details -->
+                        <div id="cardDetails">
+                            <div class="horus-form-group">
+                                <label class="horus-form-label">NAME ON CARD</label>
+                                <input type="text" class="horus-form-input" placeholder="Enter cardholder name">
+                            </div>
+                            
+                            <div class="horus-form-group">
+                                <label class="horus-form-label">CARD NUMBER</label>
+                                <input type="text" class="horus-form-input" placeholder="XXXX XXXX XXXX XXXX">
+                            </div>
+                            
+                            <div class="horus-form-row">
+                                <div class="horus-form-group">
+                                    <label class="horus-form-label">EXPIRATION DATE</label>
+                                    <input type="text" class="horus-form-input" placeholder="MM/YY">
+                                </div>
+                                <div class="horus-form-group">
+                                    <label class="horus-form-label">CVV</label>
+                                    <input type="text" class="horus-form-input" placeholder="XXX">
+                                </div>
+                            </div>
+                            
+                            <div class="horus-save-card">
+                                <input type="checkbox" id="saveCard">
+                                <label for="saveCard">Securely Save your Card for a faster checkout next time</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Delivery Address -->
+                    <div class="horus-delivery-address">
+                        <h3 class="horus-payment-method-title">DELIVERY ADDRESS</h3>
+                        
+                        <!-- Hidden Fields -->
+                        <input type="hidden" name="user" value="@isset($logged_user) {{ $logged_user->id }} @endisset" />
+                        <input type="hidden" name="guest" value="@isset($logged_user) 2 @else 1 @endisset" />
+                        <input type="hidden" name="area" id="selectedAreaID" value="{{ isset($logged_user) ? $logged_user->area_id : old('area') ?? 1 }}" />
+                        
+                        <div class="horus-form-row">
+                            <div class="horus-form-group">
+                                <label class="horus-form-label">FIRST NAME</label>
+                                <input type="text" name="guestName" class="horus-form-input" 
+                                       @isset($logged_user) value="{{ explode(' ', $logged_user->name)[0] }}" @else value="{{ old('name') }}" @endisset
+                                       required>
+                                @error('guestName')
+                                    <small class="text-danger">{{ $errors->first('guestName') }}</small>
                                 @enderror
                             </div>
-
-
-
-
-                            <div class="col-no-p ws-checkout-input col-sm-12">
-                                <label>Area <span> * </span></label><br>
-                                <select onchange="loadShipping()" id="selectedArea" required>
+                            <div class="horus-form-group">
+                                <label class="horus-form-label">LAST NAME</label>
+                                <input type="text" class="horus-form-input" 
+                                       value="@isset($logged_user){{ count(explode(' ', $logged_user->name)) > 1 ? explode(' ', $logged_user->name)[1] : '' }}@endisset">
+                            </div>
+                        </div>
+                        
+                        <div class="horus-form-group">
+                            <label class="horus-form-label">EMAIL</label>
+                            <input type="email" name="phone" class="horus-form-input" 
+                                   @isset($logged_user) value="{{ $logged_user->mobile }}" @else value="{{ old('phone') }}" @endif required>
+                            @error('phone')
+                                <small class="text-danger">{{ $errors->first('phone') }}</small>
+                            @enderror
+                        </div>
+                        
+                        <div class="horus-form-group">
+                            <label class="horus-form-label">ADDRESS LINE 1</label>
+                            <textarea name="address" class="horus-form-input" rows="2" required>@if (isset($logged_user)) {{ $logged_user->address }} @else {{ old('address') }} @endif</textarea>
+                            @error('address')
+                                <small class="text-danger">{{ $errors->first('address') }}</small>
+                            @enderror
+                        </div>
+                        
+                        <div class="horus-form-group">
+                            <label class="horus-form-label">ADDRESS LINE 2</label>
+                            <input type="text" class="horus-form-input">
+                        </div>
+                        
+                        <div class="horus-form-row-three">
+                            <div class="horus-form-group">
+                                <label class="horus-form-label">CITY</label>
+                                <select onchange="loadShipping()" id="selectedArea" class="horus-form-input" required>
                                     @foreach ($areas as $area)
                                         <option value='{{ $area->id }}%%{{ number_format($area->rate, 2) }}'
                                             @selected(isset($logged_user) && $logged_user->area_id == $area->id)>
@@ -81,88 +124,79 @@
                                     @endforeach
                                 </select>
                                 @error('area')
-                                    <small class="text-danger">
-                                        {{ $errors->first('area') }}
-                                    </small>
+                                    <small class="text-danger">{{ $errors->first('area') }}</small>
                                 @enderror
                             </div>
-
-
-                            <!-- Order Notes -->
-                            <div class="col-no-p ws-checkout-input col-sm-12">
-                                <label>Order Notes</label><br>
-                                <textarea placeholder="Notes about your order, e.g. special notes for delivery." rows="2" cols="5"
-                                    name=note> {{ old('note') }} </textarea>
+                            <div class="horus-form-group">
+                                <label class="horus-form-label">STATE</label>
+                                <input type="text" class="horus-form-input" value="Egypt" readonly>
                             </div>
-
-
-                    </div>
-                </div>
-
-                <!-- Cart Total -->
-                <div class="col-sm-4">
-                    <div class="ws-checkout-order">
-                        <h2>Your Order</h2>
-                        <!-- Order Table -->
-                        <table>
-
-                            <!-- Title -->
-                            <thead>
-                                <tr>
-                                    <th class="ws-order-product">Product</th>
-                                    <th class="ws-order-total">Total</th>
-                                </tr>
-                            </thead>
-
-                            <!-- Products -->
-                            <tbody>
-                                @foreach ($cart->items as $item)
-                                    <tr>
-                                        <th>{{ $item->title }} x {{ $item->quantity }}</th>
-                                        <td><span>{{ number_format($item->quantity * $item->price, 2) }} EGP</span></td>
-                                    </tr>
-                                @endforeach
-
-
-                                <tr>
-                                    <th>Subtotal</th>
-                                    <td><span>{{ number_format($cart->total, 2) }} EGP</span></td>
-                                </tr>
-                                <tr>
-                                    <th>Shipping</th>
-                                    <td><span id="shippingCheckout"> </span></td>
-                                </tr>
-                                <tr class="ws-shipping-total">
-                                    <th>Total</th>
-                                    <td><span id="calculatedTotal"></span></td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                        <!-- Payment Metod -->
-                        <div class="ws-shipping-payment">
-                            <div class="radio">
-                                <label><input type="radio" name="optradio" checked>Cash</label>
+                            <div class="horus-form-group">
+                                <label class="horus-form-label">ZIP CODE</label>
+                                <input type="text" class="horus-form-input">
                             </div>
-
                         </div>
-                        <button class="btn ws-btn-fullwidth" type="submit">Confirm Order</button>
-                        <button class="btn ws-btn-fullwidth" style="margin-top: 5px" type="button"
-                            onclick="sendWhatsappMsg()">
-                            <i class="fa fa-whatsapp"></i>
-                            Order using Whatsapp</button>
+                        
+                        <!-- Order Notes -->
+                        <div class="horus-form-group">
+                            <label class="horus-form-label">ORDER NOTES (OPTIONAL)</label>
+                            <textarea name="note" class="horus-form-input" rows="2" placeholder="Notes about your order, e.g. special notes for delivery.">{{ old('note') }}</textarea>
+                        </div>
                     </div>
                 </div>
-
-            </form>
-        </div>
+                
+                <!-- Order Details Section -->
+                <div class="horus-checkout-section">
+                    <h2 class="horus-checkout-title">ORDER DETAILS</h2>
+                    
+                    <!-- Order Items -->
+                    @foreach ($cart->items as $item)
+                        <div class="horus-order-item">
+                            <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="horus-order-item-image">
+                            <div class="horus-order-item-details">
+                                <h4>{{ $item->title }}</h4>
+                                <div class="horus-order-item-quantity">Quantity: {{ $item->quantity }}</div>
+                            </div>
+                            <div class="horus-order-item-price">
+                                {{ number_format($item->quantity * $item->price, 2) }}
+                            </div>
+                        </div>
+                    @endforeach
+                    
+                    <!-- Order Summary -->
+                    <div class="horus-order-summary">
+                        <div class="horus-summary-row">
+                            <span>ORDER VALUE</span>
+                            <span>{{ number_format($cart->total, 2) }}</span>
+                        </div>
+                        <div class="horus-summary-row">
+                            <span>SHIPPING VALUE</span>
+                            <span id="shippingCheckout">0.00</span>
+                        </div>
+                        <div class="horus-summary-row">
+                            <span>VAT</span>
+                            <span>0.00</span>
+                        </div>
+                        <div class="horus-summary-row total">
+                            <span>TOTAL</span>
+                            <span id="calculatedTotal">{{ number_format($cart->total, 2) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Place Order Button -->
+            <button type="submit" class="horus-place-order-btn">PLACE ORDER</button>
+            
+            <!-- WhatsApp Order Button -->
+            {{-- <button type="button" class="horus-place-order-btn" onclick="sendWhatsappMsg()" style="margin-top: 10px; background-color: #25D366;">
+                <i class="fa fa-whatsapp"></i> ORDER USING WHATSAPP
+            </button> --}}
+        </form>
     </div>
-
 
     <script>
         function loadShipping() {
-
             var selectedArea = $('#selectedArea').val().split('%%')
             var shippingPrice = parseFloat(selectedArea[1]);
             var selectedAreaID = selectedArea[0];
@@ -172,7 +206,7 @@
             $('#shippingCheckout').html(shippingPrice.toLocaleString(undefined, {
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
-            }) + " EGP")
+            }))
             var cartTotal = parseFloat({{ number_format($cart->total, 2) }})
 
             $('#calculatedTotal').html((cartTotal + shippingPrice).toLocaleString(
@@ -180,8 +214,7 @@
                     maximumFractionDigits: 2,
                     minimumFractionDigits: 2,
                 }
-            ) + " EGP")
-
+            ))
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -201,12 +234,23 @@
                 data: formData,
                 success: function(response) {
                     window.open(response.url, '_blank');
-
                 },
                 error: function(xhr, status, error) {
                     alert('An error occurred while submitting the order via WhatsApp.');
                 }
             });
         }
+        
+        // Toggle payment method details
+        document.querySelectorAll('input[name="payment_method"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const cardDetails = document.getElementById('cardDetails');
+                if (this.value === 'card') {
+                    cardDetails.style.display = 'block';
+                } else {
+                    cardDetails.style.display = 'none';
+                }
+            });
+        });
     </script>
 @endsection

@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ Session::token() }}">
     <!-- Favicon icon -->
 
-    <title>{{ config('app.name', 'Vine') }}</title>
+    <title>{{ config('app.name', 'Horus') }}</title>
     <!-- Custom CSS -->
     <link href="{{asset('dist/css/style.min.css')}}" rel="stylesheet">
     <link href="{{asset('dist/css/style.min.css')}}" media=print rel="stylesheet">
@@ -26,7 +26,7 @@
     <link href="{{ asset('assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/node_modules/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oregano" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald" />
 
     <!-- Sweet Alert Notification -->
@@ -78,7 +78,7 @@
                         <!--End Logo icon -->
                         <!-- Logo text --><span>
 
-                            <h4 class="text-themecolor ml-4" style=" text-align: center; font-family: 'Oregano' ; font-size:33px ; display: inline; ">Vine Arts </h4>
+                            <h4 class="text-themecolor ml-4" style=" text-align: center; font-family: 'Poppins' ; font-size:33px ; display: inline; ">Horus </h4>
 
                             <!-- dark Logo text -->
                             {{-- <img src="{{ asset('images/dark-text.png') }}" height=40px alt="homepage" class="dark-logo" /> --}}
@@ -265,7 +265,7 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor" style="font-family: 'Oregano' ; font-size:33px">Vine Dashboard</h4>
+                        <h4 class="text-themecolor" style="font-family: 'Poppins' ; font-size:33px">Horus Dashboard</h4>
                     </div>
                     <div class="col-md-7 align-self-center text-right">
                         <div class="d-flex justify-content-end align-items-center">

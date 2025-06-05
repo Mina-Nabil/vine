@@ -14,12 +14,6 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-
-        DB::table('dash_users')->insert([
-            "name" => "maged",
-            "full_name" => "Maged Habib",
-            "password" => bcrypt('maged@vine'),
-        ]);
         
         DB::table('dash_users')->insert([
             "name" => "mina",

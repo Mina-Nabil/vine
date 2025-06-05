@@ -86,7 +86,7 @@
                                                         <tr>
                                                             <td style="width:100%;padding-right:0;padding-left:0">
                                                                 <div align="center" style="line-height:10px"><img src="{{$logo}}" style="display:block;height:auto;border:0;width:140px;max-width:100%" width="140"
-                                                                        alt="Vine arts" title="Vine arts"></div>
+                                                                        alt="Horus arts" title="Horus arts"></div>
                                                             </td>
                                                         </tr>
                                                     </table>

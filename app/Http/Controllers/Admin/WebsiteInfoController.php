@@ -63,6 +63,14 @@ class WebsiteInfoController extends Controller
 
     public function setWebsiteInfo(Request $request)
     {
+        $request->validate([
+            "logo" => "nullable|image|max:3072",
+            "mail" => "nullable|email",
+            "landingImage" => "nullable|image|max:3072",
+            "footerLargeImg" => "nullable|image|max:3072",
+            "phone" => "nullable|string",
+        ]);
+
         $siteInfo = SiteInfo::getSiteInfo();
         $siteInfo->setSiteInfo(
             $request->logo,

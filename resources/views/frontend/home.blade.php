@@ -9,15 +9,6 @@
                 <img src="{{ $site_info->landing_image }}" alt="Alternative Text" data-bgposition="center center"
                     data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10">
 
-                <!-- Background Overlay -->
-                <div class="tp-caption" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
-                    data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" data-width="full"
-                    data-height="full" data-whitespace="nowrap" data-transform_idle="o:1;"
-                    data-transform_in="opacity:0;s:1500;e:Power3.easeInOut;" data-transform_out="s:300;s:300;"
-                    data-start="750" data-basealign="slide" data-responsive_offset="on" data-responsive="off"
-                    style="z-index: 5;background-color:rgba(0, 0, 0, 0.40);border-color:rgba(0, 0, 0, 0.50);">
-                </div>
-
                 <!-- Layer -->
                 <div class="tp-caption ws-hero-title" data-x="['center','center','center','center']"
                     data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
@@ -25,8 +16,7 @@
                     data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;s:1500;e:Power3.easeInOut;"
                     data-mask_in="x:0px;y:0px;" data-mask_out="x:0;y:0;" data-start="1000" data-responsive_offset="on"
                     style="z-index: 6;">
-                    <h1 style="padding-bottom:0px">أَنَا الْكَرْمَةُ الْحَقِيقِيَّةُ وَأَبِي الْكَرَّامُ </h1>
-                    <h1 style="padding-bottom:0px">(يو 15: 1)</h1>
+
                 </div>
 
                 <!-- Layer -->
@@ -39,13 +29,6 @@
 
                 </div>
 
-                <!-- Button -->
-                <div class="tp-caption" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
-                    data-y="['middle','middle','middle','middle']" data-voffset="['92','92','92','76']"
-                    data-transform_in="y:50px;opacity:0;s:1500;e:Power4.easeInOut;" data-start="1000"
-                    data-responsive_offset="on" data-responsive="off" style="z-index: 8;"><a class="btn ws-big-btn"
-                        href="{{ url('shop') }}">View Shop</a>
-                </div>
             </li>
         </ul>
         <div class="tp-static-layers"></div>
@@ -58,21 +41,23 @@
         <div class="container">
             <div class="row">
 
+
                 <!-- Description -->
                 <div class="ws-about-content clearfix">
                     <div class="col-sm-8 col-sm-offset-2">
-                        {{-- <h3>Where Art and Faith Shape Young Minds</h3>
-                        <div class="ws-separator"></div> --}}
-                        <p>Our materials are designed to engage students in meaningful ways, combining creativity with
-                            thoughtful content that encourages exploration and personal growth. By making learning visually
-                            stimulating and interactive, we aim to cultivate curiosity and critical thinking. Each product
-                            fosters a deeper connection to the subjects explored, helping young learners develop skills,
-                            values, and insights that stay with them well beyond the classroom.</p>
-                        <div class="ws-separator"></div>
-                        <p>تم تصميم اعمالنا لإشراك المخدومين بطرق هادفة، حيث تجمع بين الإبداع والمحتوى الفكري الذي يشجع على
-                            الاستكشاف والنمو الشخصي. من خلال جعل التعلم محفزًا بصريًا وتفاعليًا، نهدف إلى تنمية الفضول
-                            والتفكير النقدي. يعزز كل منتج ارتباطًا أعمق بالموضوعات المستكشفة، مما يساعد المتعلمين الصغار
-                            على تطوير المهارات والقيم والرؤى التي تبقى معهم إلى ما بعد الفصل الدراسي.</p>
+                        <div class="ws-works-title clearfix">
+                            <h4>Horus Limited</h4>
+                            <h3>Beginnings</h3>
+                        </div>
+                        <p>Established in 1977 with major activity of papyrus replication 
+                            and exhibition organization.</p>
+                            <br />
+                            <p>
+                            Today, Horus is the number one Egyptian artifact replicator Has the "First Certified Replicas" 
+                            authorization from the Egyptian government to be the official 
+                            replicator of papyrus and Egyptian artifacts in 2019.
+                            </p>
+                 
                     </div>
                 </div>
 
@@ -108,49 +93,36 @@
 
     <!-- New Arrivals Section -->
     <section class="ws-arrivals-section">
-
         <div class="ws-works-title clearfix">
             <div class="col-sm-12">
-                <h3>New Arrivals</h3>
-                <div class="ws-separator"></div>
+                <h3>OUR EXHIBITS</h3>
             </div>
         </div>
 
-        <div id="ws-items-carousel">
+        <!-- Exhibits Grid with HORUS styling -->
+        <div class="horus-products-grid">
             @foreach ($new_arrivals as $new_prod)
-                <!-- Item -->
-                <div class="ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
+                <!-- Product Card with Golden Border -->
+                <div class="horus-product-card">
                     <a href="{{ url('product/' . $new_prod->id) }}">
                         <div class="ws-item-offer">
                             <!-- Image -->
                             <figure>
                                 <img src="{{ $new_prod->main_image_url }}" alt="{{ $new_prod->name }}"
-                                    class="img-responsive">
+                                    class="horus-product-image">
                             </figure>
                         </div>
 
                         <div class="ws-works-caption text-center">
-                            <!-- Item Category -->
-                            <div class="ws-item-category">{{ $new_prod->subcategory->category->arabic_name }} -
-                                {{ $new_prod->subcategory->arabic_name }}</div>
-
                             <!-- Title -->
                             <h3 class="ws-item-title">{{ $new_prod->arabic_name }}</h3>
 
                             <div class="ws-item-separator"></div>
 
-                            <!-- Price -->
-                            <div class="ws-item-price">
-                                @if ($new_prod->offer)
-                                    <del>{{ $new_prod->price }}EGP</del>
-                                @endif
-                                <ins>{{ $new_prod->price - $new_prod->offer }}EGP</ins>
-                            </div>
                         </div>
                     </a>
                 </div>
             @endforeach
-
         </div>
     </section>
     <!-- End New Arrivals Section -->
@@ -159,80 +131,66 @@
     <section class="ws-works-section">
         <div class="container">
             <div class="row">
-
                 <div class="ws-works-title">
                     <div class="col-sm-12">
-                        <h3>On Sale Products</h3>
-                        <div class="ws-separator"></div>
+                        <h3>Best Sellers</h3>
                     </div>
                 </div>
 
-                @foreach ($on_sale_prods as $prod)
-                    <!-- Item -->
-                    <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
-                        <a href="{{ url('product/' . $prod->id) }}">
-                            <div class="ws-item-offer">
-                                <!-- Image -->
-                                <figure>
-                                    <img src="{{ $prod->main_image_url }}" alt="{{ $prod->name }}"
-                                        class="img-responsive">
-                                </figure>
-                                <!-- Sale Caption -->
-                                @if ($prod->offer)
-                                    <div class="ws-item-sale">
-                                        <span>Sale</span>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="ws-works-caption text-center">
-                                <!-- Item Category -->
-                                <div class="ws-item-category">{{ $prod->subcategory->category->arabic_name }} -
-                                    {{ $prod->subcategory->arabic_name }}</div>
-
-                                <!-- Title -->
-                                <h3 class="ws-item-title">{{ $prod->arabic_name }}</h3>
-
-                                <div class="ws-item-separator"></div>
-
-                                <!-- Price -->
-                                <div class="ws-item-price">
+                <!-- Best Sellers Grid with HORUS styling -->
+                <div class="horus-bestsellers-grid">
+                    @foreach ($new_arrivals as $index => $prod)
+                        <!-- Product Card with Golden Border -->
+                        <div class="horus-product-card @if($index === 0) large @endif">
+                            <a href="{{ url('product/' . $prod->id) }}">
+                                <div class="ws-item-offer">
+                                    <!-- Image -->
+                                    <figure>
+                                        <img src="{{ $prod->main_image_url }}" alt="{{ $prod->name }}"
+                                            class="horus-product-image">
+                                    </figure>
+                                    <!-- Sale Caption -->
                                     @if ($prod->offer)
-                                        <del>{{ $prod->price }}EGP</del>
+                                        <div class="ws-item-sale">
+                                            <span>Sale</span>
+                                        </div>
                                     @endif
-                                    <ins>{{ $prod->price - $prod->offer }}EGP</ins>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
 
+                                <div class="ws-works-caption text-center">
+                                    <!-- Item Category -->
+                                    <div class="ws-item-category">{{ $prod->subcategory->category->arabic_name }} -
+                                        {{ $prod->subcategory->arabic_name }}</div>
+
+                                    <!-- Title -->
+                                    <h3 class="ws-item-title">{{ $prod->arabic_name }}</h3>
+
+                                    <div class="ws-item-separator"></div>
+
+                                    <!-- Price -->
+                                    <div class="ws-item-price">
+                                        @if ($prod->offer)
+                                            <del>{{ $prod->price }}EGP</del>
+                                        @endif
+                                        <ins>{{ $prod->price - $prod->offer }}EGP</ins>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- See More Button -->
+                <div class="text-center" style="margin-top: 40px;">
+                    <button class="horus-see-more-btn" onclick="window.location.href='{{ url('shop') }}'">
+                        SEE MORE
+                    </button>
+                </div>
             </div>
         </div>
     </section>
     <!-- Work Collection End  -->
-    <!-- Call to Action Section -->
-    <section class="ws-call-section" style="background-image: {{ $site_info->footer_large }}">
-        <div class="ws-overlay">
-            <div class="ws-parallax-caption">
-                <div class="ws-parallax-holder">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <p>هل تبحث عن المزيد من المواد الملهمة ومناقشة أفكار جديدة؟ قم بزيارة صفحتنا لتصفح مجموعتنا
-                            الكاملة! ابق على اطلاع على أحدث المنتجات والعروض والنصائح للاستفادة القصوى من أدواتنا
-                            التعليمية الفنية.</p>
-                        <div class="ws-separator"></div>
-                        <p>Looking for more inspiring materials and discuss new ideas? Visit our page to browse our
-                            full collection! Stay updated on the latest products, offers, and tips for making the
-                            most of our artistic learning tools.</p>
 
-                        <div class="ws-call-btn">
-                            <a href="https://www.fb.com/{{ $site_info['WBST_FB'] }}">Facebook page</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     @isset($showOrderSubmitted)
         <script>

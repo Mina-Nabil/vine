@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Parallax Header -->
     <div class="ws-parallax-header parallax-window" data-parallax="scroll"
-        data-image-src="{{ $site_info->landing_image }}">
+        data-image-src="{{ url('assets/images/landing/productMainPage.png') }}">
         <div class="ws-overlay">
             <div class="ws-parallax-caption">
                 <div class="ws-parallax-holder">
@@ -118,5 +118,6 @@
                 </div>
             </div>
         </div>
-        <!-- End Page Content -->
-    @endsection
+    </div>
+    <!-- End Page Content -->
+@endsection

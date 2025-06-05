@@ -2,11 +2,11 @@
 
 @section('content')
     <!-- Page Parallax Header -->
-    <div class="ws-parallax-header parallax-window" data-parallax="scroll" data-image-src="{{$site_info->landing_image}}">        
+    <div class="ws-parallax-header" data-parallax="scroll" data-image-src="{{$site_info->landing_image}}">        
         <div class="ws-overlay">            
             <div class="ws-parallax-caption">                
                 <div class="ws-parallax-holder">
-                    <h1>About Vine Activities</h1>                        
+                    <h1>About Horus</h1>                        
                 </div>
             </div>
         </div>            
@@ -54,6 +54,5 @@
         </div>                                                              
     </div>
     <!-- End Page Content --> 
-
 
 @endsection

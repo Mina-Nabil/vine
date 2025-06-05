@@ -9,7 +9,7 @@
     <!-- Meta -->
     <meta charset="utf-8">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-    <title>Vine Activities</title>
+    <title>Horus</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,44 +19,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('assets/img/favicon.ico') }}">
 
-    <!-- Meta Pixel Code -->
-    <script>
-        ! function(f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function() {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '2050922418710174');
-        fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=2050922418710174&ev=PageView&noscript=1" /></noscript>
-    <!-- End Meta Pixel Code -->
 
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'G-66R6DYJHWT');
-    </script>
     <!-- Jquery -->
     <script src="{{ url('assets/js/plugins/jquery-1.11.3.min.js') }}"></script>
 
@@ -222,8 +185,7 @@
                     <!-- Logo -->
                     <div class="ws-logo ws-center">
                         <a href="{{ url('home') }}">
-                            <img src="{{ url('assets/images/vineLogo.png') }}" alt="Alternative Text"
-                                class="img-responsive">
+                            <img src="{{ $site_info->logo_url }}" alt="Alternative Text" class="img-responsive">
                         </a>
                     </div>
 
@@ -325,14 +287,8 @@
                         <div class="ws-footer-separator"></div>
                         <div class="ws-footer-about">
 
-                            <p>مرحباً بكم في Vine Activities! نحن نقدم مواد فنية تعليمية مبتكرة لمدارس الأحد القبطية.
-                                منتجاتنا تجمع بين الفن والتعليم لإلهام الفهم وإشعال الإبداع وتعميق المعرفة. انضموا إلينا
-                                في رحلة التعلم من خلال الإبداع!</p>
-
-                            <p>Welcome to Vine Activities! We provide innovative artistic educational materials for
-                                Coptic Sunday schools. Our products combine art and education to inspire understanding,
-                                spark creativity and deepen knowledge. Join us on a journey of learning through
-                                creativity!</p>
+                            <p>Established in 1977 with major activity of papyrus replication 
+                                and exhibition organization.</p>
                         </div>
                     </div>
 

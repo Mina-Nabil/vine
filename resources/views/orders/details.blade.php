@@ -620,7 +620,7 @@
                     buttons: [
                         {
                             extend: 'excel',
-                            title: 'Vine Dashboard',
+                            title: 'Horus Dashboard',
                             footer: true,
                         }
                     ]

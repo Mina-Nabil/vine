@@ -1,116 +1,143 @@
 @extends('layouts.site')
 
 @section('content')
-    <!-- Page Content -->
-    <div class="container ws-page-container">
-        <div class="row">
-
-            <!-- Cart Content -->
-            <div class="ws-cart-page">
-                <div class="col-sm-8">
-                    <div class="ws-mycart-content">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="cart-item-head">&nbsp;</th>
-                                    <th class="cart-item-head">Item</th>
-                                    <th class="cart-item-head">Price</th>
-                                    <th class="cart-item-head">Quantity</th>
-                                    <th class="cart-item-head">Total</th>
-                                    <th class="cart-item-head">&nbsp;</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <form method="POST">
-                                    @csrf
-                     
-                                @foreach ($cart->items as $item)
-                                    <tr class="cart-item">
-                                        <td class="cart-item-cell cart-item-thumb">
-                                            <a href="{{ url('product/' . $item->id) }}">
-                                                <img src="{{ $item->image_url }}" class="img-responsive"
-                                                    alt="Alternative Text">
-                                            </a>
-                                        </td>
-                                        <td class="cart-item-cell cart-item-title">
-                                            <h3><a href="{{ url('product/' . $item->id) }}">{{ $item->title }}</a></h3>
-                                        </td>
-                                        <td class="cart-item-cell cart-item-price">
-                                            <span class="amount">{{ number_format($item->price, 2) }}</span>
-                                        </td>
-                                        <td class="cart-item-cell cart-item-quantity">
-                                            <input type="number" value="{{ $item->quantity }}"
-                                                id="prod-{{ $item->id }}-quantity" name=quantity[] >
-                                            <input type="hidden" name="product[]" value="{{ $item->id }}" />
-                                        </td>
-                                        <td class="cart-item-cell cart-item-subtotal">
-                                            <span
-                                                class="amount">{{ number_format($item->price * $item->quantity, 2) }}</span>
-                                        </td>
-                                        <td class="cart-item-cell cart-item-remove"
-                                            onclick="setQuantity({{ $item->id }}, '0')">
-                                            <span><i class="fa fa-times"></i></span>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                <script>
-                                    function setQuantity(id, quantity) {
-                                        $('#prod-' + id + '-quantity').val(quantity)
-                                    }
-                                </script>
-
-                                <tr>
-                                    <td colspan="6">
-
-                                        <!-- Update Cart -->
-                                        <div class="ws-update-cart">
-                                            <button class="btn ws-small-btn-black" type="submit">Update Cart</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </form>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Cart Total -->
-                <div class="col-sm-4">
-                    <div class="ws-mycart-total">
-                        <h2>Cart Totals</h2>
-                        <table>
-                            <tbody>
-                                <tr class="cart-subtotal">
-                                    <th>Subtotal</th>
-                                    <td><span class="amount">{{number_format($cart->total + $cart->discount,2)}}EGP</span></td>
-                                </tr>
-
-                                <tr class="shipping">
-                                    <th>Discount</th>
-                                    <td><span class="amount">{{number_format($cart->discount, 2)}}EGP</span></td>
-                                </tr>
-
-                                <tr class="order-total">
-                                    <th>Total</th>
-                                    <td><strong><span class="amount">{{number_format($cart->total, 2)}}EGP</span></strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <a class="btn ws-btn-fullwidth" href="{{url('checkout')}}">Check Out</a>
-                    </div>
-                </div>
+    <!-- HORUS Cart Container -->
+    <div class="horus-cart-container">
+        <div class="horus-cart-main">
+            
+            <!-- Cart Items Section -->
+            <div class="horus-cart-items">
+                <form method="POST">
+                    @csrf
+                    
+                    @foreach ($cart->items as $item)
+                        <div class="horus-cart-item">
+                            <!-- Product Image -->
+                            <div>
+                                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="horus-cart-item-image">
+                            </div>
+                            
+                            <!-- Product Details -->
+                            <div class="horus-cart-item-details">
+                                <h3>{{ $item->title }}</h3>
+                                <div class="horus-cart-item-status">In stock</div>
+                                <div class="horus-cart-item-shipping">Eligible for free shipping</div>
+                            </div>
+                            
+                            <!-- Price -->
+                            <div class="horus-cart-item-price">
+                                {{ number_format($item->price, 2) }}
+                            </div>
+                            
+                            <!-- Quantity Selector -->
+                            <div>
+                                <select class="horus-cart-qty-selector" 
+                                        id="prod-{{ $item->id }}-quantity" 
+                                        name="quantity[]"
+                                        onchange="updateQuantity({{ $item->id }}, this.value)">
+                                    <option value="0">Qty 0 (Remove)</option>
+                                    @for ($i = 1; $i <= 10; $i++)
+                                        <option value="{{ $i }}" @selected($item->quantity == $i)>
+                                            Qty {{ $i }}
+                                        </option>
+                                    @endfor
+                                </select>
+                                <input type="hidden" name="product[]" value="{{ $item->id }}" />
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="horus-cart-actions">
+                                <button type="button" class="horus-cart-action-btn" onclick="removeItem({{ $item->id }})">
+                                    Delete
+                                </button>
+                                <button type="button" class="horus-cart-action-btn">
+                                    Save for later
+                                </button>
+                                <button type="button" class="horus-cart-action-btn">
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                    
+                    <!-- Hidden Update Button -->
+                    <button type="submit" id="updateCartBtn" style="display: none;">Update Cart</button>
+                </form>
             </div>
-
+            
+            <!-- Cart Sidebar -->
+            <div class="horus-cart-sidebar">
+                
+                <!-- Order Summary -->
+                <div class="horus-cart-summary">
+                    <h3>
+                        <i class="fa fa-check-circle" style="color: #FFD700;"></i>
+                        Your Order Qualifies for free shipping
+                    </h3>
+                    <div class="horus-cart-summary-content">
+                        Choose this option at checkout.
+                    </div>
+                    <div class="horus-cart-subtotal">
+                        <span>Subtotal ({{ count($cart->items) }} Items):</span>
+                        <span>{{ number_format($cart->total, 2) }}</span>
+                    </div>
+                    <button class="horus-checkout-btn" onclick="window.location.href='{{ url('checkout') }}'">
+                        CHECK OUT
+                    </button>
+                </div>
+                
+                <!-- Recommendations -->
+                <div class="horus-recommendations">
+                    <h3>Customers who bought these items Also viewed these</h3>
+                    
+                    <!-- Sample Recommendations (you can replace with dynamic data) -->
+                    <div class="horus-recommendation-item">
+                        <img src="{{ asset('assets/img/sample-artifact1.jpg') }}" alt="Recommendation" class="horus-recommendation-image">
+                        <div class="horus-recommendation-details">
+                            <h4>Kneeling Offering Statue of Ancient Egyptian King Amenhotep III</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="horus-recommendation-item">
+                        <img src="{{ asset('assets/img/sample-artifact2.jpg') }}" alt="Recommendation" class="horus-recommendation-image">
+                        <div class="horus-recommendation-details">
+                            <h4>A vintage replica of an ancient Egyptian godAnubis</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="horus-recommendation-item">
+                        <img src="{{ asset('assets/img/sample-artifact3.jpg') }}" alt="Recommendation" class="horus-recommendation-image">
+                        <div class="horus-recommendation-details">
+                            <h4>Statue</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="horus-recommendation-item">
+                        <img src="{{ asset('assets/img/sample-artifact4.jpg') }}" alt="Recommendation" class="horus-recommendation-image">
+                        <div class="horus-recommendation-details">
+                            <h4>A vintage replica of an ancient Egyptian goddess Bastet</h4>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
-    <!-- End Page Content -->
-@endsection
 
-@section('js_content')
     <script>
-        function removeRow(rowID) {
-            $("#" + rowID).remove();
+        function updateQuantity(itemId, quantity) {
+            // Auto-submit form when quantity changes
+            document.getElementById('updateCartBtn').click();
+        }
+        
+        function removeItem(itemId) {
+            // Set quantity to 0 and submit
+            document.getElementById('prod-' + itemId + '-quantity').value = 0;
+            document.getElementById('updateCartBtn').click();
+        }
+        
+        function setQuantity(id, quantity) {
+            $('#prod-' + id + '-quantity').val(quantity);
         }
     </script>
 @endsection

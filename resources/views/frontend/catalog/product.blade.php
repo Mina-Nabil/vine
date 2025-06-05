@@ -1,157 +1,151 @@
 @extends('layouts.site')
 
 @section('content')
-    <!-- Breadcrumb -->
-    <div class="ws-breadcrumb">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li><a href="{{ url('shop') }}">Shop</a></li>
-                <li><a
-                        href="{{ url('shop/' . $product->subcategory->category->id) }}">{{ $product->subcategory->category->arabic_name }}</a>
-                </li>
-                <li><a href="{{ url('shop/' . $product->subcategory->category->id) }}">{{ $product->subcategory->arabic_name }}</a>
-                </li>
-            </ol>
-        </div>
-    </div>
-    <!-- End Breadcrumb -->
-
-    <!-- Product Content -->
-    <div class="container ws-page-container">
-        <div class="row">
-
-            <!-- Product Image Carousel -->
-            <div class="col-sm-7">
-                <div id="ws-products-carousel" class="owl-carousel">
-                    @foreach ($product->images as $img)
-                        <div class="item">
-                            <img src="{{ $img->full_image_url }}" class="img-responsive" alt="{{ $product->name }}">
+    <!-- HORUS Product Container -->
+    <div class="horus-product-container">
+        <div class="horus-product-main">
+            
+            <!-- Product Image Section -->
+            <div class="horus-product-image-section">
+                <!-- Main Product Image -->
+                <div class="horus-product-main-image">
+                    <img id="mainProductImage" src="{{ $product->main_image_url }}" alt="{{ $product->name }}">
+                </div>
+                
+                <!-- Thumbnail Images -->
+                <div class="horus-product-thumbnails">
+                    @foreach ($product->images as $index => $img)
+                        <div class="horus-product-thumbnail" onclick="changeMainImage('{{ $img->full_image_url }}')">
+                            <img src="{{ $img->full_image_url }}" alt="{{ $product->name }}">
                         </div>
                     @endforeach
                 </div>
             </div>
-
-            <!-- Product Information -->
-            <div class="col-sm-5">
-                <div class="ws-product-content">
-                    <header>
-                        <!-- Item Category -->
-                        <div class="ws-item-category">{{ $product->subcategory->category->arabic_name }} -
-                            {{ $product->subcategory->arabic_name }}</div>
-
-                        <!-- Title -->
-                        <h3 class="ws-item-title">{{ $product->arabic_name }}</h3>
-
-                        <div class="ws-separator"></div>
-
-                        <!-- Price -->
-                        @if ($product->offer)
-                            <div class="ws-item-price"><del>{{ number_format($product->price) }}EGP</del>
-                                <ins>{{ number_format($product->price - $product->offer) }}EGP</ins>
-                            </div>
-                        @else
-                            <div class="ws-item-price"><ins>{{ number_format($product->price) }}EGP</ins>
-                            </div>
-                        @endif
-                        <!-- Quantity -->
-                        <div class="ws-product-quantity">
-                            <a onclick="subCount()" class="minus">-</a>
-                            <input id="prod_count" type="text" value="1" size="4">
-                            <a onclick="addCount()" class="plus">+</a>
-                        </div>
-                    </header>
-
-                    <div class="ws-product-details">
-                        {{ $product->arabic_desc }}<br><br>{{ $product->desc }}
+            
+            <!-- Product Details Section -->
+            <div class="horus-product-details">
+                <!-- Product Title -->
+                <h1 class="horus-product-title">{{ $product->arabic_name }}</h1>
+                
+                <!-- Quantity Section -->
+                <div class="horus-product-quantity-section">
+                    <label class="horus-product-quantity-label">Quantity</label>
+                    <div class="horus-quantity-controls">
+                        <button type="button" class="horus-quantity-btn" onclick="subCount()">-</button>
+                        <input type="text" id="prod_count" class="horus-quantity-input" value="1" readonly>
+                        <button type="button" class="horus-quantity-btn" onclick="addCount()">+</button>
                     </div>
-                    <input type="hidden" id="prod_id" value="{{$product->id}}" />
-                    <!-- Button -->
-                    <a class="btn ws-btn-fullwidth btn-add-cart">Add To Cart</a><br><br><br>
+                </div>
+                
+                <!-- Price -->
+                <div class="horus-product-price">
+                    @if ($product->offer)
+                        <del style="color: #cccccc; font-size: 20px;">{{ number_format($product->price) }}EGP</del>
+                        {{ number_format($product->price - $product->offer) }}
+                    @else
+                        {{ number_format($product->price) }}
+                    @endif
+                </div>
+                
+                <!-- Order Button -->
+                <input type="hidden" id="prod_id" value="{{ $product->id }}" />
+                <button class="horus-order-btn btn-add-cart">ORDER</button>
+                
+                <!-- Product Description -->
+                <div class="horus-product-description">
+                    <h3 class="horus-description-title">DESCRIPTION</h3>
+                    <p class="horus-description-text">{{ $product->arabic_desc }}</p>
+                    @if($product->desc)
+                        <p class="horus-description-text">{{ $product->desc }}</p>
+                    @endif
+                </div>
+                
+                <!-- Back Button -->
+                <button class="horus-back-btn" onclick="window.history.back()">BACK</button>
+            </div>
+        </div>
+        
+        <!-- Product Information Sections -->
+        <div class="horus-product-info-sections">
+            <!-- Share Section -->
+            <div class="horus-info-section">
+                <h3>Share</h3>
+                <div class="ws-product-social-icon">
+                    <a href="https://wa.me/?text='Check this Horus Arts Product!\n{{ url('product/' . $product->id) }}'"
+                        target="_blank" style="color: #FFD700; font-size: 24px;">
+                        <i class="fa fa-whatsapp"></i>
+                    </a>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Product Content -->
-
-    <!-- Products Description -->
-    <div class="ws-products-description-content text-center">
-
-        <!-- Item -->
-        <div class="ws-product-description">
-            <h3>Share</h3>
-            <div class="ws-product-social-icon">
-                <a href="https://wa.me/?text='Check this Vine Arts Product!\n{{ url('product/' . $product->id) }}'"
-                    target="_blank"><i class="fa fa-whatsapp"></i></a>
+            
+            <!-- Material Section -->
+            @if($product->material)
+            <div class="horus-info-section">
+                <h3>Material</h3>
+                <p>{{ $product->material }}</p>
             </div>
-        </div>
-
-        <!-- Item -->
-        <div class="ws-product-description">
-            <h3>Material</h3>
-            <p>{{ $product->material }}</p>
-        </div>
-
-        <!-- Item -->
-        <div class="ws-product-description">
-            <h3>Dimensions</h3>
-            <p>{{ $product->dimensions }}</p>
-        </div>
-
-        <!-- Item -->
-        <div class="ws-product-description">
-            <h3>Topics</h3>
-            <p>{{ $product->handled_topics }}</p>
-        </div>
-
-    </div>
-    <!-- End Products Description -->
-
-    <!-- Related Post -->
-    <div class="ws-related-section">
-        <div class="container">
-
-            <!-- Title -->
-            <div class="ws-related-title">
-                <h3>Related Products</h3>
+            @endif
+            
+            <!-- Dimensions Section -->
+            @if($product->dimensions)
+            <div class="horus-info-section">
+                <h3>Dimensions</h3>
+                <p>{{ $product->dimensions }}</p>
             </div>
-
-            @foreach ($related_products as $prod)
-                <div class="col-sm-4">
-                    <!-- Item -->
-                    <div class="ws-works-item">
+            @endif
+            
+            <!-- Topics Section -->
+            @if($product->handled_topics)
+            <div class="horus-info-section">
+                <h3>Topics</h3>
+                <p>{{ $product->handled_topics }}</p>
+            </div>
+            @endif
+        </div>
+        
+        <!-- Related Products -->
+        @if($related_products && count($related_products) > 0)
+        <div class="horus-related-products">
+            <h2 class="horus-related-title">Related Products</h2>
+            <div class="horus-related-grid">
+                @foreach ($related_products as $prod)
+                    <div class="horus-product-card">
                         <a href="{{ url('product/' . $prod->id) }}">
-                            <!-- Image -->
-                            <figure>
-                                <img src="{{ $prod->main_image_url }}" alt="Alternative Text" class="img-responsive">
-                            </figure>
+                            <div class="ws-item-offer">
+                                <figure>
+                                    <img src="{{ $prod->main_image_url }}" alt="{{ $prod->name }}" class="horus-product-image">
+                                </figure>
+                            </div>
                             <div class="ws-works-caption text-center">
-                                <!-- Item Category -->
                                 <div class="ws-item-category">{{ $prod->subcategory->category->arabic_name }} -
                                     {{ $prod->subcategory->arabic_name }}</div>
-
-                                <!-- Title -->
                                 <h3 class="ws-item-title">{{ $prod->arabic_name }}</h3>
-
                                 <div class="ws-item-separator"></div>
-
-                                <!-- Price -->
                                 <div class="ws-item-price">{{ number_format($prod->price - $prod->offer) }}EGP</div>
                             </div>
                         </a>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
+        @endif
     </div>
-    <!-- End Related Post -->
 
     <script>
         function addCount() {
-            $('#prod_count').val( +$('#prod_count').val() + 1)
+            let currentValue = parseInt($('#prod_count').val());
+            $('#prod_count').val(currentValue + 1);
         }
 
         function subCount() {
-            $('#prod_count').val(  Math.max(+$('#prod_count').val() - 1, 0))
+            let currentValue = parseInt($('#prod_count').val());
+            if (currentValue > 1) {
+                $('#prod_count').val(currentValue - 1);
+            }
+        }
+        
+        function changeMainImage(imageUrl) {
+            $('#mainProductImage').attr('src', imageUrl);
         }
     </script>
 @endsection

@@ -12,9 +12,22 @@ class FileManager
      */
     public static function get($file)
     {
-        return ($file != null) ?
-            (str_starts_with($file, "http") ? $file : Storage::url($file))
-            : null;
+
+        if($file == null) {
+            return null;
+        }
+
+        if(str_starts_with($file, "http")) {
+            return $file;
+        }
+
+        if(config("filesystems.default") == "s3") {
+            return Storage::disk("s3")->url($file);
+        } else if(config("filesystems.default") == "local") {
+            return Storage::url($file);
+        }
+
+        return null;
     }
 
     /**
