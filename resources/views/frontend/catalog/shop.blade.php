@@ -14,7 +14,7 @@
     </div>
     <!-- End Page Parallax Header -->
 
-    <!-- Page Content -->
+<!-- Page Content -->
     <div class="container ws-page-container">
         <div class="row">
             <div class="ws-shop-page">

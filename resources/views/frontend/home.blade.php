@@ -149,12 +149,12 @@
                                         <img src="{{ $prod->main_image_url }}" alt="{{ $prod->name }}"
                                             class="horus-product-image">
                                     </figure>
-                                    <!-- Sale Caption -->
+                                    {{-- <!-- Sale Caption -->
                                     @if ($prod->offer)
                                         <div class="ws-item-sale">
                                             <span>Sale</span>
                                         </div>
-                                    @endif
+                                    @endif --}}
                                 </div>
 
                                 <div class="ws-works-caption text-center">
