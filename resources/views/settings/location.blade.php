@@ -15,9 +15,9 @@
                 <input type=hidden name=id value="{{(isset($location)) ? $location->id : ''}}">
 
                     <div class="form-group">
-                        <label>Image*</label>
+                        <label>Image{{ (isset($location)) ? '' : '*' }}</label>
                         <div class="input-group mb-3">
-                            <input type="file" id="input-file-now-custom-1" name=photo class="dropify" data-default-file="{{ (isset($location)) ? asset('storage/' . $location->image_url) : '' }}" required />
+                            <input type="file" id="input-file-now-custom-1" name=photo class="dropify" data-default-file="{{ (isset($location)) ? $location->image_url : '' }}" {{ (isset($location)) ? '' : 'required' }} />
                             <small>3MB maximum - Recommended resolution 400 x 300</small>
                         </div>
                         <small class="text-danger">{{$errors->first('photo')}}</small>

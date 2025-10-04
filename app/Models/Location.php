@@ -2,12 +2,21 @@
 
 namespace App\Models;
 
+use App\Services\FileManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
     protected $table = "locations";
+
+    public static function boot()
+    {
+        parent::boot(); 
+        static::deleted(function ($obj) {
+            FileManager::delete($obj->image_url);
+        });
+    }
 
     ////static queries
     public static function createLocation(string $imageUrl, string $title, string $locationUrl, ?string $address = null, ?string $telephone = null): Location
@@ -37,5 +46,11 @@ class Location extends Model
     public static function scopeActive(Builder $query)
     {
         return $query->where('is_active', 1);
+    }
+
+    //Accessors
+    public function getImageUrlAttribute(): string
+    {
+        return FileManager::get($this->attributes['image_url']);
     }
 }

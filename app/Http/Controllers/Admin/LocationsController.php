@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Location;
+use App\Services\FileManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class LocationsController extends Controller
@@ -85,7 +85,7 @@ class LocationsController extends Controller
             "telephone"      => "nullable|string",
         ]);
 
-        $imagePath = $request->file('photo')->store('locations', 'public');
+        $imagePath = FileManager::save($request->file('photo'), 'locations');
 
         Location::createLocation(
             $imagePath,
@@ -127,10 +127,10 @@ class LocationsController extends Controller
         // If new photo is uploaded, store it
         if ($request->hasFile('photo')) {
             // Delete old image if it exists
-            if ($location->image_url && Storage::disk('public')->exists($location->image_url)) {
-                Storage::disk('public')->delete($location->image_url);
+            if ($location->image_url) {
+                FileManager::delete($location->attributes['image_url']);
             }
-            $imagePath = $request->file('photo')->store('locations', 'public');
+            $imagePath = FileManager::save($request->file('photo'), 'locations');
         }
         
         $location->editInfo(

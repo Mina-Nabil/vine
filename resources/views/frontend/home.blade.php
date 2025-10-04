@@ -173,7 +173,7 @@
                         <div class="ws-item-offer">
                             <!-- Image -->
                             <figure>
-                                <img src="{{ asset('storage/' . $location->image_url) }}" alt="{{ $location->title }}" class="img-responsive">
+                                <img src="{{ $location->image_url }}" alt="{{ $location->title }}" class="img-responsive">
                             </figure>
                         </div>
 
