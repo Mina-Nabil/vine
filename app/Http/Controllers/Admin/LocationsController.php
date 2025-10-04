@@ -122,13 +122,14 @@ class LocationsController extends Controller
 
         $request->validate($validationRules);
         
-        $imagePath = $location->image_url; // Keep existing image by default
+        $imagePath = $location->getRawOriginal('image_url'); // Keep existing image by default
         
         // If new photo is uploaded, store it
         if ($request->hasFile('photo')) {
             // Delete old image if it exists
-            if ($location->image_url) {
-                FileManager::delete($location->attributes['image_url']);
+            $oldImagePath = $location->getRawOriginal('image_url');
+            if ($oldImagePath) {
+                FileManager::delete($oldImagePath);
             }
             $imagePath = FileManager::save($request->file('photo'), 'locations');
         }
