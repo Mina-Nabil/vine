@@ -212,6 +212,7 @@
                                         <li><a href="{{url('admin/website/aboutus')}}">Aboutus</a></li>
                                         <li><a href="{{url('admin/website/delivery_policy')}}">Delivery Policy</a></li>
                                         <li><a href="{{url('admin/website/payment_policy')}}">Payment Policy</a></li>
+                                        <li><a href="{{url('admin/locations/show')}}">Locations</a></li>
                                     </ul>
                                 </li>
                                 <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)"> Delivery</a>

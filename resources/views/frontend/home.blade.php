@@ -155,6 +155,55 @@
     </section>
     <!-- End New Arrivals Section -->
 
+    <!-- Locations Section Start -->
+    @if($locations && $locations->count() > 0)
+    <section class="ws-works-section">
+        <div class="container">
+            <div class="row">
+                <div class="ws-works-title">
+                    <div class="col-sm-12">
+                        <h3>Find Us / اين تجدنا</h3>
+                        <div class="ws-separator"></div>
+                    </div>
+                </div>
+
+                @foreach($locations as $location)
+                <div class="col-sm-6 col-md-4 ws-works-item" data-sr='wait 0.1s, ease-in 20px'>
+                    <a href="{{ $location->location_url }}" target="_blank">
+                        <div class="ws-item-offer">
+                            <!-- Image -->
+                            <figure>
+                                <img src="{{ asset('storage/' . $location->image_url) }}" alt="{{ $location->title }}" class="img-responsive">
+                            </figure>
+                        </div>
+
+                        <div class="ws-works-caption text-center">
+                            <!-- Title -->
+                            <h3 class="ws-item-title">{{ $location->title }}</h3>
+
+                            <div class="ws-item-separator"></div>
+
+                            <!-- Address -->
+                            @if($location->address)
+                            <div class="ws-item-category">{{ $location->address }}</div>
+                            @endif
+
+                            <!-- Telephone -->
+                            @if($location->telephone)
+                            <div class="ws-item-price">
+                                <ins>{{ $location->telephone }}</ins>
+                            </div>
+                            @endif
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+    <!-- Locations Section End -->
+
     <!-- Work Collection Start  -->
     <section class="ws-works-section">
         <div class="container">

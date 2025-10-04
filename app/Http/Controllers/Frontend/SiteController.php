@@ -8,6 +8,7 @@ use App\Models\SubCategory;
 use App\Models\User;
 use App\Mail\ContactUsMail;
 use App\Models\Category;
+use App\Models\Location;
 use App\Services\WSBaseDataManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class SiteController extends Controller
         $data = WSBaseDataManager::getHomePageData();
         $data['on_sale_prods'] = Product::onSale()->with('subcategory', 'subcategory.category')->limit(9)->get();
         $data['new_arrivals'] = Product::latest()->with('subcategory', 'subcategory.category')->limit(6)->get();
+        $data['locations'] = Location::active()->get();
         $flag = session('flag');
         switch ($flag) {
             case 'showOrderSubmitted':

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashUsersController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\LocationsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\PaymentOptionsController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -184,6 +185,13 @@ Route::prefix('admin')->group(function () {
         Route::get('areas/toggle/{id}', [AreasController::class, 'toggle']);
         Route::post('areas/insert', [AreasController::class, 'insert']);
         Route::post('areas/update', [AreasController::class, 'update']);
+
+        //Locations
+        Route::get('locations/show', [LocationsController::class, 'home']);
+        Route::get('locations/edit/{id}', [LocationsController::class, 'edit']);
+        Route::get('locations/toggle/{id}', [LocationsController::class, 'toggle']);
+        Route::post('locations/insert', [LocationsController::class, 'insert']);
+        Route::post('locations/update', [LocationsController::class, 'update']);
 
         //Categories
         Route::get('categories/show', [CategoriesController::class, 'home']);
