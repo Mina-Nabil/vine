@@ -129,7 +129,7 @@ class Inventory extends Model
             "created_at"     => ($date) ?? date_format(now(), "Y-m-d H:i:s"),
             "code"     =>  $transactionCode,
             "inventory_id"  =>  $inventoryID,
-            "dash_user_id"  =>  Auth::id() ?? 1,
+            "dash_user_id"  =>  1,
             'in'       =>  $in,
             'out'      =>  $out,
             'balance'     =>  $balance,
