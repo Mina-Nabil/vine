@@ -80,6 +80,7 @@ class User extends Authenticatable
         $total = 0;
         $discount = 0;
         $count = 0;
+        $retObj->discount = $discount;
         $retObj->total = $total;
         $retObj->count = $count;
 
